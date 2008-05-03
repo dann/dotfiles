@@ -1,28 +1,23 @@
-Download
-  
-    % svn co http://svn.lazy-people.org/member/oreore/dann/dotfiles
-
 Installation
-  zshにシェルを変更して、
  
     % cd ~/project/dotfiles 
-    % ./setup.sh
+    % ./dotsetup.sh
 
 How to customize configs
   
-  zshrcのカスタマイズ方法
+  customize zsh configuration
      
-     ~/.zshr-afterまた~/.zshrc-beforeを作成
-     それらのファイルに自分の設定を書くことで、それが有効になる。
+     create ~/.zshr-after or ~/.zshrc-before
+     these are hook files for .zshrc
+     You can customize zsh with these configs.
 
-  vimrcのカスタマイズ方法
-     
-     ~/.vimrc-after, ~/.vimrc-beforeを用意する
-     それらのファイルに自分の設定を書くことで、それが有効になる。
+  customize vim configuration
+    
+    create ~/.vimrc-after or ~/.vimrc-before
 
 How to use
 
-   screen sessionの共有
+   share screen session
       screen -x username/
 
-      usernameは、.dev_users中のユーザー名
+   you can share a your screen session with users in .dev_users file.
