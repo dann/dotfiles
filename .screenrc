@@ -1,0 +1,28 @@
+# escape ^T^T # Ctrl-t
+defflow off # turn off stupid flow-control (also see: stty -ixon in ~/.zshrc)
+altscreen on # restore window contents after "vim", etc.
+ignorecase on # for searches
+defscrollback 10000 # number of lines reachable via ^A<esc>
+# defwrap off # screen's word wrap is not what you want
+startup_message off
+vbell_msg ""
+defhstatus "^En:^Et"
+#caption always "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d(%D) %{=b wb}%c"
+hardstatus alwayslastline "%{k${SCREENCOLOR}}%H: %-Lw%{= k${SCREENCOLOR}}%50>%n%f* %t%{-}%+Lw%< %>"
+defmonitor on
+
+#-----------------------------------------
+# share session for pair programming
+#-----------------------------------------
+multiuser on
+aclumask ${DEV_USERS}-w
+acladd ${DEV_USERS}
+
+#-----------------------------------------
+# chgange encoding
+# You can change encoding with command
+# C-t U or C-t E
+#-----------------------------------------
+bind 'U' eval "encoding utf8" "stuff 'export LANG=ja_JP.UTF-8\012'"
+bind 'E' eval "encoding euc" "stuff 'export LANG=ja_JP.EUC-JP\012'"
+

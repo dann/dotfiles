@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ -r ~/devbin/devenv.pl ]; then
+    eval `~/devbin/devenv.pl`
+fi

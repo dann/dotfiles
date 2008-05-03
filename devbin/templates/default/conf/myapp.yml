@@ -1,0 +1,55 @@
+---
+name: MyApp::Web
+page_title: 'Title' 
+default_view: TT
+View::TT:
+  INCLUDE_PATH: __path_to(root/templates)__
+  WRAPPER: 'common/site/wrapper.tt2'
+  COMPILE_EXT: '.ttc'
+  COMPILE_DIR: '__path_to(tmp/template_cache)__'
+  TEMPLATE_EXTENSION: '.tt2'
+
+View::JSON:
+  expose_stash: 'json'
+#  json_driver: XS
+  no_x_json_header: 1
+
+
+Model::DBIC:
+  schema_class: 'MyApp::Schema'
+  connect_info:
+    - dbi:mysql:myapp
+    - myapp
+    - password
+    - on_connect_do:
+        - SET NAMES utf8
+      cursor_class: DBIx::Class::Cursor::Cached
+  cache_file: __path_to(tmp/query_cache)__
+
+log:
+  config: __path_to(conf/myapp_log.yml)__
+
+email:
+  TmplOptions:
+    INCLUDE_PATH: __path_to(root/templates/email)__
+#  ForceUTF8: 1
+  mailroute:
+    via: sendmail
+    command: /usr/sbin/sendmail
+  From: noreply@example.com
+
+cache:
+  backend:
+    store: FastMmap
+    share_file: __path_to(tmp/cache)__
+
+session:
+  expires: 3600
+  rewrite: 0
+  storage: __path_to(tmp/session/session_data)__
+
+validator:
+  profiles: __path_to(conf/profiles.yml)__
+
+stacktrace:
+  verbose: 2

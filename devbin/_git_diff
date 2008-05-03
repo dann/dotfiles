@@ -1,0 +1,16 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+
+$ENV{_GIT_DIFF_ARGS} = quotemeta "@ARGV";
+
+if (@ARGV == 1 and $ARGV[0] =~ /^r?(\d+)$/) {
+    my $r = $1;
+    my $prev = $r-1;
+    @ARGV = ('-r', "$prev:$r");
+}
+
+my @command = ('git', 'diff', @ARGV);
+exec @command;
+die "exec @command: $!";
+

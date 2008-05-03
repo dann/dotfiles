@@ -1,0 +1,64 @@
+NameVirtualHost *:80
+<VirtualHost *:80>
+        <IfModule proxy_module>
+            # フロントのproxyが詰まらないようにする
+            # ために、timeout時間を短くする
+            ProxyTimeout 3
+        </IfModule>
+
+        ServerName <%= subdomain %>.<%= domain %>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot <%= deploy_to %>/current/root
+        Alias /static <%= deploy_to %>/current/root/static
+
+        ProxyRequests Off
+        <Proxy *>
+            Order deny,allow
+            allow from all
+        </Proxy>
+
+        # App server
+        <Proxy balancer://<%= application %>/>
+            <% appserver_ips.each do |appserver_ip| %>
+            BalancerMember http://<%= appserver_ip %>:8080 loadfactor=10 keepalive=On
+            <% end %>
+        </Proxy>
+
+        ProxyPass /static/images !
+        ProxyPass /static/js !
+        ProxyPass /static/css !
+        ProxyPass /favicon.ico !
+        ProxyPass / balancer://<%= application %>/
+        ProxyPassReverse / balancer://<%= application %>/
+        # バックエンドでVirtualHostの場合に
+        ProxyPreserveHost On
+
+       <Location /static>
+            SetHandler  default-handler
+
+            # mod_filterでdeflate
+            <IfModule filter_module>
+                FilterDeclare deflate CONTENT_SET
+                FilterProvider deflate DEFLATE Content-Type /text\x2F\w+|application\x2Fx-javascript/
+                FilterChain deflate
+            </IfModule>
+            # mod_expiresでexpire
+            <IfModule mod_expires.c>
+                ExpiresActive On
+                ExpiresDefault "access plus 1 year"
+                ExpiresByType image/gif "access plus 1 week"
+                ExpiresByType image/jpeg "access plus 1 week"
+                ExpiresByType image/png "access plus 1 week"
+                ExpiresByType application/x-shockwave-flash "access plus 1 week"
+                ExpiresByType text/html "access plus 1 week"
+                ExpiresByType text/css "access plus 1 week"
+                ExpiresByType application/x-javascript "access plus 1 week"
+            </IfModule>
+       </Location>
+
+       ErrorLog <%= deploy_to %>/current/logs/apache_web/error.log
+       LogLevel warn
+       CustomLog <%= deploy_to %>/current/logs/apache_web/access.log combined
+       ServerSignature On
+</VirtualHost>

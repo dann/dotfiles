@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo 'Generating tags for perl ...'
+ctags -f ~/.vim/tags/perl/cpan.tags --recurse --totals \
+    --exclude=blib \
+    --exclude=.svn \
+    --exclude='*~' \
+    --languages=Perl --langmap=Perl:+.t \
+    /usr/local/share/perl/5.8.8/
+
+echo '\nGenerating tags for ruby ...'
+ctags -f ~/.vim/tags/ruby/gems.tags --recurse --totals \
+    --exclude=blib \
+    --exclude=.svn \
+    --exclude='*~' \
+    --languages=Ruby \
+    /var/lib/gems/1.8/gems/
+

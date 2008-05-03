@@ -1,0 +1,6 @@
+#!/bin/zsh -f
+
+whence -p ccze > /dev/null && postprocess=(ccze -A -p httpd)
+
+multitail -f "$@" \
+| ${postprocess:-cat}

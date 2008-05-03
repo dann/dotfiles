@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use File::Basename qw(dirname);
+use File::Spec::Functions qw(catfile);
+use Cwd;
+
+my @test_files = @ARGV;
+@test_files = qw(t) unless @test_files;
+
+my $basedir = find_module_base();
+die "Can't find module base directory\n" unless $basedir;
+
+chdir($basedir) or die "chdir $basedir:$!";
+
+run_prove();
+exit 0; # not reached
+
+sub run_prove {
+    my @prove = ('prove', '-vl', @test_files);
+    print STDERR "@prove\n";
+    exec(@prove);
+    die "exec failed: $!";
+    # not reached.
+}
+
+sub find_module_base {
+    my $curdir = shift || cwd;
+    chomp($curdir);
+
+    while ($curdir && $curdir ne '/') {
+        return $curdir if looks_like_base($curdir);
+        $curdir = dirname $curdir; # try ../
+    }
+    return; # not found.
+}
+
+sub looks_like_base {
+    my $dir = shift;
+
+    return ( -d catfile($dir, 't')
+            && -e catfile($dir, 'README')
+            && (-e catfile($dir, 'Makefile.PL')
+                || -e catfile($dir, 'Build.PL')));
+}
+

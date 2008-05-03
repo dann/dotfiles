@@ -1,0 +1,14 @@
+DROP DATABASE IF EXISTS <%= dbname %>;
+CREATE DATABASE <%= dbname %>;
+
+GRANT SELECT,INSERT,DELETE,UPDATE,CREATE,DROP,ALTER,INDEX ON <%= dbname %>.* TO <%= mysql_db_username %>@"%" IDENTIFIED BY '<%= mysql_db_password %>';
+
+DROP DATABASE IF EXISTS <%= dbname %>_test;
+CREATE DATABASE <%= dbname %>_test;
+
+GRANT SELECT,INSERT,DELETE,UPDATE,CREATE,DROP,ALTER,INDEX ON <%= dbname %>_test.* TO <%= mysql_db_username %>@"%" IDENTIFIED BY '<%= mysql_db_password %>';
+
+DROP DATABASE IF EXISTS <%= dbname %>_development;
+CREATE DATABASE <%= dbname %>_development;
+
+GRANT SELECT,INSERT,DELETE,UPDATE,CREATE,DROP,ALTER,INDEX ON <%= dbname %>_development.* TO <%= mysql_db_username %>@"%" IDENTIFIED BY '<%= mysql_db_password %>';

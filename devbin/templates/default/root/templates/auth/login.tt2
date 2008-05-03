@@ -1,0 +1,17 @@
+[% USE FillInForm %]
+[% FILTER fillinform fobject => c.req %]
+
+<form action="[% c.uri_for('/do_login') %]" method="post">
+    [% IF c.form.has_error %]
+    <ul class="form_validation_error">
+    [% FOREACH message IN c.form.messages('auth/login') %]
+    <li>[% message | html %]</li>
+    [% END %]
+    </ul>
+    [% END %]
+    名前:<br />
+    <input name="username" type="text" value="" /><br />
+    パスワード:<br />
+    <input name="password" type="password" /></br />
+    <input type="submit" value="login" /><br />
+</form>

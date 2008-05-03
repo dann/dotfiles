@@ -1,0 +1,30 @@
+[user]
+    name = Dann
+    email = techmemo@gmail.com
+
+[alias]
+    ci = commit -a
+    co = checkout
+    st = status -a
+    praise = blame 
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow 
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan

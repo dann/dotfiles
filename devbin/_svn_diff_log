@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+
+$ENV{_SVN_DIFF_ARGS} = quotemeta "@ARGV";
+
+my @log_args = @ARGV;
+my @diff_args = @ARGV;
+
+if (@ARGV == 1 and $ARGV[0] =~ /^r?(\d+)$/) {
+    my $r = $1;
+    my $prev = $r-1;
+    @log_args = ("-r$r");
+    @diff_args = ('-r', "$prev:$r");
+}
+
+my @command = ('svn', 'log', @log_args);
+(system @command) && die "system @command: $!";
+
+@command = ('svn', 'diff', @diff_args);
+exec @command;
+die "exec @command: $!";

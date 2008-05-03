@@ -1,0 +1,16 @@
+--links=no
+
+--languages=-html
+
+--perl-kinds=-l
+--regex-perl=/^(field|const) +'?([^' ]+)'?( |=|;)/\2/y,spiffy,spiffy fields and consts/e
+--regex-perl=/^ *\*([A-za-z_]+) *=/\1/s,subroutines/e
+
+--langmap=javascript:.js
+--regex-javascript=/^(.*).prototype *= *(.*)/\1/o,object/
+--regex-javascript=/^[ \t]*(.*) *: *function/\1/o,object/
+
+--langdef=actionscript
+--langmap=actionscript:.as
+--regex-actionscript=/^.*function[\t ]+([gs]et[\t ]+)?([A-Za-z0-9_]+)[\t ]*\(/\2/I,inner/i
+--regex-actionscript=/^.*class[\t ]+([A-Za-z0-9_]+)/\1/I,inner/i

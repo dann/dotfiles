@@ -1,0 +1,366 @@
+#compdef svk
+
+#  Copyright (C) 2005-2006 intrigeri@boum.org - property is theft !
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# ,----
+# | NOTES
+# `----
+#
+#   - SVN version: $Id$
+#   - $URL: https://intrigeri.boum.org/svn/pub/_svk $
+#   - Tested on Debian GNU/Linux with SVK 1.06. Should work with SVK 1.04 too.
+#   - Every svk / svk-complete.pl call takes time, since they are Perl programs.
+#     That's why they are avoided when possible: performance optimization.
+#   - The following commands' completion is complete:
+#     add, cat, cleanup, commit, delete, help, info, list, propdel, propedit,
+#     propget, proplist, propset, resolved, revert, status, update.
+#   - The commands list is hard-coded, but their options are found at runtime
+#     with 'svk help'.
+#   - The depotpath completion uses svk-complete.pl, that's why it is slow.
+#     There is still a rudimentary completion when svk-complete.pl can not be
+#     found.
+#
+# ,----
+# | TODO
+# `----
+#
+#   - Enhance the completion for the commands not listed above in the NOTES.
+#   - To be clean, svk-complete.pl should be searched neither in $path nor in
+#     $fpath, since it's not supposed to be run by the user. Instead, it should
+#     live in a "lib" directory, somewhere.
+#     
+
+###
+### Main completion function
+###
+
+_svk () {
+
+  # local variables
+  local curcontext="$curcontext" state line expl ret=1
+  local nomore=1 # 0 means "no additional argument should be given"
+
+  # global variables
+  (( $+_cache_svk_syntax_initialized )) || \
+    typeset -g _cache_svk_syntax_initialized
+  (( $+_cache_svk_list_patches_initialized )) || \
+    typeset -g _cache_svk_list_patches_initialized
+  (( $+_cache_svk_options )) || typeset -gHA _cache_svk_options
+
+  # init
+  (( $+_svk_complete_pl )) || _svk_locate_svk_complete_pl
+  _svk_cache_syntax
+
+  case "$words[2]" in
+    patch)
+      _arguments -C \
+	'1: :->cmds' \
+	'2: :->patch_cmds' \
+	'*:: :->args' && ret=0
+      ;;
+    propdel|propedit|propget)
+      _arguments -C \
+	'1: :->cmds' \
+	'2: :->propname' \
+	'*:: :->args' && ret=0
+      ;;
+    propset)
+      _arguments -C \
+	'1: :->cmds' \
+	'2: :->propname' \
+	'3: :->propval' \
+	'*:: :->args' && ret=0
+      ;;
+    *)
+      _arguments -C \
+	'(- *)--version[print client version information]' \
+	'1: :->cmds' \
+	'*:: :->args' && ret=0
+      ;;
+  esac
+
+  case $state in
+
+    cmds)
+      _wanted commands expl 'svk command' _svk_commands && ret=0
+      ;;
+
+    patch_cmds)
+      _wanted commands expl 'svk patch command' _svk_patch_commands && ret=0
+      ;;
+
+    propname)
+      _svk_properties_names && ret=0
+      ;;
+
+    propval)
+      ret=0
+      ;;
+
+    args)
+      local args cmd
+      typeset -a args
+      cmd="${${(k)_cache_svk_cmds[(R)*:$words[1]:*]}:-${(k)_cache_svk_cmds[(i):$words[1]:]}}"
+
+      if (( $#cmd )); then
+	curcontext="${curcontext%:*:*}:svk-${cmd}:"
+
+	### if and only if the current arg. begins with a dash, complete options
+	local word="$words[$CURRENT]"
+	if [[ "$word[1]" = '-' ]]; then
+	  case "$cmd" in
+	    # avoid running 'svk help' once for commands that have no options
+	    help|patch|verify)
+	      ;;
+	    *)
+	      (( $+_cache_svk_options[$cmd] )) ||
+	        _cache_svk_options[$cmd]=${=${${${${${${${${${${${(M)${(f)"$(svk help $cmd)"##*OPTIONS}:#* :*}%% #:*}/ arg/:arg:}/ ARG/:arg:}/ LEVEL/:level:}/ REV/:rev:}/ HOST/:host:}/ MESSAGE/:message:}/ FILENAME/:filename:}/ ENC/:enc:}/ NAME/:name:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:(arg|level|rev|host|message|filename|enc|name):)#/(--$match[2])-$match[1]$match[3] (-$match[1])--$match[2]$match[3]}
+	      args=( ${=_cache_svk_options[$cmd]} )
+	      ;;
+	  esac
+
+	### else, complete the non-options arguments
+	else
+          case $cmd in
+            help)
+              args+=('*::sub command:_svk_commands')
+	      ;;
+            add|cleanup|commit|resolved|revert|status|update|proplist)
+              args+=('*:file:_files')
+	      ;;
+	    admin|checkout|mirror|sync)
+	      args+=('*:depotpath:_svk_depotpaths')
+	      ;;
+	    annotate|cat|delete|diff|info|log|move|propdel|propedit|propget)
+              args+=('*: : _alternative "files:file:_files" "depotpaths:DEPOTPATH:_svk_depotpaths"')
+	      ;;
+	    cmerge|copy|depotmap|describe|import|list|merge|mkdir|pull|push|smerge|switch)
+	      args+=('*: : _alternative "directories:directory:_directories" "depotpaths:DEPOTPATH:_svk_depotpaths"')
+	      ;;
+	    patch)
+              patch_cmd="${${(k)_cache_svk_patch_cmds[(R)*:$words[2]:*]}:-${(k)_cache_svk_patch_cmds[(i):$words[2]:]}}"
+	      [[ "$patch_cmd" = '--ls' ]] || _svk_cache_list_patches
+	      case "$patch_cmd" in
+		--ls)
+	      	  nomore=0
+	      	  ;;
+		--apply)
+		  if [[ ${_cache_svk_list_patches[(i)$words[3]]} \
+		    -le $#_cache_svk_list_patches ]]
+		  then
+		    args+=('*: : _alternative "files:file:_files" "depotpaths:DEPOTPATH:_svk_depotpaths"')
+		  else
+		    args+=('*:patch:_svk_list_patches')
+		  fi
+		  ;;
+		--cat|--regen|--up|--rm)
+		  if [[ ${_cache_svk_list_patches[(i)$words[3]]} \
+		    -le $#_cache_svk_list_patches ]]
+		  then
+		    nomore=0
+		  else
+		    args+=('*:patch:_svk_list_patches')
+		  fi
+		  ;;
+		*)
+		  args+=('*:patch:_svk_list_patches')
+	      	  ;;
+	      esac
+	      ;;
+            *)
+              args+=('*: : _alternative "files:file:_files" "depotpaths:DEPOTPATH:_svk_depotpaths"')
+	      ;;
+          esac
+	fi
+
+	### actually run _arguments on $args[@], if needed
+	if [[ $nomore -ne 0 && $+args -eq 1 ]]; then
+	  _arguments "$args[@]" && ret=0
+	else
+	  _message "no more arguments"
+	fi
+
+      else
+        _message "unknown svk command: $words[1]"
+      fi
+      ;;
+  esac
+  return ret
+}
+
+###
+### Completion functions
+###
+
+(( $+functions[_svk_commands] )) ||
+_svk_commands() {
+  compadd "$@" -k _cache_svk_cmds || compadd "$@" ${(s.:.)_cache_svk_cmds}
+}
+
+(( $+functions[_svk_depotpaths] )) ||
+_svk_depotpaths() {
+  # use svk-complete.pl if available
+  if [[ -x $_svk_complete_pl ]]; then
+    _svk_complete_pl_call
+  # else, fallback to rudimentary completion
+  else
+    local expl
+    if [[ -prefix *: ]]; then
+      _urls
+    else
+      compset -S '[^:]*'
+      _wanted depotpath-schemas expl 'depotpath schema' compadd -S '' - \
+	// http:// https:// svn:// svn+ssh://
+    fi
+  fi
+}
+
+(( $+functions[_svk_properties_names] )) ||
+_svk_properties_names() {
+  local expl
+  compset -S '[^:]*'
+  _wanted property-schemas expl 'property name' compadd - \
+    svn:executable svn:mime-type svn:ignore svn:keywords svn:eol-style \
+    svn:externals svn:special
+}
+
+(( $+functions[_svk_patch_commands] )) ||
+_svk_patch_commands() {
+  compadd "$@" -k _cache_svk_patch_cmds || compadd "$@" ${(s.:.)_cache_svk_patch_cmds}
+}
+
+(( $+functions[_svk_list_patches] )) ||
+_svk_list_patches() {
+  local expl
+  _wanted patches expl 'patch' compadd -S '' $_cache_svk_list_patches[@]
+}
+
+###
+### Cache functions
+###
+
+(( $+functions[_svk_cache_syntax] )) ||
+_svk_cache_syntax() {
+  if [[ "$_cache_svk_syntax" != true ]]; then
+    # commands
+    typeset -gHA _cache_svk_cmds
+    _cache_svk_cmds=(
+      add ':add:'
+      admin ':admin:'
+      annotate ':annotate:ann:blame:praise:'
+      cat ':cat:'
+      checkout ':checkout:co:'
+      cleanup ':cleanup:'
+      cmerge ':cmerge:cm:'
+      commit ':commit:ci:'
+      copy ':copy:cp:'
+      delete ':delete:del:remove:rm:'
+      depotmap ':depotmap:depot:'
+      describe ':describe:desc:'
+      diff ':diff:di:'
+      help ':help:h:'
+      import ':import:'
+      info ':info:'
+      list ':list:ls:'
+      log ':log:'
+      merge ':merge:'
+      mirror ':mirror:mi:'
+      mkdir ':mkdir:'
+      move ':move:mv:ren:rename:'
+      patch ':patch:'
+      propdel ':propdel:pd:pdel:'
+      propedit ':propedit:pe:pedit:'
+      propget ':propget:pg:pget:'
+      proplist ':proplist:pl:plist:'
+      propset ':propset:ps:pset:'
+      pull ':pull:'
+      push ':push:'
+      resolved ':resolved:'
+      revert ':revert:'
+      smerge ':smerge:sm:'
+      status ':status:st:stat:'
+      switch ':switch:sw:'
+      sync ':sync:sy:'
+      update ':update:up:'
+      verify ':verify:'
+    )
+    # patch commands
+    typeset -gHA _cache_svk_patch_cmds
+    _cache_svk_patch_cmds=(
+      '--ls' ':--ls:--list:'
+      '--cat' ':--cat:--view:'
+      '--regen' ':--regen:--regenerate:'
+      '--up' ':--up:--update:'
+      '--rm' ':--rm:--delete:'
+      '--apply' ':--apply:'
+    )
+    _cache_svk_syntax_initialized=true
+  fi
+}
+
+(( $+functions[_svk_cache_list_patches] )) ||
+_svk_cache_list_patches() {
+  if [[ "$_cache_svk_list_patches_initialized" != true ]]; then
+    typeset -ga _cache_svk_list_patches
+    _cache_svk_list_patches=(${$(svk patch --list)%@*})
+    _cache_svk_list_patches_initialized=true
+  fi
+}
+
+###
+### Misc functions
+###
+
+(( $+functions[_svk_locate_svk_complete_pl] )) ||
+_svk_locate_svk_complete_pl() {
+  typeset -g _svk_complete_pl
+  local dir
+  for dir in $fpath; do
+    if [[ -x $dir/svk-complete.pl ]]; then
+      _svk_complete_pl=$dir/svk-complete.pl
+      return 0
+    fi
+  done
+  for dir in $path; do
+    if [[ -x $dir/svk-complete.pl ]]; then
+      _svk_complete_pl=$dir/svk-complete.pl
+      return 0
+    fi
+  done
+  return 1
+}
+
+(( $+functions[_svk_complete_pl_call] )) ||
+_svk_complete_pl_call() {
+  export BUFFER CURSOR SHELL=zsh
+  compadd -- ${(f)"${(ps:\r:)$(perl $_svk_complete_pl svk $words[$CURRENT] '' | sed 's/ *$//')}"}
+}
+
+###
+### Main function call
+###
+
+_svk "$@"
+
+###
+### Emacs variables
+###
+
+# Local Variables:
+# mode:sh
+# sh-basic-offset: 2
+# End:

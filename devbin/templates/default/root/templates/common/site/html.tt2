@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>[% c.config.page_title %][% IF title %] - [% title | html %][% ELSE %] - Example -[% END %]</title>
+<link rel="alternate" type="application/atom+xml" title="Atom" href="[% c.uri_for('/feed') %]" />
+<link rel="stylesheet" href="[% c.uri_for('/static/css/common/default.css') %]" type="text/css" />
+<link rel="stylesheet" href="[% c.uri_for('/static/css/common/layout.css') %]" type="text/css" />
+<link rel="stylesheet" href="[% c.uri_for('/static/css/common/common.css') %]" type="text/css" />
+<link rel="stylesheet" href="[% c.uri_for('/static/css/site.css') %]" type="text/css" />
+<script type="text/javascript" src="[% c.uri_for('/static/js/site.js') %]"></script>
+</head>
+<body>
+[% content %]
+</body>
+</html>
