@@ -21,6 +21,7 @@ export EDITOR=vim
 export VISUAL=vim
 export COLOR=32
 export SCREENCOLOR=g
+export PERL_BADLANG=0
 
 # save history
 export HISTSIZE=100000 HISTFILE=~/.zsh_history SAVEHIST=100000
