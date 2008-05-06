@@ -233,6 +233,14 @@ if [ x$TERM = xscreen ]; then
 fi
 
 #-----------------------------------------------
+# load mac config
+#-----------------------------------------------
+# mac
+if [[ "${OSTYPE}" = darwin* ]] ; then
+    [ -e ~/.zshrc-mac ] && source ~/.zshrc-mac
+fi
+
+#-----------------------------------------------
 # load user config
 #-----------------------------------------------
 # if you want to customize this config,
