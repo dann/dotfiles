@@ -12,6 +12,5 @@ export __CF_USER_TEXT_ENCODING=0x1F6:0x08000100:14
 
 # alias
 alias here="open ." # path finder
-
-
+alias fcd='source ~/devbin/fcd.sh'
 
