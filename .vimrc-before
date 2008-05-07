@@ -3,3 +3,7 @@
 " to disable trac.vim
 " ---------------------------------------
 let g:TracPlugin_disabled = 1
+
+" US Keyboard
+noremap ; :
+noremap : ; 

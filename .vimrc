@@ -46,7 +46,6 @@ set incsearch
 set wrapscan
 
 set nobackup
-set autochdir
 set smartcase
 set nofoldenable
 set showcmd
@@ -247,6 +246,15 @@ set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff}%{g:gitCurrent
 "  snippetsEmu
 " ============================================
 let g:snippetsEmu_key = "<C-B>"
+
+" ============================================
+" mac
+" ============================================
+if has("mac") " Windows 環境
+  if filereadable( $HOME . "/.vimrc-mac" )
+    source ~/vimrc-macs
+  endif
+endif
 
 " ============================================
 " win32
