@@ -103,13 +103,13 @@ nmap g" cs"G
 " ============================================
 " fuzzyfinder
 " ============================================
-nmap <silent> eff :FuzzyFinderFile<CR>
-nmap <silent> efb :FuzzyFinderBuffer<CR>
-nmap <silent> efv :FuzzyFinderFavFile<CR>
-nmap <silent> efm :FuzzyFinderMruFile<CR>
-nmap <silent> efc :FuzzyFinderMruCmd<CR>
-nmap <silent> efd :FuzzyFinderDir<CR>
-nmap <silent> efa :FuzzyFinderAddFavFile<CR>
+nnoremap <silent> eff :FuzzyFinderFile<CR>
+nnoremap <silent> efb :FuzzyFinderBuffer<CR>
+nnoremap <silent> efv :FuzzyFinderFavFile<CR>
+nnoremap <silent> efm :FuzzyFinderMruFile<CR>
+nnoremap <silent> efc :FuzzyFinderMruCmd<CR>
+nnoremap <silent> efd :FuzzyFinderDir<CR>
+nnoremap <silent> efa :FuzzyFinderAddFavFile<CR>
 
 " tag with fuzzyfinder
 nnoremap <silent> <C-]> :FuzzyFinderTag <C-r>=expand('<cword>')<CR><CR>
@@ -250,7 +250,7 @@ let g:snippetsEmu_key = "<C-B>"
 " ============================================
 " mac
 " ============================================
-if has("mac") " Windows 環境
+if has("mac") 
   if filereadable( $HOME . "/.vimrc-mac" )
     source ~/vimrc-macs
   endif
@@ -259,7 +259,7 @@ endif
 " ============================================
 " win32
 " ============================================
-if has("gui_win32") " Windows 環境
+if has("gui_win32")
   if filereadable( $HOME . "/_vimrc-windows" )
     source ~/_vimrc-windows
   endif
