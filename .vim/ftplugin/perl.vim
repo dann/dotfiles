@@ -14,26 +14,18 @@ setlocal expandtab
 setlocal iskeyword+=:
 
 " auto syntax check with Perl support
-au BufWritePost * call Perl_SyntaxCheck() | call Perl_SyntaxCheckMsg() | redraw!
-
-" perldoc
-"noremap    <buffer>  <silent>  <F1>             :call Perl_perldoc()<CR><CR>
-"imap   <buffer>  <silent>  <F1>        <Esc>:call Perl_perldoc()<CR><CR>
-
-" test
-"map    <buffer>  <silent>  <F2>             :call RunLastT()<CR>
-"imap   <buffer>  <silent>  <F2>        <Esc>:call RunLastT()<CR>
+au BufWritePost <buffer> call Perl_SyntaxCheck() | call Perl_SyntaxCheckMsg() | redraw!
 
 " prove
-noremap ,t <Esc>:!prv -lv t/%<CR>
-noremap ,T <Esc>:!prv -lv t/% \| less <CR>
+noremap <buffer> ,t <Esc>:!prv -lv t/%<CR>
+noremap <buffer> ,T <Esc>:!prv -lv t/% \| less <CR>
 
 " perltidy
-noremap ,pt <Esc>:%! perltidy -pbp<CR>
-noremap ,ptv <Esc>:'<,'>! perltidy -pbp<CR>
+noremap <buffer> ,pt <Esc>:%! perltidy -pbp<CR>
+noremap <buffer> ,ptv <Esc>:'<,'>! perltidy -pbp<CR>
 
 " prove
-noremap ,c <Esc>:!ctagsp<CR>
+noremap <buffer> ,c <Esc>:!ctagsp<CR>
 
 " dictionary
 setlocal dictionary=~/.vim/dict/perl.dict
