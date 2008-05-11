@@ -22,6 +22,7 @@ export VISUAL=vim
 export COLOR=32
 export SCREENCOLOR=g
 export PERL_BADLANG=0
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
 # save history
 export HISTSIZE=100000 HISTFILE=~/.zsh_history SAVEHIST=100000
@@ -143,6 +144,7 @@ alias gf=grep-find
 alias vi='vim'
 alias cls='clear'
 alias vip='vim **/*.{pm,css,tt2,t,js}'
+alias ls='ls --color'
 
 # ssh-agent
 alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
@@ -150,11 +152,12 @@ alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
 # global alias
 alias -g V="| vim -R -"
 
-# ls colors
-alias ls="ls --color=auto"
-# auto ls
 function chpwd() {
-    ls -al
+    if [[ "${OSTYPE}" = darwin* ]] ; then
+        gls -al --color 
+    else
+        ls -al
+    fi
 }
 
 # disable Ctrl+S
@@ -166,7 +169,13 @@ stty stop undef
 # show command name on screen's status bar
 if [ "$TERM" = "screen" ]; then
 	#chpwd () { echo -n "_`dirs`\\" }
-	chpwd () { ls -al }
+	chpwd () { 
+            if [[ "${OSTYPE}" = darwin* ]] ; then
+                gls -al --color 
+            else
+                ls -al
+            fi
+        }
 	preexec() {
 		# see [zsh-workers:13180]
 		# http://www.zsh.org/mla/workers/2000/msg03993.html
