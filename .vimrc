@@ -252,7 +252,7 @@ let g:snippetsEmu_key = "<C-B>"
 " ============================================
 if has("mac") 
   if filereadable( $HOME . "/.vimrc-mac" )
-    source ~/vimrc-macs
+    source ~/.vimrc-mac
   endif
 endif
 

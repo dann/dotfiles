@@ -252,6 +252,8 @@ if [[ "${OSTYPE}" = darwin* ]] ; then
     [ -e ~/.zshrc-mac ] && source ~/.zshrc-mac
 fi
 
+#[ -e ~/.zshrc.prompt ] && source ~/.zshrc.prompt
+
 #-----------------------------------------------
 # load user config
 #-----------------------------------------------
