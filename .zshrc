@@ -79,8 +79,8 @@ export PATH="/usr/bin:${PATH}"
 export PATH="/usr/games:${PATH}"
 export PATH="/sbin:${PATH}"
 export PATH="/usr/sbin:${PATH}"
-export PATH="/var/lib/gems/1.8/bin/:${PATH}";
-
+export PATH="/var/lib/gems/1.8/bin/:${PATH}"
+export PATH="/Applications/Firefox.app/Contents/MacOS/:${PATH}"
 #-----------------------------------------------
 # vi-keys
 #-----------------------------------------------

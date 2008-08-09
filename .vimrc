@@ -241,6 +241,27 @@ autocmd BufEnter * :call CurrentGitBranch()
 
 set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff}%{g:gitCurrentBranch}%{']'}%y\ %F%=%l,%c%V%8P
 
+" ============================================
+" Perl
+" ============================================
+" Perldoc command
+command! -nargs=+ -complete=file Perldoc tabnew | if bufexists('perldoc <args>') | execute 'buffer' bufnr('perldoc <args>') | else | silent execute '0read!perldoc -T' <q-args> | if v:shell_error | echoerr getline(1) | quit! | else | silent! %s/.^H//g | file `="perldoc <args>"` | set buftype=nofile | if <q-args> =~ '-m' | setf perl | else | setf man | endif | 0 | endif | endif
+
+",e でそのコマンドを実行
+function! ShebangExecute()
+  let m = matchlist(getline(1), '#!\(.*\)')
+  if(len(m) > 2)
+    execute '!'. m[1] . ' %'
+  else
+    execute '!' &ft ' %'
+  endif
+endfunction
+
+if has('win32')
+  nmap ,e :execute '!' &ft ' %'<CR>
+else
+  noremap ,e :call ShebangExecute()<CR>
+end
 
 " ============================================
 "  snippetsEmu

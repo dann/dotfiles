@@ -1,4 +1,3 @@
-
 " Only do this when not done yet for this buffer
 if exists("b:did_PERL_ftplugin")
   finish
@@ -16,6 +15,13 @@ setlocal iskeyword+=:
 " auto syntax check with Perl support
 au BufWritePost <buffer> call Perl_SyntaxCheck() | call Perl_SyntaxCheckMsg() | redraw!
 
+" flymake settings
+"setlocal makeprg=$HOME/devbin/vimparse.pl\ -c\ %\ $*
+"setlocal errorformat=%f:%l:%m
+"setlocal shellpipe=2>&1\ >
+"au BufWritePost <buffer> silent make
+"au CursorMoved <buffer> silent make
+
 " prove
 noremap <buffer> ,t <Esc>:!prv -lv t/%<CR>
 noremap <buffer> ,T <Esc>:!prv -lv t/% \| less <CR>
@@ -30,6 +36,4 @@ noremap <buffer> ,c <Esc>:!ctagsp<CR>
 " dictionary
 setlocal dictionary=~/.vim/dict/perl.dict
 
-
 setlocal tags+=~/.vim/tags/perl/cpan.tags
-"set tags+=~/.vim/tags/perl/cpan.tags
