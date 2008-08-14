@@ -1,0 +1,32 @@
+URxvt.termName: rxvt
+URxvt.depth: 32
+
+URxvt.foreground: snow
+URxvt.background: [30]#000000
+urxvt*color0:  #000000
+urxvt*color1:  #CD0000
+urxvt*color2:  #00CD00
+urxvt*color3:  #CDCD00
+urxvt*color4:  #1E90FF
+urxvt*color5:  #CD00CD
+urxvt*color6:  #00CDCD
+urxvt*color7:  #E5E5E5
+urxvt*color8:  #4C4C4C
+urxvt*color9:  #FF0000
+urxvt*color10: #00FF00
+urxvt*color11: #FFFF00
+urxvt*color12: #4682B4
+urxvt*color13: #FF00FF
+urxvt*color14: #00FFFF
+urxvt*color15: #FFFFFF
+
+URxvt.saveLines: 20000
+URxvt.termName: rxvt
+URxvt.scrollstyle: next
+URxvt.scrollBar_right: true
+URxvt.geometry: 100x36
+
+urxvt*font:\
+  xft:Dejavu Sans Mono:size=12,antialias=true\
+  xft:azukifontLB:size=12
+

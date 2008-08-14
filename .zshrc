@@ -81,6 +81,11 @@ export PATH="/sbin:${PATH}"
 export PATH="/usr/sbin:${PATH}"
 export PATH="/var/lib/gems/1.8/bin/:${PATH}"
 export PATH="/Applications/Firefox.app/Contents/MacOS/:${PATH}"
+export PATH="$HOME/devtools/flex_sdk_3/bin:${PATH}"
+
+# Flex SDK
+export _JAVA_OPTIONS=-Duser.language=en
+
 #-----------------------------------------------
 # vi-keys
 #-----------------------------------------------
