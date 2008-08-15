@@ -17,7 +17,32 @@
     <fail unless="compc.exe">The "compc.exe" property must be set in build.properties.</fail>
     <fail unless="mxmlc.exe">The "mxmlc.exe" property must be set in build.properties.</fail>
   </target>
-
+  <!--
+		Compile the unit tests for the library, placing the test runner .swf file
+		in the bin directory.
+  -->
+  <target name="compile.release" depends="properties">
+    <exec executable="${mxmlc.exe}" dir="${basedir}">
+      <!-- Point to the main test runner's application mxml file -->
+      <arg line="'${tests.dir}/${testRunner.dir}/${testRunner.name}.mxml'" />
+			
+			<!-- Place the built .swf file in the "bin" directory -->
+			<arg line="-o '${bin.dir}/${library.name}.swf'" />
+			
+			<!-- Define source directories for "src"  -->
+			<arg line="-sp ${src.dir}" />
+			
+			<!-- Include the necessary framework libraries in the class path -->
+			<arg line="-l '${flex3sdk.lib.dir}'" />
+			
+			<!-- Include the as3lib.swc in the class path -->
+			<arg line="-l ${as3lib.swc}" />
+			
+			<!-- Include locale-specific items in the path -->
+			<arg line="-locale ${flex3sdk.locale}" />
+			<arg line="-l '${flex3sdk.locale.dir}'" />
+		</exec>
+	</target>
   <!--
 		Compile the unit tests for the library, placing the test runner .swf file
 		in the bin directory.
@@ -106,7 +131,7 @@
   <!-- TO BE FIXED -->
   <target name="generate.libs.swc">
     <exec executable="${compc.exe}" failonerror="true">
-      <arg line="-o '${bin.dir}/as3lib.swc'" />
+      <arg line="-o '${lib.dir}/as3lib.swc'" />
       <!-- add include-sources and source-path line -->
       <arg line="-include-sources '${lib.dir}/${as3httpclient}'" />
       <arg line="-source-path '${lib.dir}/${as3httpclient}'" />
