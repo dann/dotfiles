@@ -1,0 +1,1 @@
+open docs/index.html

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm ~/.zshrc ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.zshrc.prompt ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.Xdefaults
+rm -rf ~/.asstarter
 
 CURRENT_DIR=`pwd`
 ln -s $CURRENT_DIR/.zshrc ~/.zshrc
@@ -23,5 +24,6 @@ ln -s $CURRENT_DIR/.tidyrc ~/.tidyrc
 ln -s $CURRENT_DIR/.perltidyrc ~/.perltidyrc
 ln -s $CURRENT_DIR/.gitconfig ~/.gitconfig
 ln -s $CURRENT_DIR/.Xdefaults ~/.Xdefaults
+ln -s $CURRENT_DIR/devbin/.asstarter ~/.asstarter
 
 chmod 700 ~/devbin/*
