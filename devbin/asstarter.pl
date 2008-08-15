@@ -146,11 +146,11 @@ sub copy_templates_to_dist {
                 for my $key ( keys %$rule ) {
                     $content =~ s/$key/$rule->{$key}/ge;
                 }
-
                 # FIXME
-                if ( $path =~ /\.erb/ ) {
+                if ( $path =~ /\.swc/ ) {
                     return;
                 }
+
                 my $fh = $target->openw;
                 print $fh $mason->execute( text => $content );
                 $fh->close;
