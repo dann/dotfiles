@@ -370,6 +370,8 @@ function s:SetUpForNewFiletype(filetype, forceReset)
         call s:MapDelimiters('"','')
     elseif a:filetype == "hercules" 
         call s:MapDelimitersWithAlternative('//','', '/*','*/')
+    elseif a:filetype == "mxml" 
+        call s:MapDelimiters('<!--','-->') 
     elseif a:filetype == "hog" 
         call s:MapDelimiters('#', '')
     elseif a:filetype == "html" 
