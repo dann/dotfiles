@@ -3,11 +3,9 @@ package {
     import flash.text.TextField;
     import flash.events.MouseEvent;
     import caurina.transitions.Tweener;
-    import HelloWorld;
 
     public class MyApp extends Sprite {
         public function MyApp() {
-            var hw:HelloWorld = new HelloWorld();
             var tf:TextField = new TextField();
             tf.text = "Hello Tweener";
             addChild(tf);
