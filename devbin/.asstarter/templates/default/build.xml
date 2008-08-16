@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="MyApp" basedir="." default="lib">
+  <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="buildlib/ant-contrib.jar"/>
 
   <property environment="env" /> 
 
@@ -17,63 +18,64 @@
     <fail unless="compc.exe">The "compc.exe" property must be set in build.properties.</fail>
     <fail unless="mxmlc.exe">The "mxmlc.exe" property must be set in build.properties.</fail>
   </target>
+
   <!--
-		Compile the unit tests for the library, placing the test runner .swf file
-		in the bin directory.
   -->
   <target name="compile.release" depends="properties">
     <exec executable="${mxmlc.exe}" dir="${basedir}">
       <!-- Point to the main test runner's application mxml file -->
-      <arg line="'${tests.dir}/${testRunner.dir}/${testRunner.name}.mxml'" />
-			
-			<!-- Place the built .swf file in the "bin" directory -->
-			<arg line="-o '${bin.dir}/${library.name}.swf'" />
-			
-			<!-- Define source directories for "src"  -->
-			<arg line="-sp ${src.dir}" />
-			
-			<!-- Include the necessary framework libraries in the class path -->
-			<arg line="-l '${flex3sdk.lib.dir}'" />
-			
-			<!-- Include the as3lib.swc in the class path -->
-			<arg line="-l ${as3lib.swc}" />
-			
-			<!-- Include locale-specific items in the path -->
-			<arg line="-locale ${flex3sdk.locale}" />
-			<arg line="-l '${flex3sdk.locale.dir}'" />
-		</exec>
-	</target>
+      <arg line="'${tests.src.dir}/${testRunner.name}.mxml'" />
+
+      <!-- Place the built .swf file in the "bin" directory -->
+      <arg line="-o '${bin.dir}/${library.name}.swf'" />
+
+      <!-- Define source directories for "src"  -->
+      <arg line="-sp ${src.dir}" />
+
+      <!-- Include the necessary framework libraries in the class path -->
+      <arg line="-l '${flex3sdk.lib.dir}'" />
+
+      <!-- Include the as3lib.swc in the class path -->
+      <arg line="-l ${as3lib.swc}" />
+      
+      <!-- Include locale-specific items in the path -->
+      <arg line="-locale ${flex3sdk.locale}" />
+      <arg line="-l '${flex3sdk.locale.dir}'" />
+    </exec>
+  </target>
   <!--
-		Compile the unit tests for the library, placing the test runner .swf file
-		in the bin directory.
+    Compile the unit tests for the library, placing the test runner .swf file
+    in the bin directory.
   -->
   <target name="compile.tests" depends="properties">
     <exec executable="${mxmlc.exe}" dir="${basedir}">
       <!-- Point to the main test runner's application mxml file -->
-      <arg line="'${tests.dir}/${testRunner.dir}/${testRunner.name}.mxml'" />
-			
-			<!-- Place the built .swf file in the "bin" directory -->
-			<arg line="-o '${bin.dir}/${testRunner.name}.swf'" />
-			
-			<!-- Define source directories for "src" and "tests" -->
-			<arg line="-sp ${src.dir}" />
-			<arg line="-sp ${tests.dir}" />
-			
-			<!-- Include the necessary framework libraries in the class path -->
-			<arg line="-l '${flex3sdk.lib.dir}'" />
-			
-			<!-- Include in the flexunit.swc in the class path -->
-			<arg line="-l ${flexunit.swc}" />
-			
-			<!-- Include locale-specific items in the path -->
-			<arg line="-locale ${flex3sdk.locale}" />
-			<arg line="-l '${flex3sdk.locale.dir}'" />
-		</exec>
-	</target>
-	
-	<!--
-		Runs the unit tests for the library in the stand-alone Flash Player
-	-->
+      <arg line="'${tests.src.dir}/${testRunner.name}.mxml'" />
+
+      <!-- Place the built .swf file in the "bin" directory -->
+      <arg line="-o '${bin.dir}/${testRunner.name}.swf'" />
+
+      <!-- Define source directories for "src" and "tests" -->
+      <arg line="-sp ${src.dir}" />
+      <arg line="-sp ${tests.src.dir}" />
+
+      <arg line="-compiler.debug" />
+
+      <!-- Include the necessary framework libraries in the class path -->
+      <arg line="-l '${flex3sdk.lib.dir}'" />
+
+      <!-- Include in the flexunit.swc in the class path -->
+      <arg line="-l ${flexunit.swc}" />
+
+      <!-- Include locale-specific items in the path -->
+      <arg line="-locale ${flex3sdk.locale}" />
+      <arg line="-l '${flex3sdk.locale.dir}'" />
+    </exec>
+  </target>
+
+  <!--
+    Runs the unit tests for the library in the stand-alone Flash Player
+  -->
 	<target name="test" depends="compile.tests">
 		<!--
 			If/When we add support for determinig the status of unit tests
@@ -125,16 +127,6 @@
 
     <!-- Include the library name in the window title -->
       <arg line="-window-title 'Adobe ActionScript 3.0 Library - ${library.name}' "/>
-    </exec>
-  </target>
-
-  <!-- TO BE FIXED -->
-  <target name="generate.libs.swc">
-    <exec executable="${compc.exe}" failonerror="true">
-      <arg line="-o '${lib.dir}/as3lib.swc'" />
-      <!-- add include-sources and source-path line -->
-      <arg line="-include-sources '${lib.dir}/${as3httpclient}'" />
-      <arg line="-source-path '${lib.dir}/${as3httpclient}'" />
     </exec>
   </target>
 

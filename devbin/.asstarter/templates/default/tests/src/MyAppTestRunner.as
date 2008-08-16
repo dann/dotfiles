@@ -1,4 +1,5 @@
 import flexunit.framework.TestSuite;
+import MyAppTest;
 
 private function onCreationComplete():void
 {
@@ -10,6 +11,6 @@ private function createSuite():TestSuite
 {
     var ts:TestSuite = new TestSuite();
 
-    //ts.addTestSuite();
+    ts.addTestSuite(MyAppTest);
     return ts;
 }
