@@ -305,4 +305,3 @@ function! GitGrep(arg)
 endfunction
 command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
 
-

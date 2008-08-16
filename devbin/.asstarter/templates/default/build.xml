@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="MyApp" basedir="." default="lib">
+<project name="MyApp" basedir="." default="release">
   <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="buildlib/ant-contrib.jar"/>
 
   <property environment="env" /> 
@@ -19,13 +19,15 @@
     <fail unless="mxmlc.exe">The "mxmlc.exe" property must be set in build.properties.</fail>
   </target>
 
+  <target name="release" depends="compile.release">
+  </target>
+
   <!--
   -->
   <target name="compile.release" depends="properties">
     <exec executable="${mxmlc.exe}" dir="${basedir}">
-      <!-- Point to the main test runner's application mxml file -->
-      <arg line="'${tests.src.dir}/${testRunner.name}.mxml'" />
-
+      <!-- FIXME -->
+      <arg line="'${src.dir}/MyApp.as'" />
       <!-- Place the built .swf file in the "bin" directory -->
       <arg line="-o '${bin.dir}/${library.name}.swf'" />
 
@@ -35,8 +37,10 @@
       <!-- Include the necessary framework libraries in the class path -->
       <arg line="-l '${flex3sdk.lib.dir}'" />
 
-      <!-- Include the as3lib.swc in the class path -->
-      <arg line="-l ${as3lib.swc}" />
+      <arg line="-l '${lib.dir}'" />
+
+      <!-- You can select libraries. Include the library.swc in the class path -->
+      <!-- <arg line="-l ${as3lib.swc}" /> -->
       
       <!-- Include locale-specific items in the path -->
       <arg line="-locale ${flex3sdk.locale}" />
@@ -91,6 +95,7 @@
 	<!--
 		Compile all of the classes under the "src" tree into a .swc file
 	-->
+  <!--
 	<target name="lib" depends="properties">
 		<exec executable="${compc.exe}" dir="${basedir}">
 			<!-- Specify the name of the output file -->
@@ -103,7 +108,7 @@
 			<arg line="-is ${src.dir}" />
 		</exec>
 	</target>
-	
+  -->
 	<!--
 		Generate ASDoc output for the library
 	-->

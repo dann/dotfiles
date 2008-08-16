@@ -135,6 +135,10 @@ sub copy_templates_to_dist {
                 }
                 $path =~ s/^$template_dir/$dist/;
                 $path = file($path);
+                # FIXME
+                if ( $path =~ /\.swc|\.swf|\.jpg/ ) {
+                    return;
+                }
 
                 my $target = $dist->file($path);
 
@@ -146,11 +150,6 @@ sub copy_templates_to_dist {
                 for my $key ( keys %$rule ) {
                     $content =~ s/$key/$rule->{$key}/ge;
                 }
-                # FIXME
-                if ( $path =~ /\.swc/ ) {
-                    return;
-                }
-
                 my $fh = $target->openw;
                 print $fh $mason->execute( text => $content );
                 $fh->close;
