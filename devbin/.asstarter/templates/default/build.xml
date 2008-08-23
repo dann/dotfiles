@@ -74,6 +74,11 @@
       <!-- Include locale-specific items in the path -->
       <arg line="-locale ${flex3sdk.locale}" />
       <arg line="-l '${flex3sdk.locale.dir}'" />
+
+      <arg line="-l ${thunderbolt.swc}" />
+      <arg line="-l ${pv3d.swc}" />
+      <arg line="-l ${tweener.swc}" />
+      <arg line="-l ${thread.swc}"/>
     </exec>
   </target>
 
