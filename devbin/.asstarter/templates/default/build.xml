@@ -19,7 +19,13 @@
     <fail unless="mxmlc.exe">The "mxmlc.exe" property must be set in build.properties.</fail>
   </target>
 
-  <target name="release" depends="compile.release">
+  <target name="release" depends="compile.release, copy.resources">
+  </target>
+
+  <target name="copy.resources">
+    <copy todir="${bin.dir}">
+      <fileset dir="${resources.dir}"/>
+    </copy>
   </target>
 
   <!--
