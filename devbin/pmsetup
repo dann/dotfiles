@@ -1,6 +1,4 @@
 #!/usr/bin/perl
-# for rake addict
-
 use strict;
 use warnings;
 use ExtUtils::MakeMaker qw(prompt);
@@ -14,28 +12,18 @@ use Config::Pit;
 my $config = pit_get(
     "pmsetup",
     require => {
-        author        => "dann",
-        email         => "techmemo\@gmail.com",
-        scratch_repos => "Your svk base scratch DEPOTPATH: //scratch",
-
-        #	mirror_repos  => "Your svk base mirror DEPOTPATH: //mirror",
+        author  => "your username",
+        email   => "your email",
         workdir => "$ENV{HOME}/tmp",
     }
 );
+
        $config->{author}
     || $config->{email}
     || $config->{workdir}
     || die("no settings");
 
 -e $config->{workdir} || mkdir $config->{workdir}, 0777;
-
-unless ( $config->{scratch_repos} =~ m{^//.} ) {
-    delete $config->{scratch_repos};
-}
-
-#unless ($config->{mirror_repos} =~ m{^//.}) {
-#	delete $config->{mirror_repos};
-#}
 
 my $modname = shift @ARGV or die "Usage: $0 module\n";
 $modname =~ s/-/::/g;
@@ -44,12 +32,6 @@ write_plugin_files( $modname, $config );
 
 sub write_plugin_files {
     my ( $module, $config ) = @_;
-
-    my $svk
-        = $config->{scratch_repos}
-        ? prompt( "import to SVK? [yN] ", 'n' )
-        : "n";
-    my $coderepos = prompt( "CodeRepos friendly? [Yn] ", 'y' );
 
     # $module = "Foo::Bar"
     # $dist   = "Foo-Bar"
@@ -60,10 +42,6 @@ sub write_plugin_files {
 
     mkdir $dist, 0777;
     chdir $dist;
-    if ( $svk =~ /[Yy]/ || $coderepos =~ /[Yy]/ ) {
-        mkdir $_, 0777 for (qw/ trunk tags branches /);
-        chdir 'trunk';
-    }
 
     my @template = YAML::Load( join '', <DATA> );
     my $vars = {
@@ -77,14 +55,6 @@ sub write_plugin_files {
     for my $tmpl (@template) {
         my $file = $tmpl->{file};
         $file =~ s/(\$\w+)/$1/eeg;
-        if ( defined $tmpl->{coderepos} ) {
-            if ( $coderepos =~ /[Yy]/ ) {
-                next unless $tmpl->{coderepos};
-            }
-            else {
-                next if $tmpl->{coderepos};
-            }
-        }
         write_file( $file, $tmpl->{template}, $vars );
         chmod oct( $tmpl->{chmod} ), $tmpl->{file} if $tmpl->{chmod};
     }
@@ -94,12 +64,20 @@ sub write_plugin_files {
     !system 'make manifest'    or die $?;
     !system 'make distclean'   or die $?;
 
-    return unless $svk =~ /[Yy]/;
-    chdir '..';
-    system("svk import -m '$dist import' $config->{scratch_repos}/$dist");
-    chdir '..';
-    rmtree("$dist");
-    system("svk co $config->{scratch_repos}/$dist/trunk $dist");
+    init_git_repo();
+}
+
+sub init_git_repo {
+    !system 'git init'                       or die $?;
+    !system 'git add *.*'                    or die $?;
+    !system 'git add README'                 or die $?;
+    !system 'git add Changes'                or die $?;
+    !system 'git add .gitignore'             or die $?;
+    !system 'git add .shipit'                or die $?;
+    !system 'git add lib'                    or die $?;
+    !system 'git add t'                      or die $?;
+    !system 'git add t/author'               or die $?;
+    !system 'git commit -m "initial commit"' or die $?;
 }
 
 sub write_file {
@@ -154,14 +132,14 @@ template: |
 
   BEGIN { use_ok '[% module %]' }
 ---
-file: t/96_dependency.t
+file: t/author/dependency.t
 template: |
   use Test::Dependencies
   	exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic [% module %]/],
   	style   => 'light';
   ok_dependencies();
 
-file: t/97_podspell.t
+file: t/author/podspell.t
 template: |
   use Test::More;
   eval q{ use Test::Spelling };
@@ -174,15 +152,15 @@ template: |
   [% config.author %]
   [% module %]
 ---
-file: t/98_perlcritic.t
+file: t/author/perlcritic.t
 template: |
   use strict;
   use Test::More;
-  eval { use Test::Perl::Critic -profile => 't/perlcriticrc' };
+  eval { use Test::Perl::Critic -profile => 't/author/perlcriticrc' };
   plan skip_all => "Test::Perl::Critic is not installed." if $@;
   all_critic_ok('lib');
 ---
-file: t/99_pod.t
+file: t/author/pod.t
 template: |
   use Test::More;
   eval "use Test::Pod 1.00";
@@ -293,15 +271,19 @@ template: |
 ---
 file: .shipit
 chmod: 0644
-coderepos: 0
 template: |
   steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
-  svk.tagpattern = release-%v
+  git.tagpattern = release-%v
+  git.push_to = origin
+
 ---
-file: .shipit
-chmod: 0644
-coderepos: 1
+file: .gitignore
 template: |
-  steps = CommitMessageWrap, FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
-  svk.tagpattern = release-%v
-  commit_message.format = lang/perl/[% dist %]: %msg
+  cover_db
+  META.yml
+  Makefile
+  blib
+  inc
+  pm_to_blib
+  MANIFEST
+  Makefile.old
