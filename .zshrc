@@ -239,6 +239,10 @@ perl5lib () {
     export PERL5LIB="$PWD/lib:$PWD/t/lib:${PERL5LIB}"
 }
 
+# alias for catalyst development (perl)
+alias cs="perl script/*_server.pl -d"
+alias carpcs="perl -MCarp::Always script/*_server.pl -d"
+
 function ssh_screen(){
     A=$#
     eval server=$"$A"
