@@ -20,9 +20,9 @@ set autoindent
 set backspace=indent,eol,start
 
 " highlight
-set hlsearch
-nmap <silent> gh :let @/=''<CR>
-"set nohlsearch
+"set hlsearch
+"nmap <silent> gh :let @/=''<CR>
+set nohlsearch
 
 " highlight Zenkaku word
 highlight ZenkakuSpace ctermbg=6
@@ -70,6 +70,9 @@ endif
 nnoremap j gj
 nnoremap k gk
 
+" nerdtree toggle
+map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+
 " ============================================
 " open perl module with gf
 " ============================================
@@ -103,8 +106,8 @@ nmap g" cs"G
 " ============================================
 " fuzzyfinder
 " ============================================
-nnoremap <silent> eff :FuzzyFinderFile<CR>
-nnoremap <silent> efb :FuzzyFinderBuffer<CR>
+nnoremap <silent> ,f :FuzzyFinderFile<CR>
+nnoremap <silent> ,b :FuzzyFinderBuffer<CR>
 nnoremap <silent> efv :FuzzyFinderFavFile<CR>
 nnoremap <silent> efm :FuzzyFinderMruFile<CR>
 nnoremap <silent> efc :FuzzyFinderMruCmd<CR>
@@ -304,4 +307,11 @@ function! GitGrep(arg)
   silent cwin
 endfunction
 command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
+
+
+au BufNewFile,BufRead *.txt set iminsert=2
+inoremap <ESC> <ESC>:set iminsert=0<CR>
+
+
+
 

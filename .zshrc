@@ -253,6 +253,12 @@ if [ x$TERM = xscreen ]; then
     alias ssh=ssh_screen
 fi
 
+# ruby
+refe_utf8() {
+  refe $@ | nkf -Ew
+}
+alias refe='refe_utf8'
+
 #-----------------------------------------------
 # load mac config
 #-----------------------------------------------
