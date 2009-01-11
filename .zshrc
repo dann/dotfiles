@@ -111,7 +111,7 @@ bindkey "^[[B" down-line-or-history    # Down
 fpath=(~/.zsh/completion $fpath)
 _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
 autoload -U compinit; compinit
-
+autoload colors; colors
 
 #-----------------------------------------------
 # command line
@@ -222,9 +222,13 @@ fi
 #-----------------------------------------------
 setopt prompt_subst
 
-PROMPT='%(?..exit %?)
- %{[33m%}%~%{[m%} %{[91m%}`$HOME/devbin/repospath.pl $(pwd)`%{[m%}%{[38m%}%(!.#.$)%{[m%}%{m%} '
-RPROMPT='%{[38m%}[%n@%m]%{m%}%{[00m%}'
+#PROMPT='%(?..exit %?)
+# %{[33m%}%~%{[m%} %{[91m%}`$HOME/devbin/repospath.pl $(pwd)`%{[m%}%{[38m%}%(!.#.$)%{[m%}%{m%} '
+#RPROMPT='%{[38m%}[%n@%m]%{m%}%{[00m%}'
+
+PROMPT='%B%{${fg[red]}%}[%n%{${fg[blue]}%}@%m${WINDOW:+":$WINDOW"}]%{%(?.$fg[blue].$fg[red])%}%(!.#.$)%{${reset_color}%}%b '
+RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%}'
+SPROMPT="%B%r is correct? [n,y,a,e]:%b "
 
 #-----------------------------------------------
 #  Utilit function
