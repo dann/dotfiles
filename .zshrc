@@ -236,7 +236,7 @@ function history-all { history -E 1 }
 
 # set PERL5LIB env
 perl5lib () {
-    export PERL5LIB="$PWD/lib:$PWD/t/lib:${PERL5LIB}"
+    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib::${PERL5LIB}"
 }
 
 # alias for catalyst development (perl)
