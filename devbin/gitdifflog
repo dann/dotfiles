@@ -1,0 +1,3 @@
+#!/bin/sh
+git log -p HEAD@{3.days.ago}
+
