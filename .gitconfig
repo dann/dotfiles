@@ -9,6 +9,8 @@
     praise = blame 
     up = pull --rebase
     difflog = log -p HEAD@{3.days.ago}
+    edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
+    add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
 
 [color]
     diff = auto
