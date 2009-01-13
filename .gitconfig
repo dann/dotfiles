@@ -8,6 +8,7 @@
     st = status -a
     praise = blame 
     up = pull --rebase
+    difflog = log -p HEAD@{3.days.ago}
 
 [color]
     diff = auto
