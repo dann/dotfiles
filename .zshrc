@@ -222,13 +222,16 @@ fi
 #-----------------------------------------------
 setopt prompt_subst
 
-#PROMPT='%(?..exit %?)
-# %{[33m%}%~%{[m%} %{[91m%}`$HOME/devbin/repospath.pl $(pwd)`%{[m%}%{[38m%}%(!.#.$)%{[m%}%{m%} '
-#RPROMPT='%{[38m%}[%n@%m]%{m%}%{[00m%}'
-
 PROMPT='%B%{${fg[red]}%}[%n%{${fg[blue]}%}@%m${WINDOW:+":$WINDOW"}]%{%(?.$fg[blue].$fg[red])%}%(!.#.$)%{${reset_color}%}%b '
-RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%}'
+RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%} $(parse_git_branch)'
 SPROMPT="%B%r is correct? [n,y,a,e]:%b "
+
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+}
 
 #-----------------------------------------------
 #  Utilit function
