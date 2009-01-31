@@ -177,6 +177,19 @@ set complete=.,w,b,u,t,k
 let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
 let g:AutoComplPop_IgnoreCaseOption = 1
 
+
+" ============================================
+" smartword.vim 
+" ============================================
+"map w  <Plug>(smartword-w)
+"map b  <Plug>(smartword-b)
+"map e  <Plug>(smartword-e)
+"map ge <Plug>(smartword-ge)
+"noremap W  w
+"noremap B  b
+"noremap E  e
+"noremap gE ge
+
 " ============================================
 " tt2
 " =============================================

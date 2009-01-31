@@ -33,6 +33,32 @@ noremap <buffer> ,ptv <Esc>:'<,'>! perltidy -pbp<CR>
 " prove
 noremap <buffer> ,c <Esc>:!ctagsp<CR>
 
+" Perldoc
+command! -nargs=+ -complete=file Perldoc call <SID>Perldoc(<q-args>)
+
+function! s:Perldoc(args)
+    tabnew
+    if bufexists('perldoc ' . a:args)
+        execute 'buffer' bufnr('perldoc ' . a:args)
+    else
+        silent execute '0read!LANG=C perldoc -otext -T' a:args
+        if v:shell_error
+            echoerr getline(1)
+            quit!
+        else
+            file `='perldoc ' . a:args`
+            setlocal buftype=nofile noswapfile
+            if a:args =~ '\v(<|^)-m>'
+                setfiletype perl
+            else
+                setfiletype man
+            endif
+            0
+        endif
+    endif
+endfunction
+
+
 " dictionary
 setlocal dictionary=~/.vim/dict/perl.dict
 

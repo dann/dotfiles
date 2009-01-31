@@ -76,7 +76,7 @@ sub init_git_repo {
     !system 'git add .shipit'                or die $?;
     !system 'git add lib'                    or die $?;
     !system 'git add t'                      or die $?;
-    !system 'git add t/author'               or die $?;
+    !system 'git add xt'               or die $?;
     !system 'git commit -m "initial commit"' or die $?;
 }
 
@@ -127,19 +127,22 @@ template: |
 ---
 file: t/00_compile.t
 template: |
+
   use strict;
   use Test::More tests => 1;
 
   BEGIN { use_ok '[% module %]' }
+
 ---
-file: t/author/dependency.t
+file: xt/extra/dependency.t
 template: |
   use Test::Dependencies
   	exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic [% module %]/],
   	style   => 'light';
   ok_dependencies();
 
-file: t/author/podspell.t
+---
+file: xt/extra/podspell.t
 template: |
   use Test::More;
   eval q{ use Test::Spelling };
@@ -152,22 +155,22 @@ template: |
   [% config.author %]
   [% module %]
 ---
-file: t/author/perlcritic.t
+file: xt/perlcritic.t
 template: |
   use strict;
   use Test::More;
-  eval { use Test::Perl::Critic -profile => 't/author/perlcriticrc' };
+  eval { use Test::Perl::Critic -profile => 'xt/perlcriticrc' };
   plan skip_all => "Test::Perl::Critic is not installed." if $@;
   all_critic_ok('lib');
 ---
-file: t/author/pod.t
+file: xt/pod.t
 template: |
   use Test::More;
   eval "use Test::Pod 1.00";
   plan skip_all => "Test::Pod 1.00 required for testing POD" if $@;
   all_pod_files_ok();
 ---
-file: t/perlcriticrc
+file: xt/perlcriticrc
 template: |
   [TestingAndDebugging::ProhibitNoStrict]
   allow=refs
@@ -287,3 +290,7 @@ template: |
   pm_to_blib
   MANIFEST
   Makefile.old
+  tmon.out
+  cover_db_view
+  nytprof
+  .DS_Store
