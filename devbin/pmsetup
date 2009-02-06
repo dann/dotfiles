@@ -117,17 +117,24 @@ template: |
   use inc::Module::Install;
   name '[% dist %]';
   all_from 'lib/[% path %]';
-
-  requires $_ for (qw/ /);
-
-  build_requires 'Test::More';
+  requires(
+  );
+  test_requires(
+    'Test::More'                   => 0,
+    'Test::Differences'            => 0,
+    'Test::Deep'                   => 0,
+    'Test::Exception'              => 0,
+    'Test::MockObject'             => 0,
+    'Test::Class'                  => 0,
+    'Module::Install::AuthorTests' => 0,
+  );
   use_test_base;
   auto_include;
   WriteAll;
+
 ---
 file: t/00_compile.t
 template: |
-
   use strict;
   use Test::More tests => 1;
 
@@ -289,6 +296,7 @@ template: |
   inc
   pm_to_blib
   MANIFEST
+  MANIFEST.bak
   Makefile.old
   tmon.out
   cover_db_view
