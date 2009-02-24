@@ -133,19 +133,22 @@ template: |
   WriteAll;
 
 ---
-file: t/00_compile.t
+file: t/00_load_all.t
 template: |
   use strict;
-  use Test::More tests => 1;
+  use warnings;
+  use Test::LoadAllModules;
 
-  BEGIN { use_ok '[% module %]' }
+  BEGIN {    
+      all_uses_ok(search_path => '[% module %]');
+  }
 
 ---
 file: xt/extra/dependency.t
 template: |
   use Test::Dependencies
-  	exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic [% module %]/],
-  	style   => 'light';
+      exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic [% module %]/],
+      style   => 'light';
   ok_dependencies();
 
 ---
@@ -176,11 +179,22 @@ template: |
   eval "use Test::Pod 1.00";
   plan skip_all => "Test::Pod 1.00 required for testing POD" if $@;
   all_pod_files_ok();
+
+---
+file: xt/notab.t
+template: |
+  use Test::More;
+  eval "use Test::NoTabs";
+  plan skip_all => "Test::NoTabs required for testing POD" if $@;
+  all_perl_files_ok();
 ---
 file: xt/perlcriticrc
 template: |
   [TestingAndDebugging::ProhibitNoStrict]
   allow=refs
+  [TestingAndDebugging::RequireUseStrict]
+  equivalent_modules = Mouse Mouse::Role 
+
 ---
 file: Changes
 template: |

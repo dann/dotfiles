@@ -8,10 +8,10 @@
     st = status -a
     praise = blame 
     up = pull --rebase
-    difflog = log -p HEAD@{3.days.ago}
     url = config --get remote.origin.url
     edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
     add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+    ranking = shortlog -s -n --no-merges
     d1 = diff HEAD^
     d2 = diff HEAD^^
     d3 = diff HEAD^^^
