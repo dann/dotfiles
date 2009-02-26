@@ -121,10 +121,6 @@ template: |
   );
   test_requires(
     'Test::More'                   => 0,
-    'Test::Differences'            => 0,
-    'Test::Deep'                   => 0,
-    'Test::Exception'              => 0,
-    'Test::MockObject'             => 0,
     'Test::Class'                  => 0,
     'Module::Install::AuthorTests' => 0,
   );
@@ -214,6 +210,8 @@ template: |
   1;
   __END__
 
+  =encoding utf-8
+
   =head1 NAME
 
   [% module %] -
@@ -225,6 +223,18 @@ template: |
   =head1 DESCRIPTION
 
   [% module %] is
+
+
+  =head1 SOURCE AVAILABILITY
+
+  This source is in Github:
+
+    http://github.com/dann/
+
+  =head1 CONTRIBUTORS
+
+  Many thanks to:
+
 
   =head1 AUTHOR
 
