@@ -8,6 +8,7 @@
     st = status -a
     praise = blame 
     up = pull --rebase
+    amend = commit --amend
     url = config --get remote.origin.url
     edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
     add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
