@@ -73,6 +73,9 @@ nnoremap k gk
 " nerdtree toggle
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
 
+" disable highlight with <esc><esc>
+nnoremap <Esc><Esc> :<C-u>set nohlsearch<Return>
+
 " ============================================
 " open perl module with gf
 " ============================================
