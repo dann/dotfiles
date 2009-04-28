@@ -12,7 +12,6 @@ augroup filetypedetect
     au! BufNewFile,BufRead *.t                  setf perltest
     au! BufNewFile,BufRead *.hwd                setf hwd
     au! BufNewFile,BufRead *.wiki               setf wiki
-    au BufRead,BufNewFile COMMIT_EDITMSG     setf git
     au! BufNewFile,BufRead *.html
         \ if ( getline(1) . getline(2) . getline(3) =~ '\[%' ) |
         \   setf tt2html |
@@ -28,6 +27,9 @@ augroup filetypedetect
         \   setf tt2 |
         \ endif
     "TT2 and HTML"
+
+    au BufRead,BufNewFile COMMIT_EDITMSG     setf git
+
     :let b:tt2_syn_tags = '\[% %] <!-- -->'
 augroup END
 
