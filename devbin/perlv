@@ -1,0 +1,4 @@
+#!/bin/sh
+for mod in $@; do
+    /usr/bin/env perl -M$mod -le "print \"$mod \" . $mod->VERSION"
+done
