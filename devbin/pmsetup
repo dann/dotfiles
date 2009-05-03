@@ -117,7 +117,12 @@ template: |
   use inc::Module::Install;
   name '[% dist %]';
   all_from 'lib/[% path %]';
+
+  homepage 'http://search.cpan.org/dist/[% dist %]/';
+  bugtracker 'http://rt.cpan.org/Public/Dist/Display.html?Name=[% dist %]';
+
   requires(
+
   );
   test_requires(
     'Test::More'                   => 0,
@@ -125,6 +130,7 @@ template: |
     'Module::Install::AuthorTests' => 0,
   );
   use_test_base;
+  auto_set_repository;
   auto_include;
   WriteAll;
 
