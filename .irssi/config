@@ -258,7 +258,7 @@ settings = {
   core = { real_name = "dann"; user_name = "dann"; nick = "dann"; };
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = {
-    theme = "fear2";
+    theme = "aka";
     timestamps = "yes";
     activity_hide_level = "";
     activity_msg_level = "PUBLIC";
@@ -273,7 +273,9 @@ settings = {
     # screen doesn't work well with nicklist.pl ...
     # nicklist_automode = "screen";
     neat_colorize = "yes";
-    neat_colors = "yYrR";
+    neat_colors = "krgbmpcw";
+    neat_right_mode = "1";
+    im_kayac_com_username = "dann";
   };
 };
 
