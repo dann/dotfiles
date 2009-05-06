@@ -1,0 +1,447 @@
+servers = ( );
+
+chatnets = { };
+
+channels = ( );
+
+aliases = {
+  1 = "win 1";
+  2 = "win 2";
+  3 = "win 3";
+  4 = "win 4";
+  5 = "win 5";
+  6 = "win 6";
+  7 = "win 7";
+  8 = "win 8";
+  9 = "win 9";
+  10 = "win 10";
+  11 = "win 11";
+  12 = "win 12";
+  13 = "win 13";
+  14 = "win 14";
+  15 = "win 15";
+  16 = "win 16";
+  17 = "win 17";
+  18 = "win 18";
+  19 = "win 19";
+  20 = "win 20";
+  21 = "win 21";
+  22 = "win 22";
+  23 = "win 23";
+  24 = "win 24";
+  25 = "win 25";
+  26 = "win 26";
+  27 = "win 27";
+  28 = "win 28";
+  29 = "win 29";
+  30 = "win 30";
+  31 = "win 31";
+  32 = "win 32";
+  33 = "win 33";
+  34 = "win 34";
+  35 = "win 35";
+  36 = "win 36";
+  37 = "win 37";
+  38 = "win 38";
+  39 = "win 39";
+  40 = "win 40";
+  41 = "win 41";
+  42 = "win 42";
+  43 = "win 43";
+  44 = "win 44";
+  45 = "win 45";
+  46 = "win 46";
+  47 = "win 47";
+  48 = "win 48";
+  49 = "win 49";
+  50 = "win 50";
+  51 = "win 51";
+  52 = "win 52";
+  53 = "win 53";
+  54 = "win 54";
+  55 = "win 55";
+  56 = "win 56";
+  57 = "win 57";
+  58 = "win 58";
+  59 = "win 59";
+  60 = "win 60";
+  61 = "win 61";
+  62 = "win 62";
+  63 = "win 63";
+  64 = "win 64";
+  65 = "win 65";
+  66 = "win 66";
+  67 = "win 67";
+  68 = "win 68";
+  69 = "win 69";
+  70 = "win 70";
+  71 = "win 71";
+  72 = "win 72";
+  73 = "win 73";
+  74 = "win 74";
+  75 = "win 75";
+  76 = "win 76";
+  77 = "win 77";
+  78 = "win 78";
+  79 = "win 79";
+  80 = "win 80";
+  81 = "win 81";
+  82 = "win 82";
+  83 = "win 83";
+  84 = "win 84";
+  85 = "win 85";
+  86 = "win 86";
+  87 = "win 87";
+  88 = "win 88";
+  89 = "win 89";
+  90 = "win 90";
+  91 = "win 91";
+  92 = "win 92";
+  93 = "win 93";
+  94 = "win 94";
+  95 = "win 95";
+  96 = "win 96";
+  97 = "win 97";
+  98 = "win 98";
+  99 = "win 99";
+  100 = "win 100";
+  J = "join";
+  WJOIN = "join -window";
+  WQUERY = "query -window";
+  LEAVE = "part";
+  BYE = "quit";
+  EXIT = "quit";
+  SIGNOFF = "quit";
+  DESCRIBE = "action";
+  DATE = "time";
+  HOST = "userhost";
+  LAST = "lastlog";
+  SAY = "msg *";
+  WI = "whois";
+  WII = "whois $0 $0";
+  WW = "whowas";
+  W = "window";
+  N = "names";
+  M = "msg";
+  T = "topic";
+  C = "clear";
+  CL = "clear";
+  K = "kick";
+  KB = "kickban";
+  KN = "knockout";
+  BANS = "ban";
+  B = "ban";
+  MUB = "unban *";
+  UB = "unban";
+  IG = "ignore";
+  UNIG = "unignore";
+  SB = "scrollback";
+  UMODE = "mode $N";
+  WC = "window close";
+  WN = "window new hide";
+  SV = "say Irssi $J ($V) - http://irssi.org/";
+  GOTO = "sb goto";
+  CHAT = "dcc chat";
+  RUN = "SCRIPT LOAD";
+  CALC = "exec - if which bc &>/dev/null\\; then echo '$*' | bc | awk '{print \"$*=\"$$1}'\\; else echo bc was not found\\; fi";
+  SBAR = "STATUSBAR";
+  INVITELIST = "mode $C +I";
+  Q = "QUERY";
+  "MANUAL-WINDOWS" = "set use_status_window off;set autocreate_windows off;set autocreate_query_level none;set autoclose_windows off;set reuse_unused_windows on;save";
+  EXEMPTLIST = "mode $C +e";
+  ATAG = "WINDOW SERVER";
+};
+
+statusbar = {
+
+  items = {
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+
+    time = "{sb $Z}";
+    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+
+    window = "{sb $winref:$itemname{sbmode $M}}";
+    window_empty = "{sb $winref{sbservertag $tag}}";
+    prompt = "{prompt $[.15]itemname}";
+    prompt_empty = "{prompt $winname}";
+    topic = " $topic";
+    topic_empty = " Irssi v$J - http://irssi.org/help/";
+
+    lag = "{sb Lag: $0-}";
+    act = "{sb Act: $0-}";
+    more = "%4%R-- More --";
+  };
+
+  default = {
+    window = {
+      disabled = "no";
+
+      type = "window";
+      placement = "bottom";
+      position = "1";
+      visible = "active";
+
+      items = {
+        barstart = { priority = "100"; };
+        time = { };
+        user = { };
+        window = { };
+        window_empty = { };
+        lag = { priority = "-1"; };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+
+    };
+
+    window_inact = {
+      type = "window";
+      placement = "bottom";
+      position = "1";
+      visible = "inactive";
+      items = {
+        barstart = { priority = "100"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    prompt = {
+      type = "root";
+      placement = "bottom";
+      position = "100";
+      visible = "always";
+      items = {
+        prompt = { priority = "-1"; };
+        prompt_empty = { priority = "-1"; };
+        input = { priority = "10"; };
+      };
+    };
+
+    topic = {
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "always";
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topic_empty = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+      };
+    };
+    awl_0 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_0 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+    awl_1 = {
+      items = {
+        barstart = { priority = "100"; };
+        awl_1 = { };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+  };
+};
+
+
+settings = {
+  core = { real_name = "dann"; user_name = "dann"; nick = "dann"; };
+  "fe-text" = { actlist_sort = "refnum"; };
+  "fe-common/core" = {
+    theme = "fear2";
+    timestamps = "yes";
+    activity_hide_level = "";
+    activity_msg_level = "PUBLIC";
+    windows_auto_renumber = "no";
+  };
+  "perl/core/scripts" = {
+    awl_columns = "2";
+    awl_maxlines = "2";
+    awl_automode = "sbar";
+    awl_display_key = "[$N]$C";
+    awl_block = "-15";
+    # screen doesn't work well with nicklist.pl ...
+    # nicklist_automode = "screen";
+  };
+};
+
+ignores = (
+  {
+    level = "CRAP SNOTES CTCPS JOINS PARTS QUITS MODES WALLOPS INVITES DCC DCCMSGS CLIENTNOTICES CLIENTCRAP CLIENTERRORS HILIGHTS";
+  }
+);
+hilights = ( { text = "dann"; nick = "yes"; word = "yes"; } );
+windows = {
+  1 = { immortal = "yes"; name = "(status)"; level = "ALL"; };
+  2 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#over18@lazy";
+        tag = "perl4u";
+      }
+    );
+  };
+  3 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#catalyst-dev@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  4 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#htp-engine@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  5 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#socialtext@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  6 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#yaps.asia@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  7 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#catalyst-ja@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  8 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#moose@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  9 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#catalyst@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  10 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#kamaitachi@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  11 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#kayac@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  12 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#mojo@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  13 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#soozy@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  14 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#angelos@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  15 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#vagina@woremacx";
+        tag = "perl4u";
+      }
+    );
+  };
+  16 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#coderepos@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+  17 = {
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#yokohama.pm@freenode";
+        tag = "perl4u";
+      }
+    );
+  };
+};
+mainwindows = { 2 = { first_line = "1"; lines = "46"; }; };
