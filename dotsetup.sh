@@ -24,6 +24,7 @@ ln -s $CURRENT_DIR/.tidyrc ~/.tidyrc
 ln -s $CURRENT_DIR/.perltidyrc ~/.perltidyrc
 ln -s $CURRENT_DIR/.gitconfig ~/.gitconfig
 ln -s $CURRENT_DIR/.Xdefaults ~/.Xdefaults
+ln -s $CURRENT_DIR/.irssi ~/.irssi
 ln -s $CURRENT_DIR/devbin/.asstarter ~/.asstarter
 
 chmod 700 ~/devbin/*
