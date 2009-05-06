@@ -272,6 +272,8 @@ settings = {
     awl_block = "-15";
     # screen doesn't work well with nicklist.pl ...
     # nicklist_automode = "screen";
+    neat_colorize = "yes";
+    neat_colors = "yYrR";
   };
 };
 

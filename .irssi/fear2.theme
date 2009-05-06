@@ -303,15 +303,15 @@ formats = {
     action_public = "{pubaction $[-14]0}$1";
   };
   "fe-common/core" = {
-    own_msg = "{ownmsgnick $2 {ownnick $[-9]0}}$1";
-    own_msg_channel = "{ownmsgnick $3 {ownnick $[-9]0}{msgchannel $1}}$2";
+    own_msg = "{ownmsgnick {ownnick $[-16]0$2}}$1";
+    own_msg_channel = "{ownmsgnick {ownnick $[-16]0$3}{msgchannel $1}}$2";
     own_msg_private_query = "{ownprivmsgnick {ownprivnick $[-16]2}}$1";
-    pubmsg_me = "{pubmsgmenick $2 {menick $[-9]0}}$1";
-    pubmsg_me_channel = "{pubmsgmenick $3 {menick $[-9]0}{msgchannel $1}}$2";
-    pubmsg_hilight = "{pubmsghinick $0 $3 $[-9]1}$2";
+    pubmsg_me = "{pubmsgmenick {menick $[-16]0}$2}$1";
+    pubmsg_me_channel = "{pubmsgmenick {menick $[-16]0$3}{msgchannel $1}}$2";
+    pubmsg_hilight = "{pubmsghinick $0 $0 $[-16]1$3%n}$2";
     pubmsg_hilight_channel = "{pubmsghinick $0 $[-16]1$4{msgchannel $2}}$3";
-    pubmsg = "{pubmsgnick $2 {pubnick $[-9]0}}$1";
-    pubmsg_channel = "{pubmsgnick $3 {pubnick $[-9]0}{msgchannel $1}}$2";
+    pubmsg = "{pubmsgnick {pubnick %G$[-16]0}$2}$1";
+    pubmsg_channel = "{pubmsgnick {pubnick %G$[-16]0}$2}$1";
     msg_private_query = "{privmsgnick $[-16]0}$2";
   };
 };
