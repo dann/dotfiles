@@ -13,17 +13,26 @@ let g:loaded_perldoc = 1
 let s:buf_nr = -1
 let s:mode = ''
 let s:last_word = ''
+let b:window_vsplit = 0
 
 function! s:PerldocView()
   " base on FuzzyFinder WindowManager
   let cwd = getcwd()
 
   if !bufexists(s:buf_nr)
-    leftabove new
+    if b:window_vsplit
+      rightbelow vnew
+    else
+      leftabove new
+    end
     file \[Perldoc]
     let s:buf_nr = bufnr('%')
   elseif bufwinnr(s:buf_nr) == -1
-    leftabove split
+    if b:window_vsplit
+      rightbelow vnew
+    else
+      leftabove new
+    end
     execute s:buf_nr . 'buffer'
     delete _
   elseif bufwinnr(s:buf_nr) != bufwinnr('%')
