@@ -51,7 +51,6 @@ sub write_plugin_files {
     mkdir $dist, 0777;
     chdir $dist;
 
-    mkdir 'src', 0777;
     mkdir 'include', 0777;
 
     my @template = YAML::Load( join '', <DATA> );
@@ -138,9 +137,9 @@ template: |
   author_tests('xt');
 
   use_ppport 3.19;
-  #  cc_warnings;
-  #  cc_include_paths 'include';
-  #  cc_src_paths 'src';
+  cc_warnings;
+  cc_include_paths 'include';
+  cc_src_paths 'src';
 
   if ($ENV{DEBUG}) {
       cc_append_to_ccflags '-g';
@@ -202,7 +201,7 @@ template: |
   	* original version
 
 ---
-file: $dist.xs
+file: src/$dist.xs
 template: |
   #define PERL_NO_GET_CONTEXT
   #include <EXTERN.h>
@@ -211,13 +210,13 @@ template: |
 
   #include "ppport.h"
 
-
   MODULE = [% module %]	PACKAGE = [% module %]
+
 
   PROTOTYPES: DISABLE
 
 ---
-file: typemap
+file: src/typemap
 template: |
   TYPEMAP
   MyApp*              T_MYAPP
