@@ -30,6 +30,12 @@ $modname =~ s/-/::/g;
 
 write_plugin_files( $modname, $config );
 
+sub check_modules {
+    require 'Test::More';
+    require 'Test::LeakTrace';
+    require 'Module::Install::XSUtil';
+}
+
 sub write_plugin_files {
     my ( $module, $config ) = @_;
 
@@ -42,6 +48,9 @@ sub write_plugin_files {
 
     mkdir $dist, 0777;
     chdir $dist;
+
+    mkdir 'src', 0777;
+    mkdir 'include', 0777;
 
     my @template = YAML::Load( join '', <DATA> );
     my $vars = {
@@ -120,12 +129,12 @@ template: |
   all_from 'lib/[% path %]';
 
   use_ppport 3.19;
-  # cc_warnings;
-  # cc_include_paths 'include';
-  # cc_src_paths 'src';
+  #  cc_warnings;
+  #  cc_include_paths 'include';
+  #  cc_src_paths 'src';
 
   test_requires 'Test::More'      => 0.62;
-  test_requires 'Test::LeakTrace' => 0.08;
+  test_requires 'Test::LeakTrace' => 0.10;
 
   use_test_base;
 
@@ -207,6 +216,36 @@ template: |
 
   0.01 [% localtime %]
   	* original version
+
+---
+file: $dist.xs
+template: |
+  #define PERL_NO_GET_CONTEXT
+  #include <EXTERN.h>
+  #include <perl.h>
+  #include <XSUB.h>
+
+  #include "ppport.h"
+
+
+  MODULE = [% module %]	PACKAGE = [% module %]
+
+  PROTOTYPES: DISABLE
+
+---
+file: typemap
+template: |
+  TYPEMAP
+  MyApp*              T_MYAPP
+
+  INPUT
+  T_MYAPP
+          $var = XS_STATE(MyApp *, $arg);
+
+  OUTPUT
+  T_MYAPP
+          XS_STRUCT2OBJ($arg, "MyApp", $var);
+
 ---
 file: lib/$path
 template: |
@@ -342,5 +381,25 @@ template: |
 
 ---
 file: tools/check_memoryleak.sh 
+template: |
   prove --exec 'perl -Iblib/lib -Iblib/arch -MTest::Valgrind' t/*.t
 
+---
+file: tools/benchmark.pl 
+template: |
+  use strict;
+  use Benchmark qw(cmpthese);
+  use blib;
+
+  sub x {
+
+  }
+
+  sub y {
+
+  }
+
+  cmpthese(1000, {
+      x => \&x,
+      y => \&y,
+  });

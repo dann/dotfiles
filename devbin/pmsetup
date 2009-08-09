@@ -127,7 +127,6 @@ template: |
     'Module::Install::AuthorTests' => 0,
   );
   use_test_base;
-  auto_set_repository;
   auto_include;
   WriteAll;
 
