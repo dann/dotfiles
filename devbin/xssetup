@@ -28,12 +28,14 @@ my $config = pit_get(
 my $modname = shift @ARGV or die "Usage: $0 module\n";
 $modname =~ s/-/::/g;
 
+check_modules_installed();
 write_plugin_files( $modname, $config );
 
-sub check_modules {
-    require 'Test::More';
-    require 'Test::LeakTrace';
-    require 'Module::Install::XSUtil';
+sub check_modules_installed {
+#    require Test::More;
+#    require Test::LeakTrace;
+#    require Module::Install::XSUtil;
+#    require Module::Install::Repository;
 }
 
 sub write_plugin_files {
@@ -128,42 +130,46 @@ template: |
   name '[% dist %]';
   all_from 'lib/[% path %]';
 
+  perl_version '5.008005';
+  license 'perl';
+  can_cc or die "This module requires a C compiler";
+
+  tests 't/*.t';
+  author_tests('xt');
+
   use_ppport 3.19;
   #  cc_warnings;
   #  cc_include_paths 'include';
   #  cc_src_paths 'src';
 
-  test_requires 'Test::More'      => 0.62;
-  test_requires 'Test::LeakTrace' => 0.10;
-
-  use_test_base;
+  if ($ENV{DEBUG}) {
+      cc_append_to_ccflags '-g';
+  }
 
   clean_files qw(
+    *.stackdump
     *.gcda *.gcno *.gcov
-    nytprof *.out
+    nytprof
+    *.out
     cover_db
   );
 
+  test_requires 'Test::More'      => 0.62;
+  test_requires 'Test::LeakTrace' => 0.10;
+
+  auto_set_repository;
+  use_test_base;
+  auto_include;
   WriteAll check_nmake => 0;
 
 ---
-file: t/00_load_all.t
+file: t/00_compile.t
 template: |
   use strict;
   use warnings;
-  use Test::LoadAllModules;
+  use Test::More tests => 1;
 
-  BEGIN {    
-      all_uses_ok(search_path => '[% module %]');
-  }
-
----
-file: xt/extra/dependency.t
-template: |
-  use Test::Dependencies
-      exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic [% module %]/],
-      style   => 'light';
-  ok_dependencies();
+  use_ok '[% module %]';
 
 ---
 file: xt/extra/podspell.t
@@ -178,14 +184,7 @@ template: |
   __DATA__
   [% config.author %]
   [% module %]
----
-file: xt/perlcritic.t
-template: |
-  use strict;
-  use Test::More;
-  eval { use Test::Perl::Critic -profile => 'xt/perlcriticrc' };
-  plan skip_all => "Test::Perl::Critic is not installed." if $@;
-  all_critic_ok('lib');
+
 ---
 file: xt/pod.t
 template: |
@@ -193,21 +192,6 @@ template: |
   eval "use Test::Pod 1.00";
   plan skip_all => "Test::Pod 1.00 required for testing POD" if $@;
   all_pod_files_ok();
-
----
-file: xt/notab.t
-template: |
-  use Test::More;
-  eval "use Test::NoTabs";
-  plan skip_all => "Test::NoTabs required for testing POD" if $@;
-  all_perl_files_ok();
----
-file: xt/perlcriticrc
-template: |
-  [TestingAndDebugging::ProhibitNoStrict]
-  allow=refs
-  [TestingAndDebugging::RequireUseStrict]
-  equivalent_modules = Mouse Mouse::Role 
 
 ---
 file: Changes
