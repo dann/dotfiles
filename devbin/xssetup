@@ -105,8 +105,6 @@ sub write_file {
 
 =pod
 
-original L<http://svn.bulknews.net/repos/public/misc/pmsetup>
-original L<http://coderepos.org/share/browser/lang/perl/misc/pmsetup/yappo-pmsetup>
 
 =cut
 
@@ -114,22 +112,30 @@ __DATA__
 ---
 file: Makefile.PL
 template: |
+  use strict;
+  use warnings;
   use inc::Module::Install;
+
   name '[% dist %]';
   all_from 'lib/[% path %]';
 
-  requires(
+  use_ppport 3.19;
+  # cc_warnings;
+  # cc_include_paths 'include';
+  # cc_src_paths 'src';
 
-  );
-  test_requires(
-    'Test::More'                   => 0,
-    'Test::Class'                  => 0,
-    'Module::Install::AuthorTests' => 0,
-  );
+  test_requires 'Test::More'      => 0.62;
+  test_requires 'Test::LeakTrace' => 0.08;
+
   use_test_base;
-  auto_set_repository;
-  auto_include;
-  WriteAll;
+
+  clean_files qw(
+    *.gcda *.gcno *.gcov
+    nytprof *.out
+    cover_db
+  );
+
+  WriteAll check_nmake => 0;
 
 ---
 file: t/00_load_all.t
@@ -205,10 +211,14 @@ template: |
 file: lib/$path
 template: |
   package [% module %];
-
+  use 5.008_001;
   use strict;
   use warnings;
+
   our $VERSION = '0.01';
+
+  use XSLoader;
+  XSLoader::load(__PACKAGE__, $VERSION);
 
   1;
   __END__
@@ -329,3 +339,8 @@ template: |
   cover_db_view
   nytprof
   .DS_Store
+
+---
+file: tools/check_memoryleak.sh 
+  prove --exec 'perl -Iblib/lib -Iblib/arch -MTest::Valgrind' t/*.t
+
