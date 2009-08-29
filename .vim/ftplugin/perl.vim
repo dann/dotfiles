@@ -37,9 +37,6 @@ noremap <buffer> ,c <Esc>:!ctagsp<CR>
 setlocal dictionary=~/.vim/dict/perl.dict
 setlocal tags+=~/.vim/tags/perl/cpan.tags
 
-"" perldoc.vim
-let b:window_vsplit = 1
-
 " Test::Class
 if exists("g:perl_test_class_test")
   finish
