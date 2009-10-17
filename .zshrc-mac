@@ -112,5 +112,6 @@ alias wc=gwc
 alias who=gwho
 alias whoami=gwhoami
 alias yes=gyes
+alias zcat=gzcat
 
 
