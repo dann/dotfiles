@@ -98,6 +98,7 @@ alias tee=gtee
 alias test=gtest
 alias touch=gtouch
 alias tr=gtr
+alias sort=gsort
 alias true=gtrue
 alias tsort=gtsort
 alias tty=gtty

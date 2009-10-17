@@ -151,6 +151,7 @@ alias vi='vim'
 alias cls='clear'
 alias vip='vim **/*.{pm,css,tt2,t,js}'
 alias ls='ls --color'
+alias psa='ps auxw'
 
 # ssh-agent
 alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
@@ -237,19 +238,12 @@ function parse_git_branch {
 #-----------------------------------------------
 #  Utilit function
 #-----------------------------------------------
+# Dev common
+# ------------------------
 grep-find () { find . -type f -print0 | xargs -0 -e grep -n --binary-files=without-match -e $@ | grep -E -v \(\*.\*~\|tags\) }
 
 # show all history
 function history-all { history -E 1 }
-
-# set PERL5LIB env
-perl5lib () {
-    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${PERL5LIB}"
-}
-
-# alias for catalyst development (perl)
-alias cs="perl script/*_server.pl -d"
-alias carpcs="perl -MCarp::Always script/*_server.pl -d"
 
 function ssh_screen(){
     A=$#
@@ -261,11 +255,55 @@ if [ x$TERM = xscreen ]; then
     alias ssh=ssh_screen
 fi
 
+# grep process
+function psg() {
+  psa | head -n 1 # show label
+  psa | grep $* | grep -v "ps -auxww" | grep -v grep
+}
+
+
+# Perl
+# ------------------------
+# set PERL5LIB env
+perl5lib () {
+    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${PERL5LIB}"
+}
+
+# http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
+function cdf () {
+    local -a tmpparent; tmpparent=""
+    local -a filename; filename="${1}"
+    local -a file
+    local -a num; num=0
+    while [ $num -le 10 ]; do
+        tmpparent="${tmpparent}../"
+        file="${tmpparent}${filename}"
+        if [ -f "${file}" ] || [ -d "${file}" ]; then
+            cd ${tmpparent}
+            break
+        fi
+        num=$(($num + 1))
+    done
+}
+
+function cdmake () {
+    cdf "Makefile.PL"
+}
+
+# alias for catalyst development (perl)
+alias cs="perl script/*_server.pl -d"
+alias carpcs="perl -MCarp::Always script/*_server.pl -d"
+
 # ruby
+# ------------------------
 refe_utf8() {
   refe $@ | nkf -Ew
 }
 alias refe='refe_utf8'
+
+function cdrake () {
+    cdf "Rakefile"
+}
 
 #-----------------------------------------------
 # load mac config
