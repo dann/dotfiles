@@ -1,8 +1,9 @@
 " Only do this when not done yet for this buffer
-if exists("b:did_PERL_ftplugin")
+if exists('b:did_ftplugin')
   finish
 endif
-let b:did_PERL_ftplugin = 1
+let b:did_ftplugin = 1
+
 " ---------- tabulator / shiftwidth ------------------------------------------
 "  Set tabulator and shift width to 4 conforming to the Perl Style Guide.
 "  Uncomment the next two lines to force these settings for all files with
