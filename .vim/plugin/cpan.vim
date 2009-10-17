@@ -117,6 +117,10 @@
 "
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 " }}}
+
+" we need window manager class
+runtime plugin/window.vim
+
 " version check {{{
 if exists('g:loaded_cpan') || v:version < 701
   "finish
@@ -157,58 +161,16 @@ elseif executable('cpan')
   let g:cpan_install_command = 'cpan'
 endif
 " }}}
-" Common Functions"{{{
 
+
+
+let g:pkg_token_pattern = '\w[a-zA-Z0-9:_]\+'
+
+" Common Functions"{{{
 
 fun! s:echo(msg)
   redraw
   echomsg a:msg
-endf
-
-" XXX
-fun! FindBin(bin)
-
-endf
-
-fun! GetPerlLibPaths()
-  return split( system('perl -e ''print join "\n",@INC''') , "\n" ) 
-endf
-
-fun! GetCursorModuleName()
-  return substitute( expand("<cWORD>") , '.\{-}\([a-zA-Z0-9_:]\+\).*$' , '\1' , '' )
-endf
-
-fun! GetCursorMethodName()
-  let cw = expand("<cWORD>")
-  let m = substitute( cw , '.\{-}\([a-zA-Z0-9_:]\+\)->\(\w\+\).*$' , '\2' , '' )
-  if m != cw 
-    return m
-  endif
-  return
-endf
-
-" translate module name to file path
-fun! TranslateModuleName(n)
-  return substitute( a:n , '::' , '/' , 'g' ) . '.pm'
-endf
-
-fun! TabGotoFile(fullpath,method)
-  execute ':tabedit ' . a:fullpath
-  if strlen(a:method) > 0
-    let s = search( '^sub\s\+' . a:method . '\s' , '', 0 )
-    if !s 
-      "echomsg "Can not found method: " . a:method 
-    endif
-  endif
-  return 1
-endf
-
-fun! GotoFile(fullpath,method)
-  execute ':e ' . a:fullpath
-  if strlen(a:method) > 0
-    call search( '^sub\s\+' . a:method . '\s' , '', 0 )
-  endif
-  return 1
 endf
 
 " check file expiry
@@ -224,191 +186,27 @@ fu! IsExpired(file,expiry)
     return 0
   endif
 endf
-
-
 "  }}}
 
-fun! TabGotoModuleFileInPaths(mod)
-  let paths = GetPerlLibPaths()
-  let fname = TranslateModuleName( a:mod )
-  let methodname = GetCursorMethodName()
-  call insert(paths, 'lib/' )
-  for p in paths 
-    let fullpath = p . '/' . fname
-    if filereadable( fullpath ) && TabGotoFile( fullpath , methodname ) 
-      break
-    endif
-  endfor
-endf
-
-fun! TabGotoModuleFileFromCursor()
-  call TabGotoModuleFileInPaths( GetCursorModuleName() )
-endf
-
-fun! GotoModuleFileInPaths(mod)
-  let paths = GetPerlLibPaths()
-  let fname = TranslateModuleName( a:mod )
-  let methodname = GetCursorMethodName()
-  call insert(paths, 'lib/' )
-  for p in paths 
-    let fullpath = p . '/' . fname
-    if filereadable( fullpath ) && GotoFile( fullpath , methodname ) 
-      return
-    endif
-  endfor
-  echomsg "No such module: " . a:mod
-endf
-
-
-fun! GotoTagNewTab(tag)
-  let list = taglist( a:tag )
-  if len(list) == 1 | exec 'tab tag ' . a:tag
-  else | exec 'tab ts ' . a:tag | endif
-endf
-
-fun! GotoTag(tag)
-  resize 60 
-  let list = taglist( a:tag )
-  if len(list) == 1 | exec ' tag ' . a:tag
-  else | exec ' ts ' . a:tag | endif
-endf
-
-fun! GotoModule()
-  if g:cpan_win_type == 'v'
-    vertical resize 98
-  else
-    resize 60
-  endif
-  call GotoModuleFileInPaths( getline('.') )
-endf
-
-fun! FindPerlPackageFiles()
-  let paths = 'lib ' .  system('perl -e ''print join(" ",@INC)''  ')
-  let pkgs = split("\n" , system(  'find ' . paths . ' -type f -iname *.pm ' 
-        \ . " | xargs -I{} egrep -o 'package [_a-zA-Z0-9:]+;' {} "
-        \ . " | perl -pe 's/^package (.*?);/\$1/' "
-        \ . " | sort | uniq " )
-  return pkgs
-endf
-
-" ==== Window Manager =========================================== {{{
-let s:WindowManager = { 'buf_nr' : -1 , 'mode' : 0 }
-
-fun! s:WindowManager.open(pos,type,size)
-  call self.split(a:pos,a:type,a:size)
-endf
-
-fun! s:WindowManager.split(position,type,size)
-  if ! bufexists( self.buf_nr )
-    if a:type == 'split' | let act = 'new' 
-    elseif a:type == 'vsplit' | let act = 'vnew'
-    else | let act = 'new' | endif
-
-    exec a:position . ' ' . a:size . act
-    let self.buf_nr = bufnr('%')
-    setlocal noswapfile
-    setlocal buftype=nofile
-    setlocal bufhidden=hide
-    setlocal nobuflisted
-    setlocal nowrap
-    setlocal cursorline
-    setlocal nonumber
-    setlocal fdc=0
-    call self.init_buffer()
-    call self.init_syntax()
-    call self.init_basic_mapping()
-    call self.init_mapping()
-    call self.start()
-  elseif bufwinnr(self.buf_nr) == -1 
-    exec a:position . ' ' . a:size . a:type
-    execute self.buf_nr . 'buffer'
-    call self.buffer_reload_init()
-  elseif bufwinnr(self.buf_nr) != bufwinnr('%')
-    execute bufwinnr(self.buf_nr) . 'wincmd w'
-  endif
-endf
-
-" start():
-" after a buffer is initialized , start() function will be called to
-" setup.
-fun! s:WindowManager.start()
-  call cursor( 1, 1 )
-  startinsert
-endf
-
-" buffer_reload_init() 
-" will be triggered after search window opened and the
-" buffer is loaded back , which doesn't need to initiailize.
-fun! s:WindowManager.buffer_reload_init()   
-endf
-
-" init_buffer() 
-" initialize a new buffer for search window.
-fun! s:WindowManager.init_buffer() 
-endf
-
-" init_syntax() 
-" setup the syntax for search window buffer
-fun! s:WindowManager.init_syntax() 
-endf
-
-" init_mapping() 
-" define your mappings for search window buffer
-fun! s:WindowManager.init_mapping() 
-endf
-
-" init_base_mapping()
-" this defines default set mappings
-fun! s:WindowManager.init_basic_mapping()
-  mapclear <buffer>
-  imap <buffer>     <Enter> <ESC>j<Enter>
-  imap <buffer>     <C-a>   <Esc>0i
-  imap <buffer>     <C-e>   <Esc>A
-  imap <buffer>     <C-b>   <Esc>i
-  imap <buffer>     <C-f>   <Esc>a
-  inoremap <buffer> <C-n> <ESC>j
-  nnoremap <buffer> <C-n> j
-  nnoremap <buffer> <C-p> k
-  nnoremap <buffer> <ESC> <C-W>q
-  inoremap <buffer> <C-c> <ESC><C-W>q
-endf
-
-" reder_result()
-" put list into buffer
-fun! s:WindowManager.render_result(matches)
-  let @o = join( a:matches , "\n" )
-  silent put o
-endf
-
-fun! s:WindowManager.close()
-  " since we call buffer back , we dont need to remove buffername
-  " silent 0f
-endf
-
-" ==== Window Manager =========================================== }}}
 
 " &&&& Perl Function Search window &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& {{{
 "
-" Features
+" Feature
 "   built-in function name search
-"   perl api function name search
-let s:FunctionWindow = copy(s:WindowManager)
+"
+let s:FunctionWindow = copy(WindowManager)
 let s:FunctionWindow.Modes = { 'BUILTIN':0 , 'PERLINTERNAL':1 }
 let s:FunctionWindow.resource = [ ]
 
 fun! s:FunctionWindow.init_mapping()
-  nnoremap <buffer> <Enter> :cal OpenPerldocWindow( substitute( getline('.') , '^\(\w\+\).*$' , '\1' , '' ) ,'-f')<CR>
+  nnoremap <silent> <buffer> <Enter> :cal OpenPerldocWindow( substitute( getline('.') , '^\(\w\+\).*$' , '\1' , '' ) ,'-f')<CR>
 endf
 
 fun! s:FunctionWindow.init_syntax()
-  "if has("syntax") && exists("g:syntax_on") && !has("syntax_items")
-  "hi CursorLine ctermbg=DarkCyan ctermfg=Black
-  "hi Background ctermbg=darkblue
   syn match PerlFunctionName "^\S\+"
   syn keyword PerlType LIST FILEHANDLE VARIABLE FILEHANDLE EXPR FILENAME DIRHANDLE SOCKET NAME BLOCK NUMBER HASH ARRAY
   hi link PerlFunctionName Identifier
   hi link PerlType Type
-  "endif
 endf
 
 fun! s:FunctionWindow.init_buffer()
@@ -428,7 +226,7 @@ fun! s:FunctionWindow.buffer_reload_init()
 endf
 
 fun! s:FunctionWindow.update_search()
-  let pattern = getline('.')
+  let pattern = getline(1)
   let matches = filter( copy( self.resource )  , 'v:val =~ ''^' . pattern . '''' )
   let old = getpos('.')
   silent 2,$delete _
@@ -441,113 +239,13 @@ fun! s:FunctionWindow.switch_mode()
   if self.mode == 1 | let self.mode = 0 | else | let self.mode = self.mode + 1 | endif
 endf
 
-com! SwitchFunctionWindowMode  :call s:FunctionWindow.switch_mode()
-com! OpenFunctionWindow        :call s:FunctionWindow.open('topleft', 'split',10)
-nnoremap <C-c><C-f>        :OpenFunctionWindow<CR>
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"}}}
 
-" &&&& CTags Search Window &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& {{{
-" try to log ./tags or other matches file name
-" or load preconfigured tag files
-" load first 2 columns (tagname and file) from tags file
-"
-" grep tags
-" search tags
-"
-"   Enter to goto tag
-"   t to open the tag in new tabpage
-"
-let s:CtagsWindow = copy( s:WindowManager )
-let s:CtagsWindow.resource = [ ]
-let s:CtagsWindow.tagfiles = [ "tags" ]
-
-fun! s:CtagsWindow.init_mapping()
-  nnoremap <silent> <buffer> t       :call GotoTagNewTab( getline('.'))<CR>
-  nnoremap <silent> <buffer> <Enter> :call GotoTag( getline('.'))<CR>
-endf
-
-fun! s:CtagsWindow.init_syntax()
-  setlocal syntax=tags
-endf
-
-fun! s:CtagsWindow.init_buffer()
-  setfiletype ctagsearch
-  let file = self.find_ctags_file()
-
-  if ! filereadable(file)
-    let path = expand(input("tags file not found. enter your source path to generate ctags:" , "" ,  "dir"))
-    " if ! path | return | endif
-    cal s:echo( "Generating..." )
-    let file = self.generate_ctags_file(path)
-  endif
-
-  cal s:echo( "Loading TagList..." )
-  let self.resource = self.read_tags(file)   " XXX let it be configurable
-
-  cal s:echo( "Rendering..." )
-  cal self.render_result( remove(copy(self.resource),0,100) )  " just take out first 100 items
-
-  cal s:echo( "Ready" )
-
-  " mapping search
-  autocmd CursorMovedI <buffer> call s:CtagsWindow.update_search()
-
-  silent file CtagsSearch
-endf
-
-fun! s:CtagsWindow.generate_ctags_file(path)
-  call system("ctags -f tags -R " . a:path)
-  return "tags"
-endf
-
-fun! s:CtagsWindow.find_ctags_file()
-  for file in self.tagfiles 
-    if filereadable( file ) | return file | endif
-  endfor
-endf
-
-fun! s:CtagsWindow.read_tags(file)
-  let ret = system("cat " . a:file . " | grep -v '^!'  | cut -f 1 | sort | uniq")
-  return split(ret,'\n')
-endf
-
-fun! s:CtagsWindow.buffer_reload_init()
-  call setline(1,'')
-  call cursor(1,1)
-  startinsert
-endf
-
-fun! s:CtagsWindow.update_search()
-  let pattern = getline('.')
-  let matches = filter( copy( self.resource )  , 'v:val =~ ''^' . pattern . '''' )
-  if len(matches) > 100 
-    call remove( matches , 0 , 100 )
-  endif
-
-  let old = getpos('.')
-  silent 2,$delete _
-  cal self.render_result( matches )
-  cal setpos('.',old)
-  startinsert
-endf
-
-fun! s:CtagsWindow.switch_mode()
-  if self.mode == 1 
-    let self.mode = 0
-  else 
-    let self.mode = self.mode + 1
-  endif
-endf
-
-com! OpenCtagsWindow        :call s:CtagsWindow.open('topleft', 'split',10)
-nnoremap <C-c><C-t>        :OpenCtagsWindow<CR>
-
-"}}}
 
 " &&&& CPAN Window &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& {{{
 
-let s:CPANWindow = copy(s:WindowManager)
+let s:CPANWindow = copy(WindowManager)
 
 fun! s:CPANWindow.init_buffer()
   setfiletype cpanwindow
@@ -567,22 +265,16 @@ endf
 fun! s:CPANWindow.init_mapping()
   " Module action bindings
   imap <silent> <buffer>     <Tab>   <Esc>:SwitchCPANWindowMode<CR>
-  inoremap <buffer> @   <ESC>:exec '!' .g:cpan_browser_command . ' http://search.cpan.org/search?query=' . getline('.') . '&mode=all'<CR>
-  nnoremap <buffer> @   <ESC>:exec '!' .g:cpan_browser_command . ' http://search.cpan.org/dist/' . substitute( getline('.') , '::' , '-' , 'g' )<CR>
+  nmap <silent> <buffer>     <Tab>   :SwitchCPANWindowMode<CR>
+  inoremap <silent> <buffer> @   <ESC>:exec '!' .g:cpan_browser_command . ' http://search.cpan.org/search?query=' . getline('.') . '&mode=all'<CR>
+  nnoremap <silent> <buffer> @   <ESC>:exec '!' .g:cpan_browser_command . ' http://search.cpan.org/dist/' . substitute( getline('.') , '::' , '-' , 'g' )<CR>
 
-  nnoremap <buffer> $   :call OpenPerldocWindow(expand('<cWORD>'),'')<CR>
-  nnoremap <buffer> !   :exec '!perldoc ' . expand('<cWORD>')<CR>
+  nnoremap <silent> <buffer> $   :call OpenPerldocWindow(expand('<cWORD>'),'')<CR>
+  nnoremap <silent> <buffer> !   :exec '!perldoc ' . expand('<cWORD>')<CR>
 
-  nnoremap <buffer> <Enter> :call GotoModule()<CR>
-  nnoremap <buffer> t       :call TabGotoModuleFileInPaths( getline('.') )<CR>
-  nnoremap <buffer> I       :exec '!' . g:cpan_install_command . ' ' . getline('.')<CR>
-endf
-
-fun! s:CPANWindow.init_syntax()
-  if has("syntax") && exists("g:syntax_on") && !has("syntax_items")
-    "hi CursorLine ctermbg=DarkCyan ctermfg=Black
-    hi Background ctermbg=darkblue
-  endif
+  nnoremap <silent> <buffer> <Enter> :call libperl#GotoModule()<CR>
+  nnoremap <silent> <buffer> t       :call TabGotoModuleFileInPaths( getline('.') )<CR>
+  nnoremap <silent> <buffer> I       :exec '!' . g:cpan_install_command . ' ' . getline('.')<CR>
 endf
 
 fun! s:CPANWindow.switch_mode()
@@ -607,8 +299,7 @@ endf
 
 
 fun! s:CPANWindow.update_search()
-  let pattern = getline('.')
-
+  let pattern = getline(1)
   let pkgs = []
   if g:cpan_win_mode == g:CPAN.Mode.Installed
     cal PrepareInstalledCPANModuleCache()
@@ -632,25 +323,6 @@ fun! s:CPANWindow.update_search()
   startinsert
 endfunc
 
-
-fun! InstallCPANModule()
-  exec '!' . g:cpan_install_command . ' ' . GetCursorModuleName()
-endf
-
-fu! GetPackageSourceListPath()
-  let paths = [ 
-        \expand('~/.cpanplus/02packages.details.txt.gz'),
-        \expand('~/.cpan/sources/modules/02packages.details.txt.gz')
-        \]
-  call extend( paths , g:cpan_user_defined_sources )
-  for f in paths 
-    if filereadable( f ) 
-      return f
-    endif
-  endfor
-  return
-endf
-
 fu! PrepareCPANModuleCache()
   if len( g:cpan_pkgs ) == 0 
     echon "preparing cpan module list..."
@@ -659,7 +331,7 @@ fu! PrepareCPANModuleCache()
 endf
 fu! PrepareInstalledCPANModuleCache()
   if len( g:cpan_installed_pkgs ) == 0 
-    echon "preparing installed cpan module list..."
+    call s:echo("preparing installed cpan module list...")
     let g:cpan_installed_pkgs = GetInstalledCPANModuleList(0)
   endif
 endf
@@ -673,7 +345,7 @@ endf
 " Return: cpan module list [list]
 fu! GetCPANModuleList(force)
   if ! filereadable( g:cpan_source_cache ) && IsExpired( g:cpan_source_cache , g:cpan_cache_expiry  ) || a:force
-    let path =  GetPackageSourceListPath()
+    let path =  libperl#GetPackageSourceListPath()
     echon "executing zcat: " . path
     call system('zcat ' . path . " | grep -v '^[0-9a-zA-Z-]*: '  | cut -d' ' -f1 > " . g:cpan_source_cache )
     echon "done"
@@ -684,12 +356,13 @@ endf
 fu! GetInstalledCPANModuleList(force)
   if ! filereadable( g:cpan_installed_cache ) && IsExpired( g:cpan_installed_cache , g:cpan_cache_expiry ) || a:force
     let paths = 'lib ' .  system('perl -e ''print join(" ",@INC)''  ')
-    echon "finding packages from @INC... This might take a while. Press Ctrl-C to stop."
+    echo "finding packages from @INC... This might take a while. Press Ctrl-C to stop."
     call system( 'find ' . paths . ' -type f -iname "*.pm" ' 
-          \ . " | xargs -I{} egrep -o 'package [_a-zA-Z0-9:]+;' {} "
+          \ . " | xargs -I{} head {} | egrep -o 'package [_a-zA-Z0-9:]+;' "
           \ . " | perl -pe 's/^package (.*?);/\$1/' "
           \ . " | sort | uniq > " . g:cpan_installed_cache )
-    echon "done"
+    " sed  's/^package //' | sed 's/;$//'
+    echo "ready"
   endif
   return readfile( g:cpan_installed_cache )
 endf
@@ -707,17 +380,8 @@ fu! GetCurrentLibCPANModuleList(force)
   return readfile( cpan_curlib_cache )
 endf
 
-com! SwitchCPANWindowMode   :call s:CPANWindow.switch_mode()
-com! OpenCPANWindowS        :call s:CPANWindow.open('topleft', 'split',g:cpan_win_height)
-com! OpenCPANWindowSV       :call s:CPANWindow.open('topleft', 'vsplit',g:cpan_win_width)
-
-" inoremap <C-x><C-m>  <C-R>=CompleteCPANModuleList()<CR>
-inoremap <C-x><C-m>        <C-R>=CompleteInstalledCPANModuleList()<CR>
-nnoremap <C-c><C-m>        :OpenCPANWindowS<CR>
-nnoremap <C-c><C-v>        :OpenCPANWindowSV<CR>
 
 " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& }}}
-
 
 " &&&& Perldoc Window &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"{{{
 "
@@ -748,19 +412,21 @@ fun! OpenPerldocWindow(name,param)
   resize 50
   vertical resize 82
   autocmd BufWinLeave <buffer> call ClosePerldocWindow()
+  nmap <buffer> <ESC> <C-W>q
 endf
 
 fun! ClosePerldocWindow()
+  " resize back
   if g:cpan_win_type == 'v'
     exec 'vertical resize ' . g:cpan_win_width
   else
     exec 'resize ' . g:cpan_win_height
   endif
   bw
-  "silent 0f
-  close
+  redraw
 endf
 "}}}
+
 
 
 " Function header helper  {{{
@@ -782,11 +448,13 @@ fu! PodHelperFunctionHeader()
         \ '',
         \]
   for text in lines 
-    :call append( line('.') - 1 , text )
+    call append( line('.') - 1 , text )
   endfor
-  :call cursor( line('.') - len( lines ) + 2 , 1  )
+  call cursor( line('.') - len( lines ) + 2 , 1  )
 endf
 " }}}
+
+
 
 " Completions &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"{{{
 "
@@ -834,77 +502,34 @@ fu! GetCompBase()
   return base
 endf
 "}}}
+"
+"
+com! OpenCtagsWindow        :call s:CtagsWindow.open('topleft', 'split',10)
+com! GenCtags               :call s:CtagsWindow.input_path_for_ctags()
+nnoremap <C-c><C-t>        :OpenCtagsWindow<CR>
 
-" XXX: implement this
-" Perl Completion Features:"{{{
-"
-" when user type '$self' or '$class' , press [key] to trigger completion function
-"   (or just map '->' key to trigger completion function)
-"           
-"           the completion should include:
-"               function name
-"               accessor
-"
-"   then it should complete the '->' and open a completion window 
-"   and list all matched items
-" 
-" when user type $App::Class:: , then press [key] to trigger completion function
-"
-"           the completion should include:
-"               variable name
-"
-" when user type App::Class:: , then press [key] to trigger completion function
-"
-"           the completion should include:
-"               function name
-"               constants
-"
-" when user typing, it should automatically update the line (option)
-" and update completion result in the bottom window , and highlight 
-" the matched part
-"
-" user type C-n , C-p to select item to complete
-" then press <Enter> to complete with the selected item.
-" after all , the completion window should be closed
-"
-" Completion Window:
-"
-" there are more than 1 parts to list completion in perl completion window
-" === BaseClass    (from 'use base qw//')
-" = accessors =
-" = variables =
-" = constants =
-" = functions =
-"
-" === CurrentClass (package [ ];)
-" = accessors =
-" = variables =
-" = constants = 
-" = functions =
-"
-"
-" Function List Item Format:
-"
-" App::Base::Class
-" [var name]
-" [function name]  (line nn)
-" [function name]  (line nn)
-"
-" App::Class
-" [var name]
-" [function name]  (line nn)
-"}}}
 
-nnoremap <C-x><C-i>        :call InstallCPANModule()<CR>
 
-nnoremap <C-c>g            :call TabGotoModuleFileFromCursor()<CR>
+com! SwitchFunctionWindowMode  :call s:FunctionWindow.switch_mode()
+com! OpenFunctionWindow        :call s:FunctionWindow.open('topleft', 'split',10)
+nnoremap <C-c><C-f>        :OpenFunctionWindow<CR>
+
+
+
+com! SwitchCPANWindowMode   :call s:CPANWindow.switch_mode()
+com! OpenCPANWindowS        :call s:CPANWindow.open('topleft', 'split',g:cpan_win_height)
+com! OpenCPANWindowSV       :call s:CPANWindow.open('topleft', 'vsplit',g:cpan_win_width)
+
+" inoremap <C-x><C-m>  <C-R>=CompleteCPANModuleList()<CR>
+inoremap <C-x><C-m>        <C-R>=CompleteInstalledCPANModuleList()<CR>
+nnoremap <C-c><C-m>        :OpenCPANWindowS<CR>
+nnoremap <C-c><C-v>        :OpenCPANWindowSV<CR>
+
+
+nnoremap <C-x><C-i>        :call libperl#InstallCPANModule()<CR>
+nnoremap <C-c>g            :call libperl#TabGotoModuleFileFromCursor()<CR>
 nnoremap <C-c><C-p>f       :call PodHelperFunctionHeader()<CR>
 
 com! ReloadModuleCache              :let g:cpan_pkgs = GetCPANModuleList(1)
 com! ReloadInstalledModuleCache     :let g:cpan_installed_pkgs = GetInstalledCPANModuleList(1)
 com! ReloadCurrentLibModuleCache    :let g:cpan_curlib_pkgs = GetCurrentLibCPANModuleList(1)
-
-" for testing...
-" Jifty::Collection
-" Data::Dumper::Simple
-" AnyEvent::Impl::Perl 
