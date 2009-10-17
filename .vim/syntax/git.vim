@@ -1,36 +1,67 @@
 " Vim syntax file
-" Language:	git commit message
+" Language:	generic git output
+" Maintainer:	Tim Pope <vimNOSPAM@tpope.info>
+" Last Change:	2008 Mar 21
 
-" Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
-  finish
+    finish
 endif
 
-syn region gitSignedOff start=/^Signed-off-by:/ end=/$/ contains=gitAuthor,gitEmail
-syn region gitAuthor contained start=/\s/ end=/$/
+syn case match
+syn sync minlines=50
 
-syn region gitLine start=/^#/ end=/$/
-syn region gitCommit start=/^# Changes to be committed:$/ end=/^#$/ contains=gitHead,gitCommitFile
-syn region gitHead contained start=/^#   (.*)/ end=/^#$/
-syn region gitChanged start=/^# Changed but not updated:/ end=/^#$/ contains=gitHead,gitChangedFile
-syn region gitUntracked start=/^# Untracked files:/ end=/^#$/ contains=gitHead,gitUntrackedFile
+syn include @gitDiff syntax/diff.vim
 
-syn match gitCommitFile contained /^#\t.*/hs=s+2
-syn match gitChangedFile contained /^#\t.*/hs=s+2
-syn match gitUntrackedFile contained /^#\t.*/hs=s+2
+syn region gitHead start=/\%^/ end=/^$/
+syn region gitHead start=/\%(^commit \x\{40\}\%(\s*(.*)\)\=$\)\@=/ end=/^$/
 
-hi def link gitSignedOff Keyword
-hi def link gitAuthor Normal
+" For git reflog and git show ...^{tree}, avoid sync issues
+syn match gitHead /^\d\{6\} \%(\w\{4} \)\=\x\{40\}\%( [0-3]\)\=\t.*/
+syn match gitHead /^\x\{40\} \x\{40}\t.*/
 
-hi def link gitLine Comment
-hi def link gitCommit Comment
-hi def link gitChanged Comment
-hi def link gitHead Comment
-hi def link gitUntracked Comment
-hi def link gitCommitFile Type
-hi def link gitChangedFile Constant
-hi def link gitUntrackedFile Constant
+syn region gitDiff start=/^\%(diff --git \)\@=/ end=/^\%(diff --git \|$\)\@=/ contains=@gitDiff fold
+syn region gitDiff start=/^\%(@@ -\)\@=/ end=/^\%(diff --git \|$\)\@=/ contains=@gitDiff
+
+syn match  gitKeyword /^\%(object\|type\|tag\|commit\|tree\|parent\|encoding\)\>/ contained containedin=gitHead nextgroup=gitHash,gitType skipwhite
+syn match  gitKeyword /^\%(tag\>\|ref:\)/ contained containedin=gitHead nextgroup=gitReference skipwhite
+syn match  gitKeyword /^Merge:/  contained containedin=gitHead nextgroup=gitHashAbbrev skipwhite
+syn match  gitMode    /^\d\{6\}/ contained containedin=gitHead nextgroup=gitType,gitHash skipwhite
+syn match  gitIdentityKeyword /^\%(author\|committer\|tagger\)\>/ contained containedin=gitHead nextgroup=gitIdentity skipwhite
+syn match  gitIdentityHeader /^\%(Author\|Commit\|Tagger\):/ contained containedin=gitHead nextgroup=gitIdentity skipwhite
+syn match  gitDateHeader /^\%(AuthorDate\|CommitDate\|Date\):/ contained containedin=gitHead nextgroup=gitDate skipwhite
+syn match  gitIdentity /\S.\{-\} <[^>]*>/ contained nextgroup=gitDate skipwhite
+syn region gitEmail matchgroup=gitEmailDelimiter start=/</ end=/>/ keepend oneline contained containedin=gitIdentity
+
+syn match  gitReflogHeader /^Reflog:/ contained containedin=gitHead nextgroup=gitReflogMiddle skipwhite
+syn match  gitReflogHeader /^Reflog message:/ contained containedin=gitHead skipwhite
+syn match  gitReflogMiddle /\S\+@{\d\+} (/he=e-2 nextgroup=gitIdentity
+
+syn match  gitDate      /\<\u\l\l \u\l\l \d\=\d \d\d:\d\d:\d\d \d\d\d\d [+-]\d\d\d\d/ contained
+syn match  gitDate      /-\=\d\+ [+-]\d\d\d\d\>/               contained
+syn match  gitDate      /\<\d\+ \l\+ ago\>/                    contained
+syn match  gitType      /\<\%(tag\|commit\|tree\|blob\)\>/     contained nextgroup=gitHash skipwhite
+syn match  gitStage     /\<\d\t\@=/                            contained
+syn match  gitReference /\S\+\S\@!/                            contained
+syn match  gitHash      /\<\x\{40\}\>/                         contained nextgroup=gitIdentity,gitStage skipwhite
+syn match  gitHash      /^\<\x\{40\}\>/ containedin=gitHead contained nextgroup=gitHash skipwhite
+syn match  gitHashAbbrev /\<\x\{4,39\}\.\.\./he=e-3 contained nextgroup=gitHashAbbrev skipwhite
+syn match  gitHashAbbrev /\<\x\{40\}\>/             contained nextgroup=gitHashAbbrev skipwhite
+
+hi def link gitDateHeader        gitIdentityHeader
+hi def link gitIdentityHeader    gitIdentityKeyword
+hi def link gitIdentityKeyword   Label
+hi def link gitReflogHeader      gitKeyword
+hi def link gitKeyword           Keyword
+hi def link gitIdentity          String
+hi def link gitEmailDelimiter    Delimiter
+hi def link gitEmail             Special
+hi def link gitDate              Number
+hi def link gitMode              Number
+hi def link gitHashAbbrev        gitHash
+hi def link gitHash              Identifier
+hi def link gitReflogMiddle      gitReference
+hi def link gitReference         Function
+hi def link gitStage             gitType
+hi def link gitType              Type
 
 let b:current_syntax = "git"
-
-" vim: ts=8 sw=2
