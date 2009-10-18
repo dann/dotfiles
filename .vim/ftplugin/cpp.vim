@@ -17,6 +17,8 @@ setlocal shiftwidth=2
 " dictionary
 setlocal dictionary=~/.vim/dict/cpp-libstdc++.dict,~/.vim/dict/c-eglibc.dict,~/.vim/dict/cpp-boost.dict
 
+" tags 
+
 " OmniCppComplete
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
