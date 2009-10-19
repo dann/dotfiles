@@ -64,6 +64,12 @@ if has("autochdir")
     set autochdir 
 endif
 
+" colorscheme
+colorscheme wombat
+if g:colors_name ==? 'wombat'
+  hi Visual gui=none guifg=khaki guibg=olivedrab
+endif
+
 " ============================================
 " mapping
 " ============================================
@@ -314,3 +320,4 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 "let g:NeoComplCache_MinSyntaxLength = 3
 " Set skip input time.
 "let g:NeoComplCache_SkipInputTime = '0.1' 
+
