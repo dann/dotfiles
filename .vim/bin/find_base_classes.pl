@@ -3,35 +3,63 @@ use warnings;
 use strict;
 eval qq{
     use PPI;
-    use PPI::Dumper;
 };
 die 'Please use cpan to install PPI' if $@ ;
 
+my $filename = shift;
+
 use constant depth => 3;
+use constant grep_statement => 1;
 
 sub find_base_classes {
     my $file  = shift;
-    my $d = PPI::Document->new( $file );
-    my $sts = $d->find( sub {
-        return $_[1]->isa('PPI::Statement::Include') and $_[1]->type eq 'use'
+
+    return () unless( $file );
+    return () if ( $file and ! -e $file );
+
+    my $d ;
+    if ( grep_statement ) {
+        my $head = qx{egrep -A7 '^(use base|extends)' $file};
+        $d = PPI::Document->new( \$head );
+    }
+    else {
+        $d = PPI::Document->new( $file );
+    }
+
+    # use PPI::Dumper;
+    # my $dd = PPI::Dumper->new( $d );
+    # $dd->print;
+
+    my $sts = $d->find( sub { 
+        return 1 if $_[1]->isa('PPI::Statement::Include') and $_[1]->type eq 'use';
+        return 1 if $_[1]->isa('PPI::Statement');  # for Moose 'extends' statement
+        return 0;
     });
+
+    return () unless $sts;
+
     my @bases = ();
     for my $st (@$sts) {
+
         my @elements = $st->children;
-        my $is_base = $st->find( sub { $_[ 1 ]->content eq 'base' } );
-        if ($is_base) {
-            my @elements = $st->children();
-            my @e        = eval $elements[ 4 ]->content;
-            push @bases, @e;
+
+        # for Moose 'extends' statement
+        if( $st->isa('PPI::Statement') and $elements[0]->content eq 'extends' ) {
+            push @bases, ( eval $elements[ 2 ]->content );
         }
+        # it's from "use base"
+        elsif( $st->isa('PPI::Statement::Include') and $elements[2]->content eq 'base' ) {
+            push @bases, ( eval $elements[ 4 ]->content );   # 'use',' ','base','qw/ ...... /',';'
+        }
+
     }
     return @bases;
 }
 
 sub translate_class {
-    my $class = shift;
-    my $class_file = $class; $class_file =~ s{::}{/}g; $class_file .= '.pm';
-    return $class_file;
+    my $class = $_[0];
+    $class =~ s{::}{/}g; 
+    return $class . '.pm';
 }
 
 sub find_module_files {
@@ -49,18 +77,15 @@ sub verbose { print STDERR @_,"\n" }
 
 sub traverse_parent {
     my $class = shift;
-    my $lev = shift || 1;
+    my $refer = shift || "[CurrentClass]";
+    my $lev   = shift || 1;
     $lev <= depth or return ();
 
-    my @result = ();
     my ($file) = find_module_files( $class );
-    push @result,[ $class , $file ];
-    for my $base ( find_base_classes( $file ) ) {
-        verbose $base;
-        my ($base_file) = find_module_files( $base );
-        push @result, [ $base , $base_file ] , traverse_parent( $base , $lev + 1 );
-    }
-    return @result;
+    my @result = ( [ $class , $refer , $file || '' ] );
+    return @result , map { traverse_parent( $_ , $class , $lev + 1 ) } find_base_classes( $file ) ;
 }
 
-map { print join(" ",@$_)."\n" } map { traverse_parent($_) } find_base_classes( shift );
+map { print $_ ? join(" ", @$_ ) . "\n" : '' }  
+      map { traverse_parent($_) } find_base_classes( $filename );
+

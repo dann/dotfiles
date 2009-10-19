@@ -26,7 +26,7 @@ set nohlsearch
 
 " highlight Zenkaku word
 highlight ZenkakuSpace ctermbg=6
-match ZenkakuSpace /\s\+$\|　/
+"match ZenkakuSpace /\s\+$\|　/
 set listchars=tab:>.
 set list
 
@@ -201,8 +201,6 @@ au BufNewFile,BufRead *.tt2 setf tt2
 " ============================================
 " omni completion
 " ============================================
-autocmd FileType html :set filetype=xhtml
-autocmd FileType html :set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css :set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml :set omnifunc=xmlcomplete#CompleteTags
 
@@ -239,27 +237,6 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 " }}} Autocompletion using the TAB key
 
-" ===========================================
-" Show current git branch on vim's status line
-" ===========================================
-let g:gitCurrentBranch = ''
-function! CurrentGitBranch()
-    let cwd = getcwd()
-    cd %:p:h
-    let branch = matchlist(system('/usr/bin/git  branch -a --no-color'), '\v\* (\w*)\r?\n')
-    execute 'cd ' . cwd
-    if (len(branch))
-      let g:gitCurrentBranch = '][git:' . branch[1] . ''
-    else
-      let g:gitCurrentBranch = ''
-    endif
-    return g:gitCurrentBranch
-endfunction
-
-autocmd BufEnter * :call CurrentGitBranch()
-
-set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff}%{g:gitCurrentBranch}%{']'}%y\ %F%=%l,%c%V%8P
-
 " ============================================
 " Perl
 " ============================================
@@ -283,11 +260,6 @@ else
 end
 
 " ============================================
-"  snippetsEmu
-" ============================================
-let g:snippetsEmu_key = "<C-B>"
-
-" ============================================
 " manpage view
 "=============================================
 let g:manpageview_winopen="vsplit"
@@ -298,15 +270,6 @@ let g:manpageview_winopen="vsplit"
 if has("mac") 
   if filereadable( $HOME . "/.vimrc-mac" )
     source ~/.vimrc-mac
-  endif
-endif
-
-" ============================================
-" win32
-" ============================================
-if has("gui_win32")
-  if filereadable( $HOME . "/_vimrc-windows" )
-    source ~/_vimrc-windows
   endif
 endif
 
@@ -329,10 +292,25 @@ function! GitGrep(arg)
 endfunction
 command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
 
-
 au BufNewFile,BufRead *.txt set iminsert=2
 inoremap <ESC> <ESC>:set iminsert=0<CR>
 
 " Rename
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
+" Use neocomplcache.
+"let g:NeoComplCache_EnableAtStartup = 1
+" Use smartcase.
+"let g:NeoComplCache_SmartCase = 1
+" Use previous keyword completion.
+"let g:NeoComplCache_PreviousKeywordCompletion = 1
+" Use preview window.
+"let g:NeoComplCache_EnableInfo = 1
+" Use camel case completion.
+"let g:NeoComplCache_EnableCamelCaseCompletion = 1
+" Use underbar completion.
+"let g:NeoComplCache_EnableUnderbarCompletion = 1
+" Set minimum syntax keyword length.
+"let g:NeoComplCache_MinSyntaxLength = 3
+" Set skip input time.
+"let g:NeoComplCache_SkipInputTime = '0.1' 

@@ -146,6 +146,7 @@ let g:cpan_curlib_pkgs = []
 let g:cpan_max_result = 50
 let g:cpan_user_defined_sources = []
 "}}}
+
 " default init {{{
 if system('uname') =~ 'Darwin'
   let g:cpan_browser_command  = 'open -a Firefox'
@@ -156,22 +157,15 @@ else  " default
 endif
 
 if executable('cpanp')
-  let g:cpan_install_command = 'cpanp i'
+  let g:cpan_install_command = 'sudo cpanp i'
 elseif executable('cpan')
-  let g:cpan_install_command = 'cpan'
+  let g:cpan_install_command = 'sudo cpan'
 endif
 " }}}
 
 
-
-let g:pkg_token_pattern = '\w[a-zA-Z0-9:_]\+'
-
 " Common Functions"{{{
 
-fun! s:echo(msg)
-  redraw
-  echomsg a:msg
-endf
 
 " check file expiry
 "    @file:    filename
@@ -331,7 +325,7 @@ fu! PrepareCPANModuleCache()
 endf
 fu! PrepareInstalledCPANModuleCache()
   if len( g:cpan_installed_pkgs ) == 0 
-    call s:echo("preparing installed cpan module list...")
+    call libperl#echo("preparing installed cpan module list...")
     let g:cpan_installed_pkgs = GetInstalledCPANModuleList(0)
   endif
 endf
@@ -460,9 +454,8 @@ endf
 "
 fu! CompleteInstalledCPANModuleList()
   cal PrepareInstalledCPANModuleCache()
-
-  let start_pos  = GetCompStartPos()
-  let base = GetCompBase()
+  let start_pos  = libperl#get_pkg_comp_start()
+  let base = libperl#get_pkg_comp_base()
   echon "filtering..."
   " let res = filter( copy( g:cpan_installed_pkgs ) , 'v:val =~ "' . base . '"' )
   let res = []
@@ -481,35 +474,17 @@ fu! CompleteCPANModuleList()
     let g:cpan_pkgs = GetCPANModuleList(0)
     echon "done"
   endif
-
-  let start_pos  = GetCompStartPos()
-  let base = GetCompBase()
+  let start_pos  = libperl#get_pkg_comp_start()
+  let base = libperl#get_pkg_comp_base()
   echon "filtering..."
   let res = filter( copy( g:cpan_pkgs ) , 'v:val =~ "' . base . '"' )
   call complete( start_pos[1]+1 , res )
   return ''
 endf
 
-fu! GetCompStartPos()
-  return searchpos( '[^a-zA-Z0-9:_]' , 'bn' , line('.') )
-endf
-
-fu! GetCompBase()
-  let col = col('.')
-  let pos = GetCompStartPos()
-  let line = getline('.')
-  let base =  strpart( line , pos[1] , col )
-  return base
-endf
 "}}}
 "
 "
-com! OpenCtagsWindow        :call s:CtagsWindow.open('topleft', 'split',10)
-com! GenCtags               :call s:CtagsWindow.input_path_for_ctags()
-nnoremap <C-c><C-t>        :OpenCtagsWindow<CR>
-
-
-
 com! SwitchFunctionWindowMode  :call s:FunctionWindow.switch_mode()
 com! OpenFunctionWindow        :call s:FunctionWindow.open('topleft', 'split',10)
 nnoremap <C-c><C-f>        :OpenFunctionWindow<CR>
@@ -522,8 +497,8 @@ com! OpenCPANWindowSV       :call s:CPANWindow.open('topleft', 'vsplit',g:cpan_w
 
 " inoremap <C-x><C-m>  <C-R>=CompleteCPANModuleList()<CR>
 inoremap <C-x><C-m>        <C-R>=CompleteInstalledCPANModuleList()<CR>
-nnoremap <C-c><C-m>        :OpenCPANWindowS<CR>
-nnoremap <C-c><C-v>        :OpenCPANWindowSV<CR>
+nnoremap <silent> <C-c><C-m>        :OpenCPANWindowS<CR>
+nnoremap <silent> <C-c><C-v>        :OpenCPANWindowSV<CR>
 
 
 nnoremap <C-x><C-i>        :call libperl#InstallCPANModule()<CR>

@@ -6,6 +6,15 @@ let g:window_manager_loaded = 0.2
 let WindowManager = { 'buf_nr' : -1 , 'mode' : 0 }
 
 fun! WindowManager.open(pos,type,size)
+  " check for autocomplpop.vim
+  " we can not check loaded_autocomplpop variable , because we might load
+  " window.vim before we load autocomplpop.
+  if exists('g:AutoComplPop_Behavior') && exists("#CursorMovedI")
+    " then we should disable it , because the autocmd CursorMoveI conflicts
+    call libperl#echo("AutoComplPop Disabled: the cursor moved event of autocomplpop conflicts with me.")
+    AutoComplPopDisable
+    let s:reveal_autocomplpop = 1
+  endif
   call self.split(a:pos,a:type,a:size)
 endf
 
@@ -19,10 +28,21 @@ fun! WindowManager.split(position,type,size)
     let self.buf_nr = bufnr('%')
     setlocal noswapfile buftype=nofile bufhidden=hide
     setlocal nobuflisted nowrap cursorline nonumber fdc=0
-    call self.init_buffer()
-    call self.init_syntax()
-    call self.init_basic_mapping()
-    call self.init_mapping()
+
+    try
+      call self.init_buffer()
+      call self.init_syntax()
+      call self.init_basic_mapping()
+      call self.init_mapping()
+    catch /^SKIP:/
+      bw
+      call libperl#echo( v:exception )
+      return
+    catch /^ERROR:/
+      echo v:exception
+      bw " close buffer
+      return
+    endtry
 
     call self.start()
   elseif bufwinnr(self.buf_nr) == -1 
@@ -88,6 +108,11 @@ endf
 fun! WindowManager.close()
   " since we call buffer back , we dont need to remove buffername
   " silent 0f
+  if exists('g:AutoComplPop_Behavior') && exists('s:reveal_autocomplpop')
+    call libperl#echo("AutoComplPop Enabled.")
+    AutoComplPopEnable
+    unlet s:reveal_autocomplpop 
+  endif
   redraw
 endf
 

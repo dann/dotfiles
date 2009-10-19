@@ -38,20 +38,21 @@ fun! s:CtagsWindow.init_buffer()
   setfiletype ctagsearch
   let file = self.find_ctags_file()
 
+
   if ! filereadable(file)
     let file = self.input_path_for_ctags()
   endif
 
-  if ! file 
-    return 
+  if ! file
+    throw "ERROR: not ctags file specified"
   endif
 
-  cal s:echo( "Loading TagList..." )
+  cal libperl#echo( "Loading TagList..." )
   let self.resource = self.read_tags(file)   " XXX let it be configurable
-  cal s:echo( "Rendering..." )
+  cal libperl#echo( "Rendering..." )
   cal self.render_result( remove(copy(self.resource),0,100) )  " just take out first 100 items
 
-  cal s:echo( "Ready" )
+  cal libperl#echo( "Ready" )
 
   autocmd CursorMovedI <buffer> call s:CtagsWindow.update_search()
 
@@ -60,9 +61,9 @@ endf
 
 fun! s:CtagsWindow.generate_ctags_file(path)
   let f = self.default_ctags
-  cal s:echo("Generating...")
+  cal libperl#echo("Generating...")
   call system("ctags -f " . f . " -R " . a:path)
-  cal s:echo("Done")
+  cal libperl#echo("Done")
   return f
 endf
 
@@ -104,5 +105,9 @@ fun! s:CtagsWindow.switch_mode()
     let self.mode = self.mode + 1
   endif
 endf
+
+com! OpenCtagsWindow        :call s:CtagsWindow.open('topleft', 'split',10)
+com! GenCtags               :call s:CtagsWindow.input_path_for_ctags()
+nnoremap <C-c><C-t>        :OpenCtagsWindow<CR>
 
 "}}}

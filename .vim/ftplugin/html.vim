@@ -5,6 +5,9 @@ let b:did_HTML_ftplugin = 1
 
 runtime! ftplugin/xml.vim
 
+setlocal filetype=xhtml
+setlocal omnifunc=htmlcomplete#CompleteTags
+
 " Compiler
 compiler tidy
 

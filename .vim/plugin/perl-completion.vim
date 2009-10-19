@@ -1,14 +1,16 @@
-" vim:fdm=marker:et:sw=2:
+" vim:fdm=syntax:fdl=1:et:sw=2:
 " Perl Completion Features:"{{{
 "
-" when user type '$self' or '$class' , press [key] to trigger completion function
-"   (or just map '->' key to trigger completion function)
+" Self Completion:
+"
+"   when user type '$self->' or '$class->' , press [key] to trigger completion function
+"       (or just map '->' key to trigger completion function)
 "           
 "           the completion should include:
 "               function name
 "               accessor
 "
-"   then it should complete the '->' and open a completion window 
+"   and should complete the '->' and open a completion window 
 "   and list all matched items
 " 
 " when user type $App::Class:: , then press [key] to trigger completion function
@@ -22,61 +24,89 @@
 "               function name
 "               constants
 "
-" when user typing, it should automatically update the line (option)
-" and update completion result in the bottom window , and highlight 
-" the matched part
+" Synopsis For Moose:
+"
+"   for perl moose program like:
+"
+"     use Moose;
+"
+"     has sync_source => 
+"         ( isa => 'App::SD::Replica::rt',
+"           is => 'rw');
+"
+"   when user type $self->  then press key to complete:
+"     should complete sync_source  and other functions from $self
+"
+"   when user type $self->sync_source-> , then press key to complete:
+"     should complete the methods that sync_source class provided.
+"
+"
+" Other Features:
+"   when completion item just found one, should just append the completion ,
+"   not to open the completion window
+"
+"   when user typing, it should automatically update the line (option)
+"   and update completion result in the bottom window , and highlight 
+"   the matched part
 "
 " user type C-n , C-p to select item to complete
 " then press <Enter> to complete with the selected item.
 " after all , the completion window should be closed
 "
+" type C-j , C-k to jump between package sections
+"
 " Completion Window:
 "
-" there are more than 1 parts to list completion in perl completion window
-" === BaseClass    (from 'use base qw//')
-" = accessors =
-" = variables =
-" = constants =
-" = functions =
-"
-" === CurrentClass (package [ ];)
-" = accessors =
-" = variables =
-" = constants = 
-" = functions =
-"
-"
-" Function List Item Format:
-"
 " App::Base::Class
-" [var name]
-" [function name]  (line nn)
-" [function name]  (line nn)
+"   [var name]
+"   [function name]  (line nn)
+"   [function name]  (line nn)
 "
 " App::Class
-" [var name]
-" [function name]  (line nn)
+"   [var name]
+"   [function name]  (line nn)
+"       ==review==
+"       sub function_name {
+"           my $self = shift;
+"           my @args = %_;
+"
+"   [function]       (line nn)
+"   [function]       (line nn)
+"   [function]       (line nn)
+"   [function]       (line nn)
 "}}}
 
 runtime! plugin/window.vim
 
+let g:plc_complete_base_class_func = 1
 let g:plc_max_entries_per_class = 5
+let g:plc_complete_paren = 0
 
 let g:PLCompletionWindow = copy( WindowManager )
-let g:PLCompletionWindow.resource = { }
 
 fun! g:PLCompletionWindow.open(pos,type,size,from)
-  let self.from = a:from
+  let self.resource = [ ]
+  let self.from = a:from   " self.from = getline('.')
   let self.current_file = expand('%')
+  let self.comp_base = libperl#get_method_comp_base()
+  let self.comp_start = libperl#get_method_comp_start()
+  let self.comp_refer_base = libperl#get_method_comp_refer_base()
+  let self.comp_refer_start = libperl#get_method_comp_refer_start()
+
+  " self.pos is [bufnum, lnum, col, off]
+  let pos = getpos('.')
+  let self.pos = { 'bufnum': pos[0] , 'lnum': pos[1] , 'col': pos[2] }
+
+  " echo 'base:' . self.comp_base
+  " echo self.comp_start
   call self.split(a:pos,a:type,a:size)
 endf
 
 fun! g:PLCompletionWindow.close()
-  bw  " we should clean up buffer in each completion
+  bw  " we should clean up buffer in every completion
+  call garbagecollect()
   redraw
 endf
-
-
 
 " XXX: 
 "   should save completion base position
@@ -84,33 +114,53 @@ endf
 "
 fun! g:PLCompletionWindow.init_buffer()
   let from = self.from
-  let pos = match( from , '\S*$' , )
-  let lastkey = strpart( from , pos )
+  " let pos = match( from , '\S*$' , )
+  " \S\+\(->\)\@= is for matching:
+  "     Data::Dumper->something
+  "     $self->something
+  "     $class->something
+  " let pos = searchpos( '\S\+\(->\)\@='  , 'bn' , line('.') )
+  " let refer = strpart( from , pos )
+  " let refer = strpart( from , pos )
 
   let matches = { }
 
   " if it's from $self or $class, parse subroutines from current file
   " and parse parent packages , the maxima is by class depth
-  if lastkey =~ '\$\(self\|class\)->' 
-    let self.resource[ "self" ] = self.grep_file_functions( self.current_file )
+  if self.comp_refer_base =~ '\$\(self\|class\)' 
+    let _self = { 'class': 'self' , 'refer': '' , 'functions': [ ] }
+    let _self.functions = libperl#grep_file_functions( self.current_file )
+    call insert(self.resource, _self )
 
-    " grep function from base class
-    let base_classes = self.find_base_class_files( self.current_file ) 
-    for [class,path] in base_classes
-      let self.resource[ class ] = self.grep_file_functions( path )
-    endfor
+    if g:plc_complete_base_class_func
+      let base_functions = libperl#parse_base_class_functions( self.current_file )
+      call extend( self.resource , base_functions )
+    endif
 
   " if it's from PACKAGE::SOMETHING , find the package file , and parse
   " subrouteins from the file , and the parent packages
-  elseif lastkey =~ g:pkg_token_pattern . '->'
-    let pkg = matchstr( lastkey , g:pkg_token_pattern )
-    let filepath = libperl#GetModuleFilePath(pkg)
-    let self.resource[ pkg ] = self.grep_file_functions( filepath )
+  elseif self.comp_refer_base =~ g:libperl#pkg_token_pattern 
+    let class = self.comp_refer_base
+    let filepath = libperl#GetModuleFilePath(class)
+
+    if ! filereadable(filepath)
+      throw 'SKIP: no completions for this package: ' .class 
+    endif
+
+    let class_comp = { 'class': class , 'refer': '' , 'functions': [ ] }
+    let class_comp.functions = libperl#grep_file_functions( filepath )
+    call insert( self.resource , class_comp )
+
+    if g:plc_complete_base_class_func
+      let base_functions = libperl#parse_base_class_functions( filepath )
+      call extend( self.resource , base_functions )
+    endif
+
   " XXX
   " if it's from $PACKAGE::Some.. , find the PACAKGE file , and parse 
   " the variables from the file . and the parent packages
   else
-    echo 'nothing to do'
+    self.resource = [ ]
   endif
 
   setfiletype PLCompletionWindow
@@ -119,53 +169,61 @@ fun! g:PLCompletionWindow.init_buffer()
 
   cal self.render_result( self.resource )
 
+  if strlen( self.comp_base ) > 0 
+    cal self.render_result( self.resource )
+    cal setline( 2 , self.comp_base )
+    cal self.update_search()
+  endif
+
   autocmd CursorMovedI <buffer>       call g:PLCompletionWindow.update_search()
   autocmd BufWinLeave  <buffer>       call g:PLCompletionWindow.close()
-  " call self.refresh_buffer_name()
   silent file PerlCompletion
 endf
 
 fun! g:PLCompletionWindow.start()
-  call cursor(2,1)
+  if strlen( self.comp_base ) > 0
+    call cursor(2, strlen(self.comp_base)+1)
+  else 
+    call cursor(2,1)
+  endif
   startinsert
-endf
-
-fun! g:PLCompletionWindow.find_base_class_files(file)
-  let out = system('perl ' . expand('$HOME') . '/.vim/bin/find_base_classes.pl ' . a:file)
-  let classes = [ ]
-  for l in split(out,"\n") 
-    let [class,path] = split(l,' ')
-    call insert(classes,[ class,path ])
-  endfor
-  return classes
 endf
 
 " when pattern is empty , should display all entries
 fun! g:PLCompletionWindow.grep_entries(entries,pattern) 
-  let result = { }
-  for k in keys( a:entries )
-    let result[ k ] = filter( copy( a:entries[ k ] ) , 'v:val =~ ''^' . a:pattern . '''' )
-    if strlen( a:pattern ) > 0 && len( result[k] ) > g:plc_max_entries_per_class 
-      let result[k] = remove( result[k] , 0 , g:plc_max_entries_per_class )
+  let result = [ ]
+  for entry in a:entries
+    let entry_result = copy( entry )
+    let entry_result.functions = filter( copy( entry_result.functions )  , 'v:val =~ ''^' . a:pattern . '''' )
+
+    if strlen( a:pattern ) > 0 && len( entry_result.functions ) > g:plc_max_entries_per_class 
+      let entry_result.functions = remove( entry_result.functions , 0 , g:plc_max_entries_per_class )
     endif
+    call add( result , entry_result )
   endfor
   return result
 endf
 
+
 fun! g:PLCompletionWindow.render_result(matches)
   let out = ''
   let f_pad = "\n  "
-  for k in keys( a:matches ) 
-    let out .= k . f_pad . join( a:matches[k] ,  f_pad ) . "\n"
+  for entry in a:matches
+    let out .= entry.class 
+
+    if strlen(entry.refer) > 0
+      let out .= ' from:' . entry.refer
+    endif 
+
+    if len( entry.functions ) > 0 
+      let out .= f_pad . join( entry.functions ,  f_pad )
+    endif
+
+    let out .= "\n"
   endfor
   silent put=out
 endf
 
-" XXX: Try PPI
-fun! g:PLCompletionWindow.grep_file_functions(file)
-  let out = system('grep -oP "(?<=^sub )\w+" ' . a:file )
-  return split( out , "\n" )
-endf
 
 fun! g:PLCompletionWindow.update_search()
   let pattern = getline( 2 )
@@ -179,29 +237,42 @@ endf
 
 fun! g:PLCompletionWindow.init_syntax()
   if has("syntax") && exists("g:syntax_on") && !has("syntax_items")
+    syn match WindowTitle +^>>.*$+
     syn match EntryHeader +^[a-zA-Z0-9:_]\++
-    syn match EntryItem   +^\s\s\w\++
-    hi EntryHeader ctermfg=magenta
-    hi EntryItem ctermfg=cyan
+    syn match EntryItem   "^\s\s\w\+"
+
+    hi WindowTitle ctermfg=green guifg=green 
+    hi EntryHeader ctermfg=magenta guifg=magenta
+    hi EntryItem ctermfg=cyan guifg=cyan
   endif
 endf
 
-
 fun! g:PLCompletionWindow.do_complete()
   let line = getline('.')
-  let pos = match( line , '\w\+' )
+  let entry = matchstr( line , '\w\+' )
   if line =~ '^\s\s'   " function entry 
-    let entry = strpart( line , pos )
     bw
-    call setline( line('.') , getline('.') . entry . '()' )
-    startinsert
-    call cursor( line('.') , col('$') - 1 )
+    call libperl#clear_method_comp_base()
+    if g:plc_complete_paren 
+      call setline( line('.') , getline('.') . entry . '()' )
+      startinsert
+      call cursor( line('.') , col('$') - 1 )
+    else
+      call setline( line('.') , getline('.') . entry )
+      startinsert
+      call cursor( line('.') , col('$')  )
+    endif
   endif
+endf
+
+fun! g:PLCompletionWindow.do_complete_first()
+  call search('^\s\s\w\+')
+  call self.do_complete()
 endf
 
 fun! g:PLCompletionWindow.init_mapping()
   nnoremap <silent> <buffer> <Enter> :call g:PLCompletionWindow.do_complete()<CR>
-  inoremap <silent> <buffer> <Enter> <ESC>jj:call g:PLCompletionWindow.do_complete()<CR>
+  inoremap <silent> <buffer> <Enter> <ESC>:call g:PLCompletionWindow.do_complete_first()<CR>
 
   nnoremap <silent> <buffer> <C-j> :call search('^[a-zA-Z]')<CR>
   nnoremap <silent> <buffer> <C-k> :call search('^[a-zA-Z]','b')<CR>
@@ -210,5 +281,9 @@ fun! g:PLCompletionWindow.init_mapping()
   inoremap <silent> <buffer> <C-k> <ESC>:call search('^[a-zA-Z]','b')<CR>
 endf
 
-com! OpenPLCompletionWindow        :call g:PLCompletionWindow.open('botright', 'split',10,getline('.'))
-inoremap <C-x><C-x>                <ESC>:OpenPLCompletionWindow<CR>
+let g:plc_window_height = 14
+let g:plc_window_position = 'botright'
+
+com! OpenPLCompletionWindow                 :call g:PLCompletionWindow.open(g:plc_window_position, 'split',g:plc_window_height,getline('.'))
+inoremap <silent> <C-x><C-x>                <ESC>:OpenPLCompletionWindow<CR>
+
