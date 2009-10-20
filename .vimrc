@@ -8,9 +8,54 @@ endif
 " ============================================
 " Japanese setting
 " ============================================
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
+"set encoding=utf-8
+"set termencoding=utf-8
+"set fileencoding=utf-8
+
+" encode
+" -------------------------------------------
+if &encoding !=# 'utf-8'
+  set encoding=japan
+  set fileencoding=japan
+endif
+
+if !has('kaoriya')
+  if has('iconv')
+    let s:enc_euc = 'euc-jp'
+    let s:enc_jis = 'iso-2022-jp'
+
+    if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+      let s:enc_euc = 'eucjp-ms'
+      let s:enc_jis = 'iso-2022-jp-3'
+    elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+      let s:enc_euc = 'euc-jisx0213'
+      let s:enc_jis = 'iso-2022-jp-3'
+    endif
+
+    if &encoding ==# 'utf-8'
+      let s:fileencodings_default = &fileencodings
+      let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+      let &fileencodings = &fileencodings .','. s:fileencodings_default
+      unlet s:fileencodings_default
+    else
+      let &fileencodings = &fileencodings .','. s:enc_jis
+      set fileencodings+=utf-8,ucs-2le,ucs-2
+      if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+        set fileencodings+=cp932
+        set fileencodings-=euc-jp
+        set fileencodings-=euc-jisx0213
+        set fileencodings-=eucjp-ms
+        let &encoding = s:enc_euc
+        let &fileencoding = s:enc_euc
+      else
+        let &fileencodings = &fileencodings .','. s:enc_euc
+      endif
+    endif
+
+    unlet s:enc_euc
+    unlet s:enc_jis
+  endif
+endif
 
 " ============================================
 " Default setting
@@ -18,6 +63,10 @@ set fileencoding=utf-8
 set ambiwidth=double
 set autoindent
 set backspace=indent,eol,start
+
+" backup
+set backupdir=~/.vim/backup
+let &directory = &backupdir
 
 " highlight
 "set hlsearch
@@ -297,20 +346,38 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 " Rename
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
-" Use neocomplcache.
+"neocomplcache
 "let g:NeoComplCache_EnableAtStartup = 1
-" Use smartcase.
-"let g:NeoComplCache_SmartCase = 1
-" Use previous keyword completion.
-"let g:NeoComplCache_PreviousKeywordCompletion = 1
-" Use preview window.
-"let g:NeoComplCache_EnableInfo = 1
-" Use camel case completion.
-"let g:NeoComplCache_EnableCamelCaseCompletion = 1
-" Use underbar completion.
-"let g:NeoComplCache_EnableUnderbarCompletion = 1
-" Set minimum syntax keyword length.
+"let g:NeoComplCache_KeywordCompletionStartLength = 1
+"let g:NeoComplCache_PluginCompletionLength = {
+"  \ 'snipMate_complete' : 1,
+"  \ 'buffer_complete' : 2,
+"  \ 'include_complete' : 2,
+"  \ 'syntax_complete' : 2,
+"  \ 'filename_complete' : 2,
+"  \ 'keyword_complete' : 2,
+"  \ 'omni_complete' : 1
+"  \ }
+"let g:NeoComplCache_MinKeywordLength = 3
 "let g:NeoComplCache_MinSyntaxLength = 3
-" Set skip input time.
-"let g:NeoComplCache_SkipInputTime = '0.1' 
-
+"let g:NeoComplCache_SmartCase = 1
+"let g:NeoComplCache_PartialCompletionStartLength = 2
+"let g:NeoComplCache_PreviousKeywordCompletion = 1
+"let g:NeoComplCache_EnableCamelCaseCompletion = 1
+"let g:NeoComplCache_EnableUnderbarCompletion = 1
+"
+"let g:NeoComplCache_DictionaryFileTypeLists = {
+"  \ 'default' : '',
+"  \ 'objc' : $HOME . '/.vim/dict/objectivec.dict',
+"  \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
+"  \ 'ruby' : $HOME . '/.vim/dict/ruby.dict',
+"  \ 'perl' : $HOME . '/.vim/dict/perl.dict',
+"  \ }
+"let g:NeoComplCache_SameFileTypeLists = {
+"  \ 'perl' : 'man',
+"  \ 'erlang' : 'man',
+"  \ 'objc' : 'c',
+"  \ 'tt2html' : 'html,perl'
+"  \ }
+"
+"

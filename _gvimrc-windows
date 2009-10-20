@@ -1,0 +1,13 @@
+" =========================
+" Tools
+" =========================
+" Grep settings
+let Grep_Path = 'C:\devbin\grep.exe'
+let Fgrep_Path = 'C:\devbin\grep.exe -F'
+let Egrep_Path = 'C:\devbin\grep.exe -E'
+let Grep_Find_Path = 'C:\devbin\find.exe'
+let Grep_Xargs_Path = 'C:\devbin\xargs.exe'
+let Grep_Shell_Quote_Char = '"'
+let Grep_Skip_Dirs = '.svn'
+let Grep_Skip_Files = '*.bak *~'
+

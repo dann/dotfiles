@@ -39,19 +39,6 @@ if g:colors_name ==? 'wombat'
   hi Visual gui=none guifg=khaki guibg=olivedrab
 endif
 
-" =========================
-" Tools
-" =========================
-" Grep settings
-let Grep_Path = 'C:\devbin\grep.exe'
-let Fgrep_Path = 'C:\devbin\grep.exe -F'
-let Egrep_Path = 'C:\devbin\grep.exe -E'
-let Grep_Find_Path = 'C:\devbin\find.exe'
-let Grep_Xargs_Path = 'C:\devbin\xargs.exe'
-let Grep_Shell_Quote_Char = '"'
-let Grep_Skip_Dirs = '.svn'
-let Grep_Skip_Files = '*.bak *~'
-
 " ============================================
 " load common config
 " ============================================
@@ -59,3 +46,10 @@ if filereadable( $HOME . "/.vimrc" )
   source ~/.vimrc
 endif
 
+if has('win32')
+  source ~/_gvimrc-windows
+endif
+
+if has('gui_macvim')
+  source ~/_gvimrc-mac
+endif

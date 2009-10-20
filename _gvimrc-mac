@@ -1,0 +1,6 @@
+autocmd VimEnter * :vsplit
+set guifont=Monaco:h14
+set imdisable
+set transparency=10
+set guioptions=egmt
+
