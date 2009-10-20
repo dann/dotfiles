@@ -1,7 +1,9 @@
 " =========================
 " set runtime path like linux
 " =========================
-set runtimepath+=$HOME/.vim,$HOME/.vim/after
+" set runtimepath+=$HOME/.vim
+" set runtimepath+=$HOME/.vim/after
+" set runtimepath+=$HOME/.vim/plugin
 
 " ==========================
 " Menu bar
@@ -24,10 +26,18 @@ endif
 " ==========================
 " Window
 " ==========================
-" ウインドウの幅
+" window size
 set columns=88
-" ウインドウの高さ
+" window height
 set lines=55
+
+" ==========================
+" colorscheme
+" ==========================
+colorscheme wombat
+if g:colors_name ==? 'wombat'
+  hi Visual gui=none guifg=khaki guibg=olivedrab
+endif
 
 " =========================
 " Tools

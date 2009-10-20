@@ -64,12 +64,6 @@ if has("autochdir")
     set autochdir 
 endif
 
-" colorscheme
-colorscheme wombat
-if g:colors_name ==? 'wombat'
-  hi Visual gui=none guifg=khaki guibg=olivedrab
-endif
-
 " ============================================
 " mapping
 " ============================================
@@ -207,8 +201,7 @@ au BufNewFile,BufRead *.tt2 setf tt2
 " ============================================
 " omni completion
 " ============================================
-autocmd FileType css :set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml :set omnifunc=xmlcomplete#CompleteTags
+
 
 " ============================================
 " Grep.vim
