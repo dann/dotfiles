@@ -59,6 +59,10 @@ if !has('kaoriya')
 
     unlet s:enc_euc
     unlet s:enc_jis
+  else
+    set encoding=utf-8
+    set termencoding=utf-8
+    set fileencoding=utf-8
   endif
 endif
 
