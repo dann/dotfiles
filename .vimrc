@@ -160,11 +160,9 @@ nmap g" cs"G
 " ============================================
 nnoremap <silent> ,f :FuzzyFinderFile<CR>
 nnoremap <silent> ,b :FuzzyFinderBuffer<CR>
-nnoremap <silent> efv :FuzzyFinderFavFile<CR>
-nnoremap <silent> efm :FuzzyFinderMruFile<CR>
-nnoremap <silent> efc :FuzzyFinderMruCmd<CR>
-nnoremap <silent> efd :FuzzyFinderDir<CR>
-nnoremap <silent> efa :FuzzyFinderAddFavFile<CR>
+nnoremap <silent> ,d :FuzzyFinderDir<CR>
+nnoremap <silent> ,mf :FuzzyFinderMruFile<CR>
+nnoremap <silent> ,mc :FuzzyFinderMruCmd<CR>
 
 " tag with fuzzyfinder
 nnoremap <silent> <C-]> :FuzzyFinderTag <C-r>=expand('<cword>')<CR><CR>
@@ -248,20 +246,10 @@ let g:AutoComplPop_IgnoreCaseOption = 1
 au BufNewFile,BufRead *.tt2 setf tt2
 
 " ============================================
-" omni completion
-" ============================================
-
-
-" ============================================
 " Grep.vim
 " ============================================
 let Grep_Skip_Dirs = '.svn'
 let Grep_Skip_Files = '*.bak *~'
-
-" ============================================
-" git 
-" ============================================
-let g:git_diff_spawn_mode=1 
 
 " ============================================
 " Tab completion
