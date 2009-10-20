@@ -1,3 +1,8 @@
+if !exists('s:loaded_my_vimrc')
+  " Don't reset twice on reloading - 'compatible' has SO many side effects.
+  set nocompatible " to use many extensions of Vim.
+endif
+
 " ============================================
 " persoal env config
 " ============================================
@@ -332,6 +337,7 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
 "neocomplcache
+"-----------------------------------
 "let g:NeoComplCache_EnableAtStartup = 1
 "let g:NeoComplCache_KeywordCompletionStartLength = 1
 "let g:NeoComplCache_PluginCompletionLength = {
@@ -366,3 +372,9 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 "  \ }
 "
 "
+
+if !exists('s:loaded_my_vimrc')
+  let s:loaded_my_vimrc = 1
+endif
+ 
+set secure " must be written at the last. see :help 'secure'.
