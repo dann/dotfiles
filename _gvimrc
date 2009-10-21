@@ -11,7 +11,7 @@
 " ツールバーを消す
 set guioptions-=T
 " メニューバーも消す
-set guioptions-=m
+"set guioptions-=m
 
 " =========================
 " IME
