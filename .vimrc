@@ -282,6 +282,7 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 " ============================================
 " neocomplcache
 " ============================================
+set complete=.,w,b,u,t,k
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_KeywordCompletionStartLength = 1
 let g:NeoComplCache_PluginCompletionLength = {
