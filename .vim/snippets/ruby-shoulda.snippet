@@ -1,0 +1,78 @@
+snippet context
+    context "${1:context}" do
+    
+    	${2}
+    
+    end
+
+snippet samao
+    should_allow_mass_assignment_of :${1:field}
+
+snippet savf
+    should_allow_values_for :${1:field}, "${2:value}"
+
+snippet sbt
+    should_belong_to :${1:association}
+
+snippet selal
+    should_ensure_length_at_least :${1:field}, ${2:min_length}
+
+snippet seli
+    should_ensure_length_is :${1:field}, ${2:length}
+
+snippet selir
+    should_ensure_length_in_range :${1:field}, ${2:start}..${3:end}
+
+snippet setup
+    setup do
+    	${1}
+    end
+
+snippet sevir
+    should_ensure_value_in_range :${1:field}, ${2:start}..${3:end}
+
+snippet shabtm
+    should_have_and_belong_to_many :${1:association}
+
+snippet shcm
+    should_have_class_methods :${1:method}
+
+snippet shdc
+    should_have_db_columns :${1:field}
+
+snippet shi
+    should_have_indices :${1:field}
+
+snippet shim
+    should_have_instance_methods :${1:method}
+
+snippet shm
+    should_have_many :${1:association}
+
+snippet shns
+    should_have_named_scope :${1:scope}, :conditions => {${2:conditions}}
+
+snippet sho
+    should_have_one :${1:association}
+
+snippet shroa
+    should_have_read_only_attributes :${1:field}
+
+snippet snamao
+    should_not_allow_mass_assignment_of :${1:field}
+
+snippet snavf
+    should_not_allow_values_for :${1:field}, "${2:value}"
+
+snippet svao
+    should_validate_acceptance_of :${1:field}
+
+snippet svno
+    should_validate_numericality_of :${1:field}
+
+snippet svpo
+    should_validate_presence_of :${1:field}
+
+snippet svuo
+    should_validate_uniqueness_of :${1:field}, :scoped_to => ${2:arrayofnames}
+

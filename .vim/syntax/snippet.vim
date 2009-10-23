@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: syntax/snippet.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 02 Oct 2009
+" Last Modified: 13 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.4, for Vim 7.0
+" Version: 1.3, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.4:
-"     - Added condition.
-"     - Implemented optional placeholder.
-"
 "   1.3:
 "     - Added variable.
 "
@@ -58,43 +54,40 @@ elseif exists("b:current_syntax")
   finish
 endif
 
-syn region  SnippetPrevWord             start=+'+ end=+'+ contained
-syn region  SnippetEval                 start=+`+ end=+`+ contained
-syn match   SnippetWord                 '^\s\+.*$' contains=SnippetEval,SnippetExpand
-syn match   SnippetExpand               '\${\d\+\%(:.\{-}\)\?\\\@<!}' contained
-syn match   SnippetVariable             '\$\d\+' contained
-syn match   SnippetComment              '^#.*$'
+syn region  SnippetPrevWord           start=+'+ end=+'+ contained
+syn region  SnippetEval               start=+`+ end=+`+ contained
+syn match   SnippetWord               '^\s\+.*$' contains=SnippetEval,SnippetExpand
+syn match   SnippetExpand             '\${\d\+\%(:\([^}]*\)\)\?}' contained
+syn match   SnippetVariable           '\$\d\+' contained
+syn match   SnippetComment            '^#.*$'
 
-syn match   SnippetKeyword              '^\%(include\|snippet\|abbr\|prev_word\|rank\|delete\|alias\|condition\)' contained
-syn match   SnippetPrevWords            '^prev_word\s\+.*$' contains=SnippetPrevWord,SnippetKeyword
-syn match   SnippetStatementName        '^snippet\s.*$' contains=SnippetName,SnippetKeyword
-syn match   SnippetName                 '\s\+.*$' contained
-syn match   SnippetStatementAbbr        '^abbr\s.*$' contains=SnippetAbbr,SnippetKeyword
-syn match   SnippetAbbr                 '\s\+.*$' contained
-syn match   SnippetStatementRank        '^rank\s.*$' contains=SnippetRank,SnippetKeyword
-syn match   SnippetRank                 '\s\+\d\+$' contained
-syn match   SnippetStatementInclude     '^include\s.*$' contains=SnippetInclude,SnippetKeyword
-syn match   SnippetInclude              '\s\+.*$' contained
-syn match   SnippetStatementDelete      '^delete\s.*$' contains=SnippetDelete,SnippetKeyword
-syn match   SnippetDelete               '\s\+.*$' contained
-syn match   SnippetStatementAlias       '^alias\s.*$' contains=SnippetAlias,SnippetKeyword
-syn match   SnippetAlias                '\s\+.*$' contained
-syn match   SnippetStatementCondition   '^condition\s.*$' contains=SnippetCondition,SnippetKeyword
-syn match   SnippetCondition            '\s\+.*$' contained
+syn match   SnippetKeyword            '^\%(include\|snippet\|abbr\|prev_word\|rank\|delete\|alias\)' contained
+syn match   SnippetPrevWords          '^prev_word\s\+.*$' contains=SnippetPrevWord,SnippetKeyword
+syn match   SnippetStatementName      '^snippet\s.*$' contains=SnippetName,SnippetKeyword
+syn match   SnippetName               '\s\+.*$' contained
+syn match   SnippetStatementAbbr      '^abbr\s.*$' contains=SnippetAbbr,SnippetKeyword
+syn match   SnippetAbbr               '\s\+.*$' contained
+syn match   SnippetStatementRank      '^rank\s.*$' contains=SnippetRank,SnippetKeyword
+syn match   SnippetRank               '\s\+\d\+$' contained
+syn match   SnippetStatementInclude   '^include\s.*$' contains=SnippetInclude,SnippetKeyword
+syn match   SnippetInclude            '\s\+.*$' contained
+syn match   SnippetStatementDelete    '^delete\s.*$' contains=SnippetDelete,SnippetKeyword
+syn match   SnippetDelete             '\s\+.*$' contained
+syn match   SnippetStatementAlias     '^alias\s.*$' contains=SnippetAlias,SnippetKeyword
+syn match   SnippetAlias              '\s\+.*$' contained
 
-hi def link SnippetKeyword Statement
 hi def link SnippetPrevWord String
-hi def link SnippetName Identifier
-hi def link SnippetAbbr Normal
-hi def link SnippetRank Constant
 hi def link SnippetEval Type
 hi def link SnippetWord String
 hi def link SnippetExpand Special
 hi def link SnippetVariable Special
 hi def link SnippetComment Comment
+hi def link SnippetKeyword Statement
+hi def link SnippetName Identifier
+hi def link SnippetAbbr Type
+hi def link SnippetRank Constant
 hi def link SnippetInclude PreProc
 hi def link SnippetDelete PreProc
 hi def link SnippetAlias Identifier
-hi def link SnippetCondition Type
 
 let b:current_syntax = "snippet"

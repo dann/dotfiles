@@ -178,18 +178,6 @@ imap jj <Esc>
 set wildmode=list:longest
 
 " ============================================
-" autocomplpop.vim 
-" ============================================
-" complete option
-"set complete=.,w,b,u,t,i,k
-set complete=.,w,b,u,t,k
-"let g:AutoComplPop_CompleteOption = '.,w,b,k'
-let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
-let g:AutoComplPop_IgnoreCaseOption = 1
-
-"set omnifunc=syntaxcomplete#Complete
-
-" ============================================
 " smartword.vim 
 " ============================================
 map w  <Plug>(smartword-w)
@@ -291,42 +279,46 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 " Rename
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
-"neocomplcache
-"-----------------------------------
-"let g:NeoComplCache_EnableAtStartup = 1
-"let g:NeoComplCache_KeywordCompletionStartLength = 1
-"let g:NeoComplCache_PluginCompletionLength = {
-"  \ 'snipMate_complete' : 1,
-"  \ 'buffer_complete' : 2,
-"  \ 'include_complete' : 2,
-"  \ 'syntax_complete' : 2,
-"  \ 'filename_complete' : 2,
-"  \ 'keyword_complete' : 2,
-"  \ 'omni_complete' : 1
-"  \ }
-"let g:NeoComplCache_MinKeywordLength = 3
-"let g:NeoComplCache_MinSyntaxLength = 3
-"let g:NeoComplCache_SmartCase = 1
-"let g:NeoComplCache_PartialCompletionStartLength = 2
-"let g:NeoComplCache_PreviousKeywordCompletion = 1
-"let g:NeoComplCache_EnableCamelCaseCompletion = 1
-"let g:NeoComplCache_EnableUnderbarCompletion = 1
-"
-"let g:NeoComplCache_DictionaryFileTypeLists = {
-"  \ 'default' : '',
-"  \ 'objc' : $HOME . '/.vim/dict/objectivec.dict',
-"  \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-"  \ 'ruby' : $HOME . '/.vim/dict/ruby.dict',
-"  \ 'perl' : $HOME . '/.vim/dict/perl.dict',
-"  \ }
-"let g:NeoComplCache_SameFileTypeLists = {
-"  \ 'perl' : 'man',
-"  \ 'erlang' : 'man',
-"  \ 'objc' : 'c',
-"  \ 'tt2html' : 'html,perl'
-"  \ }
-"
-"
+" ============================================
+" neocomplcache
+" ============================================
+let g:NeoComplCache_EnableAtStartup = 1
+let g:NeoComplCache_KeywordCompletionStartLength = 1
+let g:NeoComplCache_PluginCompletionLength = {
+  \ 'snipMate_complete' : 1,
+  \ 'buffer_complete' : 2,
+  \ 'include_complete' : 2,
+  \ 'syntax_complete' : 2,
+  \ 'filename_complete' : 2,
+  \ 'keyword_complete' : 2,
+  \ 'omni_complete' : 1
+  \ }
+let g:NeoComplCache_MinKeywordLength = 3
+let g:NeoComplCache_MinSyntaxLength = 3
+let g:NeoComplCache_SmartCase = 1
+let g:NeoComplCache_PartialCompletionStartLength = 2
+let g:NeoComplCache_PreviousKeywordCompletion = 1
+let g:NeoComplCache_EnableCamelCaseCompletion = 1
+let g:NeoComplCache_EnableUnderbarCompletion = 1
+let g:NeoComplCache_DictionaryFileTypeLists = {
+  \ 'default' : '',
+  \ 'objc' : $HOME . '/.vim/dict/objectivec.dict',
+  \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
+  \ 'ruby' : $HOME . '/.vim/dict/ruby.dict',
+  \ 'perl' : $HOME . '/.vim/dict/perl.dict',
+  \ }
+let g:NeoComplCache_SameFileTypeLists = {
+  \ 'perl' : 'man',
+  \ 'erlang' : 'man',
+  \ }
+let g:NeoComplCache_MinKeywordLength = 3
+let g:NeoComplCache_MinSyntaxLength = 3
+let g:NeoComplCache_SmartCase = 1
+let g:NeoComplCache_PartialCompletionStartLength = 2
+let g:NeoComplCache_PreviousKeywordCompletion = 1
+let g:NeoComplCache_EnableCamelCaseCompletion = 1
+let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.1'
+let g:NeoComplCache_SkipInputTime = '0.1'
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1

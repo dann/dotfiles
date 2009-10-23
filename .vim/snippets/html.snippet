@@ -1,0 +1,78 @@
+snippet base
+    <base href="<++>"<+ target="<++>"+>/>
+
+snippet body
+    <body<+ id="<+id+>"<+ onload="<++>"+>+>>
+      <++>
+    </body>
+snippet doctype
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">${1}
+
+snippet form
+    <form action="${1:action}" method="${2:post}" accept-charset="utf-8">
+      ${3}
+    
+      <p><input type="submit" value="Continue &rarr;"/></p>
+    </form>
+
+snippet h1
+    <h1<+ id="<+id+>"+>><++></h1>
+
+snippet head
+    <head>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+      <title>${1:Page Title}</title>
+      ${2}
+    </head>
+
+snippet href
+    <a href="${1}">${2}</a>
+
+snippet ifie
+    <!--[if IE ${1:6}]>${2}<![endif]-->${3}
+
+snippet img
+    <img src="${1}"${2} />
+
+snippet input
+    <input type="text" name="<++>" <+value="<++>"+> <+size="<++>"+> <+maxlength="<++>"+> />
+
+snippet inputl
+    <label for="${1:input_id}">${2}</label>
+    <input type="${3:text/submit/hidden/button}" name="${4:$1}" value="${5:value}" id="${6:$1}"/>${7}
+
+snippet label
+    <label for="${1:id}">${2:label_text}</label>
+
+snippet link
+    <link rel="${1:stylesheet}" href="${2:path-to-stylesheet}.css" type="text/css" media="${3:screen}" charset="${4:utf-8}"/>${5}
+
+snippet mailto
+    <a href="mailto:<+email+><+?subject=<+feedback+>+>"><+email me+></a>
+
+snippet meta
+    <meta name="${1:name}" content="${2:content}"/>
+
+snippet option
+    <option<+ value="<+option+>"+>><+value+></option>
+
+snippet select
+    <select name="<+some_name+>" id="<+id+>"<+<+ multiple+><+ onchange="<++>"+><+ size="<+1+>"+>+>>
+      <option<+ value="<+option1+>"+>><+value1+></option>
+      <option<+ value="<+option2+>"+>><+value2+></option>
+      <++>
+    </select>
+
+snippet style
+    <style type="text/css" media="screen">
+      ${1}
+    </style>
+
+snippet t
+    <${1:div}${2}>
+    	${3}
+    </$1>${4}
+
+snippet textarea
+    <textarea name="${1:Name}" rows="${2:8}" cols="${2:40}">${3}</textarea>
+

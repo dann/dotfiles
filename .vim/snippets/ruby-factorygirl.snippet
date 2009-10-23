@@ -1,0 +1,21 @@
+snippet fac
+    Factory(:<+factory_name+><+, <++>+>)<++>
+
+snippet facb
+    Factory.build(:<+factory_name+><+, <++>+>)<++>
+
+snippet facd
+    Factory.define(:${1:model}) do |${2:m}|
+    	${3}
+    end
+    ${4}
+
+snippet facn
+    Factory.next(:${1:sequence-name})${2}
+
+snippet facs
+    Factory.sequence :${1:sequence-name} do |${2:m}|
+    	${3}
+    end
+    ${4}
+

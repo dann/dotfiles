@@ -1,0 +1,105 @@
+snippet assert
+    $this->assertTrue(${1:somevar}, '${2:sometext}');
+
+snippet boolcol
+    $this->hasColumn('${1:active}', '${2:boolean}', ${3:1}, array('default' => '${4:1}','notnull' => true));
+
+snippet clac
+    <?php
+    
+    /**
+     * $1Controller
+     * @package       ${2}
+     * @author        ${3:`g:snips_author`}
+     * @copyright     (c) `strftime("%Y")`
+     */
+    class ${1:Index}Controller extends Application_Controller
+    {
+    	/**
+    	 * indexAction
+    	 *
+    	 * @access public
+    	 * @return void
+    	 */
+    	public function indexAction(){
+    		${4:// some code}
+    	}
+    }
+
+snippet flash
+    $this->_flashMessenger->addMessage("${1}", '${2:error}');
+
+snippet getconf
+    $${1:conf} = Zend_Registry::get('${2:config}')->${3:general};
+
+snippet input
+    <?= $this->formInput(array( 'type' => '${1:hidden}',
+    							'name' => '${2}',
+    							'value' => ${3:},
+    							'id' => '${4:}' )); ?>
+
+snippet inputarr
+    <?= $this->formInput(array( 'type' => '${1:dropdown}',
+    			    'name' => '${2}',
+    			    'label' => '${3:}',
+    			    'errors' => ${4:},
+    			    'value' => ${5:},
+    			    'valueList' => ${6:} )); ?>
+
+snippet intcol
+    $this->hasColumn('${1:id}', '${2:integer}', ${3:11}, array(${4:'notnull' => true)});
+
+snippet lib
+    <?php
+    
+    class Application_${1:Hellu}
+    {${2}
+    }
+
+snippet model
+    <?php
+    class ${1:Model} extends Doctrine_Record implements Zend_Auth_Adapter_Interface, Zend_Acl_Role_Interface
+    {
+    	protected  $searchconditions = array();
+    
+    	/**
+    	 * Enter description here...
+    	 *
+    	 * @var ${2:Model}
+    	 */
+    	protected static $_identity = null;
+    
+    	/**
+    	 * Zend_Auth
+    	 *
+    	 * @var Zend_Auth
+    	 */
+    	protected static $_auth;
+    
+    
+    	/**
+    	 * Doctrine
+    	 */
+    	public function setTableDefinition()
+    	{
+    		$this->hasColumn('id', 'integer', 4, array('notnull' => true, 
+    												   'primary' => true, 
+    												   'autoincrement' => true));
+    		${3}
+    	}
+    
+    }
+
+snippet navi
+    $this->view->navigationActive = array('topnavi' => '${1:home}','subnavi' => '${2:index}');
+
+snippet route
+    $this->_redirector->gotoRoute(array('controller' => '${1}', 'action' => '${2:index}', 'id' => '${3:}'), '${4:admin_action}');
+
+snippet rp
+    <?=$this->partial('${1:somefile}.phtml',
+    				  array(${2}))?>
+
+snippet strcol
+    $this->hasColumn('${1:title}', '${2:string}', ${3:255}, array(${4:'notnull' => true}));
+
