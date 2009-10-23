@@ -180,12 +180,23 @@ set wildmode=list:longest
 " ============================================
 " autocomplpop.vim 
 " ============================================
-" complete option
-"set complete=.,w,b,u,t,i,k
-set complete=.,w,b,u,t,k
-"let g:AutoComplPop_CompleteOption = '.,w,b,k'
-let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
-let g:AutoComplPop_IgnoreCaseOption = 1
+let g:acp_enableAtStartup = 1
+let g:acp_mappingDriven = 0
+let g:acp_ignorecaseOption = 1
+let g:acp_completeOption = '.,w,b,u,t,k'
+let g:acp_completeoptPreview = 0
+let g:acp_behaviorUserDefinedPattern = '\k$'
+let g:acp_behaviorKeywordCommand = "\<C-n>"
+let g:acp_behaviorKeywordLength = 2
+let g:acp_behaviorFileLength = 0
+let g:acp_behaviorRubyOmniMethodLength = 1
+let g:acp_behaviorRubyOmniSymbolLength = 1
+let g:acp_behaviorPythonOmniLength = 1
+let g:acp_behaviorXmlOmniLength = 1
+let g:acp_behaviorHtmlOmniLength = 1
+let g:acp_behaviorCssOmniPropertyLength = 1
+let g:acp_behaviorCssOmniValueLength = 1
+let g:acp_behaviorSnipmateLength=1
 
 "set omnifunc=syntaxcomplete#Complete
 
@@ -291,42 +302,6 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 " Rename
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
-"neocomplcache
-"-----------------------------------
-"let g:NeoComplCache_EnableAtStartup = 1
-"let g:NeoComplCache_KeywordCompletionStartLength = 1
-"let g:NeoComplCache_PluginCompletionLength = {
-"  \ 'snipMate_complete' : 1,
-"  \ 'buffer_complete' : 2,
-"  \ 'include_complete' : 2,
-"  \ 'syntax_complete' : 2,
-"  \ 'filename_complete' : 2,
-"  \ 'keyword_complete' : 2,
-"  \ 'omni_complete' : 1
-"  \ }
-"let g:NeoComplCache_MinKeywordLength = 3
-"let g:NeoComplCache_MinSyntaxLength = 3
-"let g:NeoComplCache_SmartCase = 1
-"let g:NeoComplCache_PartialCompletionStartLength = 2
-"let g:NeoComplCache_PreviousKeywordCompletion = 1
-"let g:NeoComplCache_EnableCamelCaseCompletion = 1
-"let g:NeoComplCache_EnableUnderbarCompletion = 1
-"
-"let g:NeoComplCache_DictionaryFileTypeLists = {
-"  \ 'default' : '',
-"  \ 'objc' : $HOME . '/.vim/dict/objectivec.dict',
-"  \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-"  \ 'ruby' : $HOME . '/.vim/dict/ruby.dict',
-"  \ 'perl' : $HOME . '/.vim/dict/perl.dict',
-"  \ }
-"let g:NeoComplCache_SameFileTypeLists = {
-"  \ 'perl' : 'man',
-"  \ 'erlang' : 'man',
-"  \ 'objc' : 'c',
-"  \ 'tt2html' : 'html,perl'
-"  \ }
-"
-"
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
