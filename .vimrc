@@ -197,28 +197,6 @@ let Grep_Skip_Dirs = '.svn'
 let Grep_Skip_Files = '*.bak *~'
 
 " ============================================
-" Tab completion
-" ============================================
-" {{{ Autocompletion using the TAB key
-" This function determines, wether we are on the start of the line text (then tab indents) or
-" if we want to try autocompletion
-function! InsertTabWrapper()
-        let col = col('.') - 1
-        if !col || getline('.')[col - 1] !~ '\k'
-                return "\<TAB>"
-        else
-                if pumvisible()
-                        return "\<C-N>"
-                else
-                        return "\<C-N>\<C-P>"
-                end
-        endif
-endfunction
-" Remap the tab key to select action with InsertTabWrapper
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-" }}} Autocompletion using the TAB key
-
-" ============================================
 " Perl
 " ============================================
 " Perldoc command
@@ -282,7 +260,10 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 " ============================================
 " neocomplcache
 " ============================================
-set complete=.,w,b,u,t,k
+
+set completeopt=menuone,preview
+"set complete=.,w,b,u,t,k
+
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_KeywordCompletionStartLength = 1
 let g:NeoComplCache_PluginCompletionLength = {
@@ -321,6 +302,15 @@ let g:NeoComplCache_EnableCamelCaseCompletion = 1
 let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.1'
 let g:NeoComplCache_SkipInputTime = '0.1'
 let g:NeoComplCache_SnippetsDir = $HOME . '/.vim/snippets'
+
+" neocon keybindings
+"------------------
+" <TAB> completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" snippets expand key
+imap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
+smap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
