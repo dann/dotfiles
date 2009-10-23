@@ -320,6 +320,7 @@ let g:NeoComplCache_PreviousKeywordCompletion = 1
 let g:NeoComplCache_EnableCamelCaseCompletion = 1
 let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.1'
 let g:NeoComplCache_SkipInputTime = '0.1'
+let g:NeoComplCache_SnippetsDir = $HOME . '/.vim/snippets'
 
 if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
