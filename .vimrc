@@ -212,7 +212,7 @@ let g:NeoComplCache_PartialCompletionStartLength = 2
 let g:NeoComplCache_PreviousKeywordCompletion = 1
 let g:NeoComplCache_EnableCamelCaseCompletion = 1
 let g:NeoComplCache_EnableSkipCompletion = 0
-let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.1'
+let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.0'
 let g:NeoComplCache_SkipInputTime = '0.0'
 let g:NeoComplCache_SnippetsDir = $HOME . '/.vim/snippets'
 
