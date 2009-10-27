@@ -175,25 +175,26 @@ hi PmenuSbar ctermbg=0
 
 set completeopt=menuone,preview
 set complete=.,w,b,u,t,k
-
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_KeywordCompletionStartLength = 1
 let g:NeoComplCache_PluginCompletionLength = {
   \ 'snipMate_complete' : 1,
-  \ 'buffer_complete' : 2,
+  \ 'buffer_complete' : 1,
   \ 'include_complete' : 2,
   \ 'syntax_complete' : 2,
   \ 'filename_complete' : 2,
   \ 'keyword_complete' : 2,
   \ 'omni_complete' : 1
   \ }
-let g:NeoComplCache_MinKeywordLength = 3
-let g:NeoComplCache_MinSyntaxLength = 3
+let g:NeoComplCache_MinKeywordLength = 2
+let g:NeoComplCache_MinSyntaxLength = 2
 let g:NeoComplCache_SmartCase = 1
 let g:NeoComplCache_PartialCompletionStartLength = 2
 let g:NeoComplCache_PreviousKeywordCompletion = 1
 let g:NeoComplCache_EnableCamelCaseCompletion = 1
 let g:NeoComplCache_EnableUnderbarCompletion = 1
+let g:NeoComplCache_EnableSkipCompletion = 0
+let g:NeoComplCache_SnippetsDir = $HOME . '/.vim/snippets'
 let g:NeoComplCache_DictionaryFileTypeLists = {
   \ 'default' : '',
   \ 'objc' : $HOME . '/.vim/dict/objectivec.dict',
@@ -205,16 +206,6 @@ let g:NeoComplCache_SameFileTypeLists = {
   \ 'perl' : 'man',
   \ 'erlang' : 'man',
   \ }
-let g:NeoComplCache_MinKeywordLength = 3
-let g:NeoComplCache_MinSyntaxLength = 3
-let g:NeoComplCache_SmartCase = 1
-let g:NeoComplCache_PartialCompletionStartLength = 2
-let g:NeoComplCache_PreviousKeywordCompletion = 1
-let g:NeoComplCache_EnableCamelCaseCompletion = 1
-let g:NeoComplCache_EnableSkipCompletion = 0
-let g:NeoComplCache_EnableUnderbe_SkipInputTime = '0.0'
-let g:NeoComplCache_SkipInputTime = '0.0'
-let g:NeoComplCache_SnippetsDir = $HOME . '/.vim/snippets'
 
 " neocon keybindings
 "------------------
@@ -224,7 +215,6 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " snippets expand key
 imap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
 smap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
-
 
 
 " ============================================
