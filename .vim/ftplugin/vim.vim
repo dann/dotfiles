@@ -16,5 +16,5 @@ let b:match_words += ',\<wh\%[ile]\>:\<endwh\%[ile]\>'
 let b:match_words += ',\<for\>:\<endfor\=\>'
 
 " ---------- dict --------------------------------------------
-setlocal dictionary=~/.vim/dict/vim.tags
+setlocal dictionary=~/.vim/dict/vim.dict
 
