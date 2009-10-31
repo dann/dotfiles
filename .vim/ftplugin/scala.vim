@@ -8,7 +8,6 @@ let b:did_ftplugin = 1
 setlocal tabstop=2
 setlocal shiftwidth=2
 setlocal expandtab
-setlocal iskeyword+=:
 
 " ---------- dict ------------------------------------------
-setlocal dictionary=~/.vim/dict/scala.tags
+setlocal dictionary=~/.vim/dict/scala.dict
