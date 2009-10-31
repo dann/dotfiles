@@ -10,6 +10,7 @@ setlocal omnifunc=htmlcomplete#CompleteTags
 
 " Compiler
 compiler tidy
+setlocal makeprg=tidy\ -raw\ -quiet\ -errors\ --gnu-emacs\ yes\ \"%\"
 
 " Completion
 set dictionary=~/.vim/dict/html.dict
@@ -22,3 +23,4 @@ setlocal tabstop=4 softtabstop=4 shiftwidth=4
 " HTML tidy
 noremap ,ht <ESC>:%! tidy -config ~/.tidyrc -m -q <CR>:retab<CR>
 noremap ,htv <ESC>:'<,'>! tidy -config ~/.tidyrc -m -q <CR>:retab<CR>
+

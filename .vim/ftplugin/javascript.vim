@@ -1,7 +1,9 @@
-imap <buffer> <C-x> var a=[],str='';for(p in )a.push(p);a.sort();alert(a.join(' '));<esc>5F)i
+" Only do this when not done yet for this buffer
+if exists('b:did_ftplugin')
+  finish
+endif
+let b:did_ftplugin = 1
 
-" 'Alert Here'
-map <buffer> \ah :exec 'normal Oalert("' . expand('%:t') . ':' . line('.') . '");'<cr>
+compiler javascriptlint
 
-
-set dictionary=~/.vim/dict/javascript.dict
+setlocal dictionary=~/.vim/dict/javascript.dict
