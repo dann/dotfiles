@@ -157,7 +157,7 @@ alias psa='ps auxw'
 alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
 
 # global alias
-alias -g V="| vim -R -"
+alias -g V="| col -b | vim -R -"
 
 function chpwd() {
     if [[ "${OSTYPE}" = darwin* ]] ; then
@@ -305,6 +305,12 @@ function cdrake () {
     cdf "Rakefile"
 }
 
+
+#-----------------------------------------------
+# java settings
+#-----------------------------------------------
+[ -e ~/.zshrc-java ] && source ~/.zshrc-java
+
 #-----------------------------------------------
 # load mac config
 #-----------------------------------------------
@@ -312,8 +318,6 @@ function cdrake () {
 if [[ "${OSTYPE}" = darwin* ]] ; then
     [ -e ~/.zshrc-mac ] && source ~/.zshrc-mac
 fi
-
-#[ -e ~/.zshrc.prompt ] && source ~/.zshrc.prompt
 
 #-----------------------------------------------
 # load user config

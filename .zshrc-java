@@ -1,0 +1,8 @@
+# Maven
+export MAVEN_HOME=~/devtools/maven
+export PATH="$PATH:$MAVEN_HOME/bin"
+
+# Ant
+export ANT_HOME=~/devtools/ant
+export PATH="$PATH:$ANT_HOME/bin"
+
