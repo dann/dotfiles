@@ -257,7 +257,7 @@ endf
 "   @file: 
  
 fun! libperl#grep_file_functions(file)
-  let out = system('grep -oP "(?<=^sub )\w+" ' . a:file )
+  let out = system('grep -oE "?^sub \w+" ' . a:file . " |  sed -e \"s/^sub //\""  )
   return split( out , "\n" )
 endf
 

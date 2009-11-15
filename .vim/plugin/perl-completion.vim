@@ -1,4 +1,7 @@
 " vim:fdm=syntax:fdl=1:et:sw=2:
+"
+"=VERSION 0.4
+"
 " Perl Completion Features:"{{{
 "
 " Self Completion:
@@ -76,13 +79,11 @@
 "   [function]       (line nn)
 "}}}
 
-runtime! plugin/window.vim
-
 let g:plc_complete_base_class_func = 1
 let g:plc_max_entries_per_class = 5
 let g:plc_complete_paren = 0
 
-let g:PLCompletionWindow = copy( WindowManager )
+let g:PLCompletionWindow = copy( swindow#class )
 
 fun! g:PLCompletionWindow.open(pos,type,size,from)
   let self.resource = [ ]
@@ -97,16 +98,22 @@ fun! g:PLCompletionWindow.open(pos,type,size,from)
   let pos = getpos('.')
   let self.pos = { 'bufnum': pos[0] , 'lnum': pos[1] , 'col': pos[2] }
 
-  " echo 'base:' . self.comp_base
-  " echo self.comp_start
-  call self.split(a:pos,a:type,a:size)
+  " XXX: make sure we have completion items
+
+  " before we create the search window , we should check autocomplpop by our
+  " guard.
+  cal g:acpguard_class.check()
+  cal self.split(a:pos,a:type,a:size)
 endf
 
 fun! g:PLCompletionWindow.close()
   bw  " we should clean up buffer in every completion
-  call garbagecollect()
+  cal g:acpguard_class.reveal()
+  cal garbagecollect()
   redraw
 endf
+
+
 
 " XXX: 
 "   should save completion base position
@@ -130,18 +137,18 @@ fun! g:PLCompletionWindow.init_buffer()
   if self.comp_refer_base =~ '\$\(self\|class\)' 
     let _self = { 'class': 'self' , 'refer': '' , 'functions': [ ] }
     let _self.functions = libperl#grep_file_functions( self.current_file )
-    call insert(self.resource, _self )
+    cal insert(self.resource, _self )
 
     if g:plc_complete_base_class_func
       let base_functions = libperl#parse_base_class_functions( self.current_file )
-      call extend( self.resource , base_functions )
+      cal extend( self.resource , base_functions )
     endif
 
   " if it's from PACKAGE::SOMETHING , find the package file , and parse
   " subrouteins from the file , and the parent packages
   elseif self.comp_refer_base =~ g:libperl#pkg_token_pattern 
     let class = self.comp_refer_base
-    let filepath = libperl#GetModuleFilePath(class)
+    let filepath = libperl#get_module_file_path(class)
 
     if ! filereadable(filepath)
       throw 'SKIP: no completions for this package: ' .class 
@@ -149,11 +156,11 @@ fun! g:PLCompletionWindow.init_buffer()
 
     let class_comp = { 'class': class , 'refer': '' , 'functions': [ ] }
     let class_comp.functions = libperl#grep_file_functions( filepath )
-    call insert( self.resource , class_comp )
+    cal insert( self.resource , class_comp )
 
     if g:plc_complete_base_class_func
       let base_functions = libperl#parse_base_class_functions( filepath )
-      call extend( self.resource , base_functions )
+      cal extend( self.resource , base_functions )
     endif
 
   " XXX
@@ -165,7 +172,7 @@ fun! g:PLCompletionWindow.init_buffer()
 
   setfiletype PLCompletionWindow
 
-  call append(0, [">> PerlCompletion Window: Complete:<Enter>  Next/Previous Class:<Ctrl-j>/<Ctrl-k>  Next/Previous Entry:<Ctrl-n>/<Ctrl-p> ",""])
+  cal append(0, [">> PerlCompletion Window: Complete:<Enter>  Next/Previous Class:<Ctrl-j>/<Ctrl-k>  Next/Previous Entry:<Ctrl-n>/<Ctrl-p> ",""])
 
   cal self.render_result( self.resource )
 
@@ -175,16 +182,16 @@ fun! g:PLCompletionWindow.init_buffer()
     cal self.update_search()
   endif
 
-  autocmd CursorMovedI <buffer>       call g:PLCompletionWindow.update_search()
-  autocmd BufWinLeave  <buffer>       call g:PLCompletionWindow.close()
+  autocmd CursorMovedI <buffer>       cal g:PLCompletionWindow.update_search()
+  autocmd BufWinLeave  <buffer>       cal g:PLCompletionWindow.close()
   silent file PerlCompletion
 endf
 
 fun! g:PLCompletionWindow.start()
   if strlen( self.comp_base ) > 0
-    call cursor(2, strlen(self.comp_base)+1)
+    cal cursor(2, strlen(self.comp_base)+1)
   else 
-    call cursor(2,1)
+    cal cursor(2,1)
   endif
   startinsert
 endf
@@ -194,12 +201,12 @@ fun! g:PLCompletionWindow.grep_entries(entries,pattern)
   let result = [ ]
   for entry in a:entries
     let entry_result = copy( entry )
-    let entry_result.functions = filter( copy( entry_result.functions )  , 'v:val =~ ''^' . a:pattern . '''' )
+    let entry_result.functions = filter( copy( entry_result.functions )  , 'v:val =~ ''' . a:pattern . '''' )
 
     if strlen( a:pattern ) > 0 && len( entry_result.functions ) > g:plc_max_entries_per_class 
       let entry_result.functions = remove( entry_result.functions , 0 , g:plc_max_entries_per_class )
     endif
-    call add( result , entry_result )
+    cal add( result , entry_result )
   endfor
   return result
 endf
@@ -252,38 +259,131 @@ fun! g:PLCompletionWindow.do_complete()
   let entry = matchstr( line , '\w\+' )
   if line =~ '^\s\s'   " function entry 
     bw
-    call libperl#clear_method_comp_base()
+    cal libperl#clear_method_comp_base()
     if g:plc_complete_paren 
-      call setline( line('.') , getline('.') . entry . '()' )
+      cal setline( line('.') , getline('.') . entry . '()' )
       startinsert
-      call cursor( line('.') , col('$') - 1 )
+      cal cursor( line('.') , col('$') - 1 )
     else
-      call setline( line('.') , getline('.') . entry )
+      cal setline( line('.') , getline('.') . entry )
       startinsert
-      call cursor( line('.') , col('$')  )
+      cal cursor( line('.') , col('$')  )
     endif
   endif
 endf
 
 fun! g:PLCompletionWindow.do_complete_first()
-  call search('^\s\s\w\+')
-  call self.do_complete()
+  cal search('^\s\s\w\+')
+  cal self.do_complete()
 endf
 
 fun! g:PLCompletionWindow.init_mapping()
-  nnoremap <silent> <buffer> <Enter> :call g:PLCompletionWindow.do_complete()<CR>
-  inoremap <silent> <buffer> <Enter> <ESC>:call g:PLCompletionWindow.do_complete_first()<CR>
+  nnoremap <silent> <buffer> <Enter> :cal g:PLCompletionWindow.do_complete()<CR>
+  inoremap <silent> <buffer> <Enter> <ESC>:cal g:PLCompletionWindow.do_complete_first()<CR>
 
-  nnoremap <silent> <buffer> <C-j> :call search('^[a-zA-Z]')<CR>
-  nnoremap <silent> <buffer> <C-k> :call search('^[a-zA-Z]','b')<CR>
+  nnoremap <silent> <buffer> <C-j> :cal search('^[a-zA-Z]')<CR>
+  nnoremap <silent> <buffer> <C-k> :cal search('^[a-zA-Z]','b')<CR>
 
-  inoremap <silent> <buffer> <C-j> <ESC>:call search('^[a-zA-Z]')<CR>
-  inoremap <silent> <buffer> <C-k> <ESC>:call search('^[a-zA-Z]','b')<CR>
+  inoremap <silent> <buffer> <C-j> <ESC>:cal search('^[a-zA-Z]')<CR>
+  inoremap <silent> <buffer> <C-k> <ESC>:cal search('^[a-zA-Z]','b')<CR>
 endf
+
+
+
+
+
+
+
 
 let g:plc_window_height = 14
 let g:plc_window_position = 'botright'
 
-com! OpenPLCompletionWindow                 :call g:PLCompletionWindow.open(g:plc_window_position, 'split',g:plc_window_height,getline('.'))
+com! OpenPLCompletionWindow                 :cal g:PLCompletionWindow.open(g:plc_window_position, 'split',g:plc_window_height,getline('.'))
 inoremap <silent> <C-x><C-x>                <ESC>:OpenPLCompletionWindow<CR>
 
+
+
+
+
+fun! s:FindMethodCompReferStart(line)
+  return searchpos( '\S\+\(->\)\@='  , 'bn' , a:line )
+endf
+
+fun! s:FindMethodCompStart(start,line)
+  let s = a:start
+  while s > 0 && a:line[s - 1] =~ '\a'
+    let s -= 1
+  endwhile
+  return s
+endf
+
+" XXX add preview to this
+fun! PerlComplete(findstart, base)
+  let line = getline('.')
+  let start = col('.') - 1
+  if a:findstart == 1
+    return s:FindMethodCompStart(start,line)
+  else 
+    " hate vim script forgot last position we found 
+    " so we need to find a start again ... orz
+    let s = s:FindMethodCompStart(start,line)
+    let curfile = expand('%')
+
+    " -2 because "->"
+    let ref_start = s:FindMethodCompReferStart(line)
+    let ref_base = strpart( line , ref_start[1] - 1 , s - 1 - ref_start[1] )
+
+    " $self or class
+    let res = [ ]
+    if ref_base =~ '\$\(self\|class\)' 
+      let res = libperl#grep_file_functions( curfile )
+      for token in res 
+        cal complete_add( token )
+      endfor
+      " find base class functions here
+      if 1
+        let bases = libperl#parse_base_class_functions( curfile )
+        "  why there is no such complete_add function takes list ? hate;
+        for b in bases
+          for f in b.functions
+            cal complete_add({ 'word':f , 'kind': 'f' , 'menu': b.class . ' (refer:' . b.refer . ')' } )
+            if complete_check()
+              break 
+            endif
+          endfor
+        endfor
+      endif
+    elseif ref_base =~ g:libperl#pkg_token_pattern 
+      let filepath = libperl#get_module_file_path(ref_base)
+      if ! filereadable(filepath)
+        return [ ]
+      endif
+
+      " let class_comp = { 'class': class , 'refer': '' , 'functions': [ ] }
+      let funcs = libperl#grep_file_functions( filepath )
+
+      for f in funcs
+        cal complete_add( { 'word' : f , 'kind': 'f' } )
+      endfor
+
+      if 1
+        let bases = libperl#parse_base_class_functions( filepath )
+        for b in bases
+          for f in b.functions
+            " cal complete_add({ 'word':f , 'kind': 'f' , 'menu': b.class . ' (refer:' . b.refer . ')' } )
+            cal complete_add({ 'word':f , 'kind': 'f' , 'menu': b.class } )
+            if complete_check()
+              break 
+            endif
+          endfor
+        endfor
+      endif
+
+    endif
+    return [ ]
+  endif
+endf
+
+
+" $self->asdfj
+autocmd filetype perl set completefunc=PerlComplete
