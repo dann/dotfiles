@@ -1,0 +1,23 @@
+
+    *perldoc-window.txt*  Plugin for .... 
+
+perldoc-window                                       *perldoc-window* 
+Last Change: 2009-11-02T09:44:37
+
+|perldoc-window-description|   Description
+|perldoc-window-syntax|        Syntax
+|perldoc-window-usage|         Usage
+|perldoc-window-settings|      Settings
+|perldoc-window-features|      Features
+|perldoc-window-contact|       Contact
+
+For Vim version 7.0 or later.
+This plugin only works if 'compatible' is not set.
+{Vi does not have any of these features.}
+
+==============================================================================
+DESCRIPTION                                             *perldoc-window-description*
+
+    Your Description here....
+
+==============================================================================

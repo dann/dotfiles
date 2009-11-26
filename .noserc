@@ -1,0 +1,4 @@
+[nosetests]
+nocapture=1
+rednose=1
+

@@ -14,3 +14,7 @@
 --langmap=actionscript:.as
 --regex-actionscript=/^.*function[\t ]+([gs]et[\t ]+)?([A-Za-z0-9_]+)[\t ]*\(/\2/I,inner/i
 --regex-actionscript=/^.*class[\t ]+([A-Za-z0-9_]+)/\1/I,inner/i
+
+--langmap=python:.py
+--regex-python=/([A-Za-z0-9_.]+)[ \t]*=[ \t]*property\(/\1/p,property/
+

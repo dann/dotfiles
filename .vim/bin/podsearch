@@ -1,0 +1,103 @@
+#!/usr/bin/env perl
+use 5.006_000;
+use strict;
+use warnings;
+require File::Find;
+require Getopt::Long;
+require Pod::Usage;
+require IO::File;
+require App::Perldoc::Search::_Parser;
+
+
+# podsearch usage:
+#
+#   perl bin/podsearch [Pattern]  [Paths...]
+# 
+# XXX: add line number to result
+
+search_from_perldoc(@ARGV);
+exit;
+
+sub search_from_perldoc {
+    my @argv = @_;
+
+    # Read optional options.
+    local *ARGV = \@argv;
+    my $file_match_rx = qr/\.p(?:od|mc?)$/;
+    Getopt::Long::GetOptions(
+        'G=s' => sub { $file_match_rx = qr/$_[1]/ },
+        'help' => \&_help
+    ) or die;
+
+    # Validate pattern.
+    if ( !@argv ) {
+        die;
+    }
+    my $pattern = shift @ARGV;
+
+    # Get search path
+    my @search_path = @ARGV ? @ARGV : @INC;
+
+    # Search all files.
+    File::Find::find( {   
+            follow_fast => 1,
+            no_chdir    => 1,
+            wanted      => sub {
+                return
+                    if !/$file_match_rx/
+                        || !-f;
+
+                # Open the documentation.
+                my $fh = IO::File->new;
+                $fh->open($_)
+                    or return;
+
+                # Read the documentation.
+                my $text;
+                IO::Handle->input_record_separator(undef);
+                $text = $fh->getline;
+
+                # Try a fast match to avoid parsing.
+                return if $text !~ $pattern;
+
+                # Prepare for searching.
+                my $searcher = App::Perldoc::Search::_Parser->new;
+                $searcher->{pattern} = $pattern;
+
+                # Search the document.
+                IO::Handle->input_record_separator("\n");
+                $fh->seek( 0, 0 );
+                $searcher->parse_from_filehandle($fh);
+                return if !$searcher->{matched};
+
+                # Extract document name.
+                my $name = $searcher->{name} || $_;
+
+                if ($name) {
+                    my ( $module, $description )
+                        = trim( split( '-', $name ) );
+                    my $pod_location = qx(perldoc -l $module 2> /dev/null);
+                    chomp($pod_location);
+
+                    $name =~ s/\n//g;
+                    return unless $pod_location;
+
+                    # printf "%s | %s\n", $pod_location, $name;
+                    printf "%s | %s\n", $name , $pod_location;
+                }
+            }
+        },
+        @search_path
+    );
+
+    return;
+}
+
+sub trim {
+    my @out = @_;
+    for (@out) {
+        s/^\s+//;
+        s/\s+$//;
+    }
+    return wantarray ? @out : $out[0];
+}

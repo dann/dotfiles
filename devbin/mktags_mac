@@ -8,4 +8,11 @@ ctags -f ~/.vim/tags/perl/cpan.tags --recurse --totals \
     --languages=Perl --langmap=Perl:+.t \
     /Library/Perl/5.8.8/
 
+echo 'Generating tags for python ...'
+ctags -f ~/.vim/tags/python/python.tags --recurse --totals \
+    --exclude=blib \
+    --exclude=.svn \
+    --exclude='*~' \
+    --languages=python \
+    /Library/Python/2.5/site-packages
 

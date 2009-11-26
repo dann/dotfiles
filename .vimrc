@@ -191,7 +191,7 @@ let g:acp_behaviorKeywordLength = 2
 let g:acp_behaviorFileLength = 0
 let g:acp_behaviorRubyOmniMethodLength = 1
 let g:acp_behaviorRubyOmniSymbolLength = 1
-let g:acp_behaviorPythonOmniLength = 1
+"let g:acp_behaviorPythonOmniLength = 1
 let g:acp_behaviorXmlOmniLength = 1
 let g:acp_behaviorHtmlOmniLength = 1
 let g:acp_behaviorCssOmniPropertyLength = 1
@@ -199,6 +199,9 @@ let g:acp_behaviorCssOmniValueLength = 1
 let g:acp_behaviorSnipmateLength=1
 
 "set omnifunc=syntaxcomplete#Complete
+
+" python
+let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
 
 " ============================================
 " smartword.vim 
