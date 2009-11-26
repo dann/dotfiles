@@ -16,25 +16,8 @@ setlocal shiftwidth=4
 setlocal expandtab
 setlocal smarttab
 
-" tags
-setlocal tags+=~/.vim/tags/python/python.tags
-
 "--------------------------------------------------
-" Execute Pyflakes 
-"--------------------------------------------------
-command Pyflakes :call Pyflakes()
-function! Pyflakes()
-    let tmpfile = tempname()
-    execute "w" tmpfile
-    execute "set makeprg=(pyflakes\\ " . tmpfile . "\\\\\\|sed\\ s@" . tmpfile ."@%@)"
-    make
-    cw
-endfunction
-
-" autocmd BufWrite *.{py} :call Pyflakes()
-
-"--------------------------------------------------
-"syntax/python.vim
+"syntax highlight
 "--------------------------------------------------
 let python_highlight_all=1
 
@@ -43,6 +26,9 @@ let python_highlight_all=1
 "--------------------------------------------------
 " Turn on completion:
 setlocal omnifunc=pythoncomplete#Complete
+
+" tags
+setlocal tags+=~/.vim/tags/python/python.tags
 
 "--------------------------------------------------
 " Syntax Check
