@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm ~/.zshrc ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc_minimum 
+rm ~/.zshrc ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc_minimum  ~/.bashrc-mac
 rm -rf ~/.asstarter
 
 CURRENT_DIR=`pwd`
@@ -33,5 +33,6 @@ ln -s $CURRENT_DIR/.bash ~/.bash
 ln -s $CURRENT_DIR/.bashrc_profile ~/.bashrc_profile
 ln -s $CURRENT_DIR/.bashrc_minimum ~/.bashrc_minimum
 ln -s $CURRENT_DIR/.bashrc ~/.bashrc
+ln -s $CURRENT_DIR/.bashrc-mac ~/.bashrc-mac
 
 chmod 700 ~/devbin/*

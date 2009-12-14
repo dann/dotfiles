@@ -43,6 +43,17 @@ if [ -f ~/.bash/bash_completion ]; then
     source $BASH_COMPLETION
 fi
 
+if [ -f ~/devbin/acd_func.sh ]; then
+    source ~/devbin/acd_func.sh
+fi
+
+#-------------------------------------------------------------
+# Mac settings
+#-------------------------------------------------------------
+if [[ "${OSTYPE}" = darwin* ]] ; then
+    [ -e ~/.bashrc-mac ] && source ~/.bashrc-mac
+fi
+
 #-------------------------------------------------------------
 # load custom config
 #-------------------------------------------------------------
