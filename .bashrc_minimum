@@ -56,7 +56,6 @@ if [[ "$PS1" ]]; then
       history -r
     }
     PROMPT_COMMAND='share_history'
-    shopt -u histappend
     export HISTSIZE=300000
     export HISTFILESIZE=300000
     export HISTCONTROL=ignoreboth
