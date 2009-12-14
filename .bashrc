@@ -1,12 +1,12 @@
 #-------------------------------------------------------------
 # load custom config
 #-------------------------------------------------------------
-[ -r ~/.bashrc_before ] && source ~/.bashrc_before
+[ -r ~/.bashrc-before ] && source ~/.bashrc-before
 
 #-------------------------------------------------------------
 # load minimum settings
 #-------------------------------------------------------------
-source ~/.bashrc_minimum
+source ~/.bashrc-minimum
 
 #-------------------------------------------------------------
 # basics
@@ -58,4 +58,4 @@ fi
 # load custom config
 #-------------------------------------------------------------
 
-[ -r ~/.bashrc_after ] && source ~/.bashrc_after
+[ -r ~/.bashrc-after ] && source ~/.bashrc-after
