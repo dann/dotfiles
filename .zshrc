@@ -1,6 +1,3 @@
-# change default file mode
-umask 022
-
 #-----------------------------------------------
 # load dev env config
 #-----------------------------------------------
@@ -13,130 +10,11 @@ umask 022
 #-----------------------------------------------
 [ -e ~/.zshrc-before ] && source ~/.zshrc-before
 
-#-----------------------------------------------
-# Base setting
-#-----------------------------------------------
-export LANG=ja_JP.utf8
-export EDITOR=vim
-export VISUAL=vim
-export COLOR=32
-export SCREENCOLOR=g
-export PERL_BADLANG=0
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-
-# save history
-export HISTSIZE=100000 HISTFILE=~/.zsh_history SAVEHIST=100000
 
 #-----------------------------------------------
-# option
+# load basic settings
 #-----------------------------------------------
-setopt \
-    append_history \
-    auto_cd \
-    auto_list \
-    auto_resume \
-    cdable_vars \
-    NO_clobber \
-    complete_in_word \
-    equals \
-    extended_glob \
-    extended_history \
-    NO_glob_dots \
-    hist_ignore_dups \
-    NO_hist_ignore_space \
-    NO_ignore_eof \
-    interactive_comments \
-    list_types \
-    long_list_jobs \
-    mail_warning \
-    no_bad_pattern \
-    notify \
-    numeric_glob_sort \
-    print_exit_value \
-    pushd_minus \
-    pushd_silent \
-    pushd_to_home \
-    pushd_ignore_dups \
-    rc_quotes \
-    share_history \
-    autopushd \
-    no_beep \
-    auto_param_slash \
-
-#    correct \
-#    correct_all \
-
-#-----------------------------------------------
-# Path
-#-----------------------------------------------
-export PATH="/bin:${PATH}"
-export PATH="/usr/bin:${PATH}"
-export PATH="/usr/games:${PATH}"
-export PATH="/sbin:${PATH}"
-export PATH="/usr/sbin:${PATH}"
-export PATH="/var/lib/gems/1.8/bin/:${PATH}"
-export PATH="/Applications/Firefox.app/Contents/MacOS/:${PATH}"
-export PATH="/opt/local/bin:${PATH}"
-export PATH="/opt/local/sbin:${PATH}"
-export PATH="/usr/local/bin:${PATH}"
-export PATH="$HOME/devtools/flex_sdk_3/bin:${PATH}"
-export PATH="$HOME/bin:${PATH}"
-export PATH="$HOME/devbin:${PATH}"
-export PATH="$HOME/local/bin:${PATH}"
-
-# Flex SDK
-export _JAVA_OPTIONS=-Duser.language=en
-
-#-----------------------------------------------
-# vi-keys
-#-----------------------------------------------
-bindkey -v
-bindkey "^P" up-line-or-history
-bindkey "^N" down-line-or-history
-bindkey "^K" vi-change-eol
-bindkey "^R" history-incremental-search-backward
-
-#-----------------------------------------------
-# These works in linux+xterm+ssh setup:
-#-----------------------------------------------
-bindkey "^[[1~" vi-beginning-of-line   # Home
-bindkey "^[[4~" vi-end-of-line         # End
-bindkey "^[[2~" beep                   # Insert
-bindkey "^[[3~" delete-char            # Del
-bindkey "^[[A" up-line-or-history      # Up
-bindkey "^[[B" down-line-or-history    # Down
-
-#-----------------------------------------------
-# completion
-#-----------------------------------------------
-fpath=(~/.zsh/completion $fpath)
-_cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
-autoload -U compinit; compinit
-autoload colors; colors
-
-#-----------------------------------------------
-# command line
-#-----------------------------------------------
-autoload edit-command-line; zle -N edit-command-line
-# <Esc>v to use vim to edit a command:
-bindkey -M vicmd v edit-command-line
-
-#-----------------------------------------------
-# url escape
-#-----------------------------------------------
-autoload -U url-quote-magic
-zle -N self-insert url-quote-magic
-
-#-----------------------------------------------
-# exclude list
-#-----------------------------------------------
-compctl -/ -g '*~(CVS|.svn)(/)' cd
-compctl -g \
-    '(.*|*~*.class~*.o~*.a~*.tar~*.gz~*.Z~*.rpm~*.gif~*.jpg~*.png~*.zip~*.jar)~.svn'\
-    vim
-
-fignore=(.o \~ .swp CVS)
-zmodload zsh/complist
+[ -e ~/.zshrc-minimum ] && source ~/.zshrc-minimum
 
 #-----------------------------------------------
 #  alias

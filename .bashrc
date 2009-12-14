@@ -39,7 +39,7 @@ unset color_prompt GREEN blue cyan none
 # completion
 #-------------------------------------------------------------
 if [ -f ~/.bash/bash_completion ]; then
-    export BASH_COMPLETION="$HOME/.bash/bash_completion"
+    export BASH_COMPLETION=~/.bash/bash_completion
     source $BASH_COMPLETION
 fi
 
