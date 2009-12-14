@@ -5,13 +5,12 @@ ulimit -c 0
 shopt -u sourcepath
 
 if [[ "$PS1" ]]; then
-# Interactive mode
+    # Interactive mode
 
-#-------------------------------------------------------------
-# Shell options
-#-------------------------------------------------------------
+    #-------------------------------------------------------------
+    # Shell options
+    #-------------------------------------------------------------
     IGNOREEOF=10
-#TMOUT=600  # auto-logout
     unset MAIL
     unset command_not_found_handle
     shopt -s histappend
@@ -60,6 +59,8 @@ if [[ "$PS1" ]]; then
     shopt -u histappend
     export HISTSIZE=300000
     export HISTFILESIZE=300000
+    export HISTCONTROL=ignoreboth
+    export HISTFILE=~/.bash_myhistory
 
     function fceditor ()  {  tt=/tmp/$$.sh; cat $1 | ( read -rd '' s; t=/tmp/$$; echo "function a(){" > $t; echo "$s" >> $t; echo -e " }\n declare -f a" >> $t; chmod +x $t; $t > /dev/null 2>&1; if [ $? = 0 ]; then a=`$t|sed '1,2d;$d;s/....//'`";"`echo "$s"|tail -1|sed 's/^.\+\(#[^#]\+\)$/\1/'`; else a="$s"; fi; rm $t; echo "$a" ) > $tt; vim $tt; sed 's/^ *//' $tt > $1; rm $tt; }
     export FCEDIT=fceditor
