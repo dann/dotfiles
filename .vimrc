@@ -118,14 +118,20 @@ nmap g" cs"G
 " ============================================
 " fuzzyfinder
 " ============================================
-nnoremap <silent> ,f :FuzzyFinderFile<CR>
-nnoremap <silent> ,b :FuzzyFinderBuffer<CR>
-nnoremap <silent> ,d :FuzzyFinderDir<CR>
-nnoremap <silent> ,mf :FuzzyFinderMruFile<CR>
-nnoremap <silent> ,mc :FuzzyFinderMruCmd<CR>
+let g:fuf_modesDisable = ['mrucmd']
+let g:fuf_file_exclude = '\v\~$|\.(o|exe|bak|swp|gif|jpg|png)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_mrufile_exclude = '\v\~$|\.bak$|\.swp|\.howm$|\.(gif|jpg|png)$'
+let g:fuf_mrufile_maxItem = 10000
+let g:fuf_enumeratingLimit = 20
+let g:fuf_keyPreview = '<C-]>'
+let g:fuf_previewHeight = 0
 
-" tag with fuzzyfinder
-nnoremap <silent> <C-]> :FuzzyFinderTag <C-r>=expand('<cword>')<CR><CR>
+nmap ,b :FufBuffer<CR>
+nmap ,f :FufFile **/<CR>
+nmap ,mf :FufMruFile<CR>
+nmap ,q :FufQuickfix<CR>
+nmap ,l :FufLine<CR>
+nnoremap <silent> <C-]> :FufTag! <C-r>=expand('<cword>')<CR><CR>
 
 " ============================================
 " Ctags

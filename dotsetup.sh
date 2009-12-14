@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm ~/.zshrc ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint
+rm ~/.zshrc ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc_minimum 
 rm -rf ~/.asstarter
 
 CURRENT_DIR=`pwd`
@@ -28,5 +28,10 @@ ln -s $CURRENT_DIR/.irssi ~/.irssi
 ln -s $CURRENT_DIR/devbin/.asstarter ~/.asstarter
 ln -s $CURRENT_DIR/.noserc ~/.noserc
 ln -s $CURRENT_DIR/.pylint ~/.pylint
+ln -s $CURRENT_DIR/.zshrc-java ~/.zshrc-java
+ln -s $CURRENT_DIR/.bash ~/.bash
+ln -s $CURRENT_DIR/.bashrc_profile ~/.bashrc_profile
+ln -s $CURRENT_DIR/.bashrc_minimum ~/.bashrc_minimum
+ln -s $CURRENT_DIR/.bashrc ~/.bashrc
 
 chmod 700 ~/devbin/*
