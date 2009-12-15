@@ -1,0 +1,110 @@
+" ============================================
+" Japanese setting
+" ============================================
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+
+" ============================================
+" Default setting
+" ============================================
+set ambiwidth=double
+set autoindent
+set backspace=indent,eol,start
+
+" highlight
+"set hlsearch
+"nmap <silent> gh :let @/=''<CR>
+set nohlsearch
+
+" highlight Zenkaku word
+highlight ZenkakuSpace ctermbg=6
+"match ZenkakuSpace /\s\+$\|　/
+set listchars=tab:>.
+set list
+
+set ignorecase
+set laststatus=2
+set ruler
+
+" tab setting
+set expandtab
+set smarttab
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+
+" search setting
+set incsearch
+set wrapscan
+
+set nobackup
+set smartcase
+set nofoldenable
+set showcmd
+set number
+
+" syntax
+syntax on
+
+" filetype setting
+filetype on
+filetype indent on
+filetype plugin on
+
+" auto change directory
+if has("autochdir")
+    set autochdir 
+endif
+
+" ============================================
+" mapping
+" ============================================
+nnoremap j gj
+nnoremap k gk
+
+" nerdtree toggle
+map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+
+" disable highlight with <esc><esc>
+nnoremap <Esc><Esc> :<C-u>set nohlsearch<Return>
+
+" ============================================
+" open perl module with gf
+" ============================================
+autocmd FileType perl set isfname-=-
+
+" ============================================
+" statusline
+" ============================================
+set statusline=%y%{GetFileEncoding()}%F%m%r%=%c:%l%5(\ %)%3p%%
+
+function! GetFileEncoding()
+    let str = &fileformat . ']'
+    if has('multi_byte') && &fileencoding != ''
+        let str = &fileencoding . ':' . str
+    endif
+    let str = '[' . str
+    return str
+endfunction
+
+
+" ============================================
+" completion color
+" ============================================
+set t_Co=16
+set t_Sf=[3%dm
+set t_Sb=[4%dm
+
+hi Pmenu ctermbg=8
+hi PmenuSel ctermbg=12
+hi PmenuSbar ctermbg=0
+
+" ============================================
+" Escape sequence mapping 
+" ============================================
+imap jj <Esc>
+
+" ==
+set wildmode=list:longest
+
