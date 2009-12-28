@@ -1,0 +1,5 @@
+#!/bin/sh
+airake $1
+cd $1
+git init
+git add *

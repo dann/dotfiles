@@ -4,6 +4,7 @@ endif
 augroup filetypedetect
     au! BufNewFile,BufRead svk-commit*.tmp      setf svk
     au! BufNewFile,BufRead svn-commit*.tmp      setf svn
+    au BufWinEnter,BufNewFile COMMIT_EDITMSG    setf git
     au! BufNewFile,BufRead mason/*.html         setf mason
     au BufRead,BufNewFile *.mas set ft=mason
     au BufRead,BufNewFile *.mxml set ft=mxml

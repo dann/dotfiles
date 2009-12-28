@@ -21,7 +21,7 @@
     d10 = diff HEAD^^^^^^^^^^
 
 [color]
-    diff = auto
+    diff   = auto
     status = auto
     branch = auto
 

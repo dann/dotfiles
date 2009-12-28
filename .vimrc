@@ -46,7 +46,6 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 " Rename
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
-
 " ============================================
 " mac
 " ============================================
