@@ -124,4 +124,19 @@ inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 "=============================================
 let g:manpageview_winopen="vsplit"
 
+"=============================================
+" ref.vim
+"=============================================
+" let g:ref_phpmanual_path = $HOME.'/Documents/php-chunked-xhtml'
+let g:ref_open = 'vsplit'
+let g:ref_perldoc_complete_head = 1
+let g:ref_use_vimproc = 0
+let g:ref_jquery_use_cache = 1
+let g:ref_alc_use_cache = 1
+nnoremap <C-f><C-f> :<C-u>Ref<Space>
+nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
+nnoremap <C-f><C-r> :<C-u>Ref refe<Space>
+nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
+nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
+nnoremap <C-f><C-a> :<C-u>Ref alc<Space>
 
