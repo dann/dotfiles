@@ -17,8 +17,21 @@ How to customize configs
 
 How to use
 
-   share screen session
+   perl project
+    perldoc 
+      <C-f><C-p>
+
+    select buffer
+      <C-s>
+
+   snipMate
+      type a capital character
+        ex) while snippets are completed if you type 'W'
+
+   Share session
+    share screen session
       screen -x username/
 
-   you can share a your screen session with users in .dev_users file.
+    you can share a your screen session with users in .dev_users file.
+
 
