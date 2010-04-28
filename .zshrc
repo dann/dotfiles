@@ -10,7 +10,6 @@
 #-----------------------------------------------
 [ -e ~/.zshrc-before ] && source ~/.zshrc-before
 
-
 #-----------------------------------------------
 # load basic settings
 #-----------------------------------------------
@@ -54,55 +53,6 @@ function chpwd() {
 stty stop undef
 
 #-----------------------------------------------
-# screen
-#-----------------------------------------------
-# show command name on screen's status bar
-if [ "$TERM" = "screen" ]; then
-	#chpwd () { echo -n "_`dirs`\\" }
-	chpwd () { 
-            if [[ "${OSTYPE}" = darwin* ]] ; then
-                gls -al --color 
-            else
-                ls -al
-            fi
-        }
-	preexec() {
-		# see [zsh-workers:13180]
-		# http://www.zsh.org/mla/workers/2000/msg03993.html
-		emulate -L zsh
-		local -a cmd; cmd=(${(z)2})
-		case $cmd[1] in
-			fg)
-				if (( $#cmd == 1 )); then
-					cmd=(builtin jobs -l %+)
-				else
-					cmd=(builtin jobs -l $cmd[2])
-				fi
-				;;
-			%*) 
-				cmd=(builtin jobs -l $cmd[1])
-				;;
-			cd)
-				if (( $#cmd == 2)); then
-					cmd[1]=$cmd[2]
-				fi
-				;&
-			*)
-				echo -n "k$cmd[1]:t\\"
-				return
-				;;
-		esac
-
-		local -A jt; jt=(${(kv)jobtexts})
-
-		$cmd >>(read num rest
-			cmd=(${(z)${(e):-\$jt$num}})
-			echo -n "^[k$cmd[1]:t^[\\") 2>/dev/null
-	}
-	chpwd
-fi
-
-#-----------------------------------------------
 # Prompot
 #-----------------------------------------------
 setopt prompt_subst
@@ -119,8 +69,10 @@ function parse_git_branch {
 }
 
 #-----------------------------------------------
-#  Utilit function
+#  Utility function
 #-----------------------------------------------
+#
+# ------------------------
 # Dev common
 # ------------------------
 grep-find () { find . -type f -print0 | xargs -0 -e grep -n --binary-files=without-match -e $@ | grep -E -v \(\*.\*~\|tags\) }
@@ -144,14 +96,6 @@ function psg() {
   psa | grep $* | grep -v "ps -auxww" | grep -v grep
 }
 
-
-# Perl
-# ------------------------
-# set PERL5LIB env
-perl5lib () {
-    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${PERL5LIB}"
-}
-
 # http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
 function cdf () {
     local -a tmpparent; tmpparent=""
@@ -169,16 +113,26 @@ function cdf () {
     done
 }
 
+#------------------------
+# MySQL
+#------------------------
+export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
+
+#------------------------
+# Perl
+#------------------------
+# set PERL5LIB env
+perl5lib () {
+    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${PERL5LIB}"
+}
+
 function cdmake () {
     cdf "Makefile.PL"
 }
 
-# alias for catalyst development (perl)
-alias cs="perl script/*_server.pl -d"
-alias carpcs="perl -MCarp::Always script/*_server.pl -d"
-
+#------------------------
 # ruby
-# ------------------------
+#------------------------
 refe_utf8() {
   refe $@ | nkf -Ew
 }
