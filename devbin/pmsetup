@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker qw(prompt);
 use File::Basename;
 use File::Path;
 use File::Spec;
-use Template;
+use Text::Xslate;
 use YAML;
 use Config::Pit;
 
@@ -94,8 +94,10 @@ sub write_file {
         File::Path::mkpath( $dir, 1, 0777 );
     }
 
-    my $tt = Template->new;
-    $tt->process( \$template, $vars, \my $content );
+    my $tt = Text::Xslate->new(
+        syntax => 'TTerse'
+    );
+    my $content = $tt->render_string( $template, $vars);
 
     warn "Creating $path\n";
     open my $out, ">", $path or die "$path: $!";
@@ -114,7 +116,32 @@ __DATA__
 ---
 file: Makefile.PL
 template: |
+  sub readme_from {
+      warn
+          "You need to install Module::Install::ReadmeFromPod to generate README";
+  }
+  
+  sub use_test_base {
+      warn "You need to install Test::Base to run make test from git clone";
+  }
+  
+  sub author_requires {
+      warn
+          "You need to install Module::Install::AuthorRequires to install modules author requires";
+  }
+  sub author_tests        { }
+  sub auto_set_repository { }
+  
   use inc::Module::Install;
+  
+  {
+      no warnings 'redefine';
+      *recommends_hack
+          = $Module::Install::VERSION > 0.70
+          ? sub { recommends(@_); $_[0] }
+          : \&recommends;
+  }
+  
   name '[% dist %]';
   all_from 'lib/[% path %]';
 
@@ -122,9 +149,8 @@ template: |
 
   );
   test_requires(
-    'Test::More'                   => 0,
-    'Test::Class'                  => 0,
-    'Module::Install::AuthorTests' => 0,
+      'Test::More'                   => 0.88,
+      'Test::LoadAllModules'         => 0.02,
   );
   use_test_base;
   auto_include;
