@@ -19,7 +19,7 @@ bind 'U' eval "encoding utf8" "stuff 'export LANG=ja_JP.UTF-8\012'"
 bind 'E' eval "encoding euc" "stuff 'export LANG=ja_JP.EUC-JP\012'"
 
 #-----------------------------------------
-# Save layout when we detach
+# Save layout
 #-----------------------------------------
 layout new default
 
