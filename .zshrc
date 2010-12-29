@@ -20,27 +20,6 @@ export EDITOR=vim
 export LESS="-erX"
 
 
-#-----------------------------------------------
-#  alias
-#-----------------------------------------------
-alias df='df -h'
-alias du='du -h'
-alias j='jobs -l'
-alias sl='ls'
-alias gd='dirs -v; echo -n "select number: "; read newdir; cd -"$newdir"'
-alias gf=grep-find
-alias vi='vim'
-alias cls='clear'
-alias vip='vim **/*.{pm,css,tt2,t,js}'
-alias ls='ls --color'
-alias psa='ps auxw'
-
-# ssh-agent
-alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
-
-# global alias
-alias -g V="| col -b | vim -R -"
-
 function chpwd() {
     if [[ "${OSTYPE}" = darwin* ]] ; then
         gls -al --color 

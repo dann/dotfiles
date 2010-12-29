@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm ~/.zshrc ~/.zshrc-minimum ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.vimrc-minimum ~/.vimrc-plugins ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc-minimum  ~/.bashrc-mac ~/.bash ~/.shipit
+rm ~/.zshrc ~/.zshrc-minimum ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc ~/.catsetup ~/.gitconfig ~/.catsetupr ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.vimrc-minimum ~/.vimrc-plugins ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc-minimum  ~/.bashrc-mac ~/.bash ~/.shipit ~/.tscreenrc
 rm -rf ~/.asstarter
 
 CURRENT_DIR=`pwd`
@@ -10,6 +10,7 @@ ln -s $CURRENT_DIR/.zsh ~/.zsh
 ln -s $CURRENT_DIR/.zshrc-java ~/.zshrc-java
 ln -s $CURRENT_DIR/.zshrc-mac ~/.zshrc-mac
 ln -s $CURRENT_DIR/.screenrc ~/.screenrc
+ln -s $CURRENT_DIR/.tscreenrc ~/.tscreenrc
 ln -s $CURRENT_DIR/.vimrc ~/.vimrc
 ln -s $CURRENT_DIR/.vim ~/.vim
 ln -s $CURRENT_DIR/.vimrc-mac ~/.vimrc-mac
