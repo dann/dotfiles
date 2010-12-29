@@ -15,11 +15,6 @@
 #-----------------------------------------------
 [ -e ~/.zshrc-minimum ] && source ~/.zshrc-minimum
 
-export EDITOR=vim
-
-export LESS="-erX"
-
-
 function chpwd() {
     if [[ "${OSTYPE}" = darwin* ]] ; then
         gls -al --color 
