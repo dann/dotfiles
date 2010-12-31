@@ -15,17 +15,6 @@
 #-----------------------------------------------
 [ -e ~/.zshrc-minimum ] && source ~/.zshrc-minimum
 
-function chpwd() {
-    if [[ "${OSTYPE}" = darwin* ]] ; then
-        gls -al --color 
-    else
-        ls -al
-    fi
-}
-
-# disable Ctrl+S
-stty stop undef
-
 #-----------------------------------------------
 # Prompot
 #-----------------------------------------------
@@ -87,12 +76,6 @@ if [ x$TERM = xscreen ]; then
     alias ssh=ssh_screen
 fi
 
-# grep process
-function psg() {
-  psa | head -n 1 # show label
-  psa | grep $* | grep -v "ps -auxww" | grep -v grep
-}
-
 # http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
 function cdf () {
     local -a tmpparent; tmpparent=""
@@ -138,19 +121,6 @@ alias refe='refe_utf8'
 function cdrake () {
     cdf "Rakefile"
 }
-
-
-#-----------------------------------------------
-#  completion
-#-----------------------------------------------
-# auto-fu
-#bindkey -N isearch
-#source ~/.zsh/auto-fu.zsh
-#
-#function zle-line-init () {
-#    auto-fu-init;
-#}
-#zle -N zle-line-init
 
 #-----------------------------------------------
 # java settings
