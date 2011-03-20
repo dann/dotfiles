@@ -47,9 +47,15 @@ if [[ $ZSH_VERSION == (<5->|4.<4->|4.3.<10->)* ]]; then
     local vcs='%3(v|[%25<\<<%F{yellow}%2v%f@%F{blue}%1v%f%<<]|)'
     RPROMPT="$dirs$vcs"
 else
-    PROMPT='%B%{${fg[red]}%}[%n%{${fg[blue]}%}@%m${WINDOW:+":$WINDOW"}]%{%(?.$fg[blue].$fg[red])%}%(!.#.$)%{${reset_color}%}%b '
-    RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%} $(parse_git_branch)'
-    SPROMPT="%B%r is correct? [n,y,a,e]:%b "
+    if which git >& /dev/null ; then
+        PROMPT='%B%{${fg[red]}%}[%n%{${fg[blue]}%}@%m${WINDOW:+":$WINDOW"}]%{%(?.$fg[blue].$fg[red])%}%(!.#.$)%{${reset_color}%}%b '
+        RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%} $(parse_git_branch)'
+        SPROMPT="%B%r is correct? [n,y,a,e]:%b "
+    else
+        PROMPT='%B%{${fg[red]}%}[%n%{${fg[blue]}%}@%m${WINDOW:+":$WINDOW"}]%{%(?.$fg[blue].$fg[red])%}%(!.#.$)%{${reset_color}%}%b '
+        RPROMPT='%{${fg[green]}%}[%(5~,%-1~/.../%2~,%~)] %{${fg[magenta]}%}%B%T%b%{${reset_color}%}'
+        SPROMPT="%B%r is correct? [n,y,a,e]:%b "
+    fi
 fi
 
 function parse_git_dirty {
@@ -84,7 +90,7 @@ fi
 # http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
 function cdf () {
     local -a tmpparent; tmpparent=""
-    local -a filename; filename="${1}"
+    local -a filename; filename=""
     local -a file
     local -a num; num=0
     while [ $num -le 10 ]; do
