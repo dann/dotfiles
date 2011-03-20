@@ -17,6 +17,9 @@ export LESS="-erX"
 export HISTSIZE=100000 HISTFILE=~/.zsh_history SAVEHIST=100000
 export WORDCHARS='*?[]~=&;!#$%^(){}<>'
 
+# version detection
+autoload -Uz is-at-least
+
 #-----------------------------------------------
 # Path
 #-----------------------------------------------
@@ -83,7 +86,14 @@ bindkey -v
 bindkey "^P" up-line-or-history
 bindkey "^N" down-line-or-history
 bindkey "^K" vi-change-eol
-bindkey "^R" history-incremental-search-backward
+
+if is-at-least 4.3.10; then
+    bindkey '^R' history-incremental-pattern-search-backward
+    bindkey '^S' history-incremental-pattern-search-forward
+else
+    bindkey "^R" history-incremental-search-backward
+    bindkey '^S' history-incremental-search-forward
+fi
 
 #-----------------------------------------------
 # These works in linux+xterm+ssh setup:
@@ -104,6 +114,8 @@ _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/know
 autoload -U compinit; compinit
 autoload colors; colors
 
+
+
 #-----------------------------------------------
 # screen
 #-----------------------------------------------
@@ -112,7 +124,7 @@ if [ "$TERM" = "screen" ]; then
 	#chpwd () { echo -n "_`dirs`\\" }
 	chpwd () { 
             if [[ "${OSTYPE}" = darwin* ]] ; then
-                gls -al --color 
+                ls -al --color 
             else
                 ls -al
             fi
@@ -155,7 +167,7 @@ fi
 
 function chpwd() {
     if [[ "${OSTYPE}" = darwin* ]] ; then
-        gls -al --color 
+        ls -al --color 
     else
         ls -al
     fi
