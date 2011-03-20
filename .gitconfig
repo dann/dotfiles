@@ -5,7 +5,7 @@
 [alias]
     ci = commit -a
     co = checkout
-    st = status -a
+    st = status
     praise = blame 
     up = pull --rebase
     amend = commit --amend
