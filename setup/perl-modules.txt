@@ -75,3 +75,4 @@ HTML::TreeBuilder
 HTML::TreeBuilder::LibXML
 HTML::TreeBuilder::XPath
 HTTP::MobileAgent
+cpan-upload-http
