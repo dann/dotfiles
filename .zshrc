@@ -16,6 +16,11 @@
 [ -e ~/.zshrc-minimum ] && source ~/.zshrc-minimum
 
 #-----------------------------------------------
+# perlbrew
+#-----------------------------------------------
+[ -e ~/perl5/perlbrew/etc/bashrc ] && source ~/perl5/perlbrew/etc/bashrc
+
+#-----------------------------------------------
 # Prompot
 #-----------------------------------------------
 setopt prompt_subst
