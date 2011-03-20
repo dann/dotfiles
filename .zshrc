@@ -121,6 +121,11 @@ function cdmake () {
     cdf "Makefile.PL"
 }
 
+
+function minicpan_get () {
+    perl `which minicpan` -r http://cpan.yahoo.com/ -l ~/share/minicpan
+}
+
 #------------------------
 # ruby
 #------------------------
