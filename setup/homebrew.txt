@@ -1,6 +1,5 @@
 bvi
 coreutils
-emacs
 gettext
 git
 jsl
