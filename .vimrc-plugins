@@ -139,7 +139,7 @@ let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_enable_quick_match = 1
 let g:neocomplcache_enable_wildcard = 1
 
-nnoremap <silent> ent :NeoComplCacheCachingTags<CR>
+nnoremap <silent> nct :NeoComplCacheCachingTags<CR>
 
 imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>" 
 " <CR>: close popup and save indent.
