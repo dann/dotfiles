@@ -56,30 +56,6 @@ nnoremap <C-q>p :cprevious<CR>
 " nnoremap <C-t>p :tprevious<CR>
 
 
-
-" ============================================
-" autocomplpop.vim 
-" ============================================
-let g:acp_enableAtStartup = 1
-let g:acp_mappingDriven = 0
-let g:acp_ignorecaseOption = 1
-let g:acp_completeOption = '.,w,b,u,t,k'
-let g:acp_completeoptPreview = 0
-let g:acp_behaviorUserDefinedPattern = '\k$'
-let g:acp_behaviorKeywordCommand = "\<C-n>"
-let g:acp_behaviorKeywordLength = 2
-let g:acp_behaviorFileLength = 0
-let g:acp_behaviorRubyOmniMethodLength = 1
-let g:acp_behaviorRubyOmniSymbolLength = 1
-"let g:acp_behaviorPythonOmniLength = 1
-let g:acp_behaviorXmlOmniLength = 1
-let g:acp_behaviorHtmlOmniLength = 1
-let g:acp_behaviorCssOmniPropertyLength = 1
-let g:acp_behaviorCssOmniValueLength = 1
-let g:acp_behaviorSnipmateLength=1
-
-"set omnifunc=syntaxcomplete#Complete
-
 " python
 let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
 
@@ -161,8 +137,6 @@ let g:neocomplcache_enable_quick_match = 1
 let g:neocomplcache_enable_wildcard = 1
 
 nnoremap <silent> ent :NeoComplCacheCachingTags<CR>
-
-
 
 imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>" 
 " <CR>: close popup and save indent.
