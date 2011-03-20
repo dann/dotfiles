@@ -1,3 +1,4 @@
 #!/bin/sh
+CURRENT_DIR=`pwd`
 curl -LO http://xrl.us/perlbrew | perl - App::cpanminus
-cpanm < ~/env/dotfiles/setup/perl-modules.txt
+cpanm < ${CURRENT_DIR}/setup/perl-modules.txt
