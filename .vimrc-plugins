@@ -101,11 +101,11 @@ nnoremap <C-f><C-r> :<C-u>Ref refe<Space>
 nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
 nnoremap <C-f><C-a> :<C-u>Ref alc<Space>
 
-if v:version > 702
+if v:version >= 702
   " ============================================
   " fuzzyfinder
   " ============================================
-  nnoremap <unique> <silent> <C-S> :FufBuffer!<CR>
+  nnoremap <unique> <silent> <C-l> :FufBuffer!<CR>
   nnoremap <unique> <silent> ef :FufFile!<CR>
   nnoremap <silent> efb :FufBuffer!<CR>
   nnoremap <silent> eff :FufFile!<CR>
