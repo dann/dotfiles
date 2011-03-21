@@ -102,12 +102,68 @@ imap jj <Esc>
 
 set wildmode=list:longest
 
-
 " ============================================
 " Utility
 " ============================================
+" Key mapping
 command!
 \   -nargs=* -complete=mapping
 \   AllMaps
 \   map <args> | map! <args> | lmap <args>
+
+" Comment or uncomment lines from mark a to mark b.
+" ============================================
+function! CommentMark(docomment, a, b)
+  if !exists('b:comment')
+    let b:comment = CommentStr() . ' '
+  endif
+  if a:docomment
+    exe "normal! '" . a:a . "_\<C-V>'" . a:b . 'I' . b:comment
+  else
+    exe "'".a:a.",'".a:b . 's/^\(\s*\)' . escape(b:comment,'/') . '/\1/e'
+  endif
+endfunction
+
+" Comment lines in marks set by g@ operator.
+function! DoCommentOp(type)
+  call CommentMark(1, '[', ']')
+endfunction
+
+" Uncomment lines in marks set by g@ operator.
+function! UnCommentOp(type)
+  call CommentMark(0, '[', ']')
+endfunction
+
+" Return string used to comment line for current filetype.
+function! CommentStr()
+  if &ft == 'cpp' || &ft == 'java' || &ft == 'javascript'
+    return '//'
+  elseif &ft == 'vim'
+    return '"'
+  elseif &ft == 'python' || &ft == 'perl' || &ft == 'sh' || &ft == 'R' || &ft == 'ruby'
+    return '#'
+  elseif &ft == 'lisp'
+    return ';'
+  endif
+  return ''
+endfunction
+
+nnoremap <Leader>c <Esc>:set opfunc=DoCommentOp<CR>g@
+nnoremap <Leader>C <Esc>:set opfunc=UnCommentOp<CR>g@
+vnoremap <Leader>c <Esc>:call CommentMark(1,'<','>')<CR>
+vnoremap <Leader>uc <Esc>:call CommentMark(0,'<','>')<CR>
+
+
+" GitGrep
+" ============================================
+function! GitGrep(arg)
+  let gtmp = &grepprg
+  let &grepprg = 'git-grep -n'
+  silent execute ':grep '.a:arg
+  let &grepprg = gtmp
+  silent cwin
+endfunction
+command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
+
+inoremap <ESC> <ESC>:set iminsert=0<CR>
 

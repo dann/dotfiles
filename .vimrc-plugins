@@ -7,23 +7,6 @@ let g:surround_71 = "loc(\"\r\")" " 71 = G
 nmap g' cs'g
 nmap g" cs"G
 
-
-" ============================================
-" fuzzyfinder
-" ============================================
-nnoremap <unique> <silent> <C-S> :FufBuffer!<CR>
-nnoremap <unique> <silent> ef :FufFile!<CR>
-nnoremap <silent> efb :FufBuffer!<CR>
-nnoremap <silent> eff :FufFile!<CR>
-nnoremap <silent> efm :FufMruFile!<CR>
-autocmd FileType fuf nmap <C-c> <ESC>
-let g:fuf_patternSeparator = ' '
-let g:fuf_modesDisable = ['mrucmd']
-let g:fuf_mrufile_exclude = '\v\~$|\.bak$|\.swp|\.howm$'
-let g:fuf_mrufile_maxItem = 2000
-let g:fuf_enumeratingLimit = 20
-
-
 " ============================================
 " Ctags
 " ============================================
@@ -118,70 +101,92 @@ nnoremap <C-f><C-r> :<C-u>Ref refe<Space>
 nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
 nnoremap <C-f><C-a> :<C-u>Ref alc<Space>
 
-"=============================================
-" NeoCompleCache.vim
-"=============================================
-let g:neocomplcache_enable_at_startup = 1 
-let g:neocomplcache_enable_auto_select = 1 
+if v:version > 702
+  " ============================================
+  " fuzzyfinder
+  " ============================================
+  nnoremap <unique> <silent> <C-S> :FufBuffer!<CR>
+  nnoremap <unique> <silent> ef :FufFile!<CR>
+  nnoremap <silent> efb :FufBuffer!<CR>
+  nnoremap <silent> eff :FufFile!<CR>
+  nnoremap <silent> efm :FufMruFile!<CR>
+  autocmd FileType fuf nmap <C-c> <ESC>
+  let g:fuf_patternSeparator = ' '
+  let g:fuf_modesDisable = ['mrucmd']
+  let g:fuf_mrufile_exclude = '\v\~$|\.bak$|\.swp|\.howm$'
+  let g:fuf_mrufile_maxItem = 2000
+  let g:fuf_enumeratingLimit = 20
 
-" snippets
-let g:NeoComplCache_SnippetsDir = '~/.vim/snippets'
+  "=============================================
+  " NeoCompleCache.vim
+  "=============================================
+  let g:neocomplcache_enable_at_startup = 1 
+  let g:neocomplcache_enable_auto_select = 1 
 
-" Use smartcase.
-let g:neocomplcache_enable_ignore_case = 0
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3 
-let g:neocomplcache_enable_quick_match = 1
-let g:neocomplcache_enable_wildcard = 1
+  " snippets
+  let g:NeoComplCache_SnippetsDir = '~/.vim/snippets'
 
-nnoremap <silent> nct :NeoComplCacheCachingTags<CR>
+  " Use smartcase.
+  let g:neocomplcache_enable_ignore_case = 0
+  let g:neocomplcache_enable_smart_case = 1
+  " Use camel case completion.
+  let g:neocomplcache_enable_camel_case_completion = 1
+  " Use underbar completion.
+  let g:neocomplcache_enable_underbar_completion = 1
+  " Set minimum syntax keyword length.
+  let g:neocomplcache_min_syntax_length = 3 
+  let g:neocomplcache_enable_quick_match = 1
+  let g:neocomplcache_enable_wildcard = 1
 
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>" 
-" <CR>: close popup and save indent.
-" inoremap <expr><CR>  neocomplcache#smart_close_popup() . (&indentexpr != '' " ? "\<C-f>\<CR>X\<BS>":"\<CR>")
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup() 
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  nnoremap <silent> nct :NeoComplCacheCachingTags<CR>
 
-
-"=============================================
-" unite.vim
-"=============================================
-let g:unite_enable_start_insert = 1
-let g:unite_update_time = 80
-let g:unite_source_file_ignore_pattern = '\%(^\|/\)\.$\|\~$\|\.\%(o|exe|dll|bak|sw[po]\)$\|blib/'
-nnoremap <silent> <C-f> :<C-u>:Unite -buffer-name=files buffer_tab file_mru file bookmark tag<CR>
-inoremap <silent> <C-f> <ESC>:<C-u>Unite -buffer-name=files buffer_tab file_mru file bookmark tag<CR>
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+  imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>" 
+  " <CR>: close popup and save indent.
+  " inoremap <expr><CR>  neocomplcache#smart_close_popup() . (&indentexpr != '' " ? "\<C-f>\<CR>X\<BS>":"\<CR>")
+  " <TAB>: completion.
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+  inoremap <expr><C-y>  neocomplcache#close_popup()
+  inoremap <expr><C-e>  neocomplcache#cancel_popup() 
+  imap <C-k> <Plug>(neocomplcache_snippets_expand)
+  smap <C-k> <Plug>(neocomplcache_snippets_expand)
+  inoremap <expr><C-g> neocomplcache#undo_completion()
+  inoremap <expr><C-l> neocomplcache#complete_common_string()
+  imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
-"=============================================
-" quickrun
-"=============================================
-augroup QuickRunUnitTest
-  autocmd!
-  autocmd BufWinEnter,BufNewFile *test.php set filetype=php.unit
-  autocmd BufWinEnter,BufNewFile test_*.py set filetype=python.unit
-  autocmd BufWinEnter,BufNewFile *.t set filetype=perl.unit
-  autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
-augroup END
-let g:quickrun_config = {}
-let g:quickrun_config['php.unit'] = {'command': 'phpunitrunner'}
-let g:quickrun_config['python.unit'] = {'command': 'nosetests', 'cmdopt': '-s -vv'}
-let g:quickrun_config['perl.unit'] = {'command': 'prove'}
-let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
+  "=============================================
+  " unite.vim
+  "=============================================
+  let g:unite_enable_start_insert = 1
+  let g:unite_update_time = 80
+  let g:unite_source_file_ignore_pattern = '\%(^\|/\)\.$\|\~$\|\.\%(o|exe|dll|bak|sw[po]\)$\|blib/'
+  nnoremap <silent> <C-f> :<C-u>:UniteWithBufferDir -buffer-name=files buffer file file_mru bookmark tag<CR>
+  inoremap <silent> <C-f> <ESC>:<C-u>UniteWithBufferDir -buffer-name=files buffer file file_mru bookmark tag<CR>
+  nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+  nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+
+  autocmd FileType unite call s:unite_my_settings()
+  function! s:unite_my_settings()
+    nmap <silent><buffer> <ESC><ESC> q
+    imap <silent><buffer> <ESC><ESC> <ESC>q
+  endfunction
+
+  "=============================================
+  " quickrun
+  "=============================================
+  augroup QuickRunUnitTest
+    autocmd!
+    autocmd BufWinEnter,BufNewFile *test.php set filetype=php.unit
+    autocmd BufWinEnter,BufNewFile test_*.py set filetype=python.unit
+    autocmd BufWinEnter,BufNewFile *.t set filetype=perl.unit
+    autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+  augroup END
+  let g:quickrun_config = {}
+  let g:quickrun_config['php.unit'] = {'command': 'phpunitrunner'}
+  let g:quickrun_config['python.unit'] = {'command': 'nosetests', 'cmdopt': '-s -vv'}
+  let g:quickrun_config['perl.unit'] = {'command': 'prove'}
+  let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
+endif
