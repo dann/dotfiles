@@ -70,11 +70,6 @@ map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
 nnoremap <Esc><Esc> :<C-u>set nohlsearch<Return>
 
 " ============================================
-" open perl module with gf
-" ============================================
-autocmd FileType perl set isfname-=-
-
-" ============================================
 " statusline
 " ============================================
 set statusline=%y%{GetFileEncoding()}%F%m%r%=%c:%l%5(\ %)%3p%%
@@ -105,7 +100,14 @@ hi PmenuSbar ctermbg=0
 " ============================================
 imap jj <Esc>
 
-" ==
-"
 set wildmode=list:longest
+
+
+" ============================================
+" Utility
+" ============================================
+command!
+\   -nargs=* -complete=mapping
+\   AllMaps
+\   map <args> | map! <args> | lmap <args>
 
