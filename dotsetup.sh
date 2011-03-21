@@ -1,7 +1,6 @@
 #!/bin/bash
 
 rm ~/.zshrc ~/.zshrc-minimum ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc  ~/.gitconfig  ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.vimrc-minimum ~/.vimrc-plugins ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc-minimum  ~/.bashrc-mac ~/.bash ~/.shipit ~/.tscreenrc ~/.gdbinit
-rm -rf ~/.asstarter
 
 CURRENT_DIR=`pwd`
 ln -s $CURRENT_DIR/.zshrc ~/.zshrc
@@ -30,7 +29,6 @@ ln -s $CURRENT_DIR/.perltidyrc ~/.perltidyrc
 ln -s $CURRENT_DIR/.gitconfig ~/.gitconfig
 ln -s $CURRENT_DIR/.Xdefaults ~/.Xdefaults
 ln -s $CURRENT_DIR/.irssi ~/.irssi
-ln -s $CURRENT_DIR/devbin/.asstarter ~/.asstarter
 ln -s $CURRENT_DIR/.noserc ~/.noserc
 ln -s $CURRENT_DIR/.pylint ~/.pylint
 ln -s $CURRENT_DIR/.zshrc-java ~/.zshrc-java
