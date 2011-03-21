@@ -15,16 +15,17 @@
 #-----------------------------------------------
 [ -e ~/.zshrc-minimum ] && source ~/.zshrc-minimum
 
-#-----------------------------------------------
 # perlbrew
 #-----------------------------------------------
 [ -e ~/perl5/perlbrew/etc/bashrc ] && source ~/perl5/perlbrew/etc/bashrc
 
-
-#-----------------------------------------------
-# rvm
+# rvm for ruby
 #-----------------------------------------------
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# pythonbrew
+#-----------------------------------------------
+[ -e ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
 
 #-----------------------------------------------
 # Prompot
