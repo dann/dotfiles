@@ -6,18 +6,24 @@ Installation
 How to customize configs
 ============ 
 
-  customize zsh configuration
-     
-     create ~/.zshr-after or ~/.zshrc-before
-     these are hook files for .zshrc
-     You can customize zsh with these configs.
+Customize zsh configuration
+----------------------------
+Create 
+    ~/.zshr-after or ~/.zshrc-before
 
-  customize vim configuration
-    
-    create ~/.vimrc-after or ~/.vimrc-before
+These are hook files for .zshrc.
+You can customize zsh with these configs.
+
+Customize vim configuration
+----------------------------
+Create 
+    ~/.vimrc-after or ~/.vimrc-before
 
 How to use
 ============
+zsh
+---
+  <C-r> glob history search   ex) C-r v*m
 
 vim
 ---
@@ -40,8 +46,4 @@ screen
       screen -x username/
 
     you can share a your screen session with users in .dev_users file.
-
-zsh
----
-  <C-r> glob history search   ex) C-r v*m
 
