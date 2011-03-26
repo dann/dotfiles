@@ -57,14 +57,6 @@ nnoremap <Leader><C-o> : TlistClose<CR>
 let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
 
 " ============================================
-" smartword.vim 
-" ============================================
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge <Plug>(smartword-ge)
-
-" ============================================
 " Grep.vim
 " ============================================
 let Grep_Skip_Dirs = '.svn'
@@ -203,4 +195,13 @@ if v:version >= 702
   let g:quickrun_config['python.unit'] = {'command': 'nosetests', 'cmdopt': '-s -vv'}
   let g:quickrun_config['perl.unit'] = {'command': 'prove'}
   let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
+
+  " ============================================
+  " smartword.vim 
+  " ============================================
+  map w  <Plug>(smartword-w)
+  map b  <Plug>(smartword-b)
+  map e  <Plug>(smartword-e)
+  map ge <Plug>(smartword-ge)
+
 endif
