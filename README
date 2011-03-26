@@ -1,10 +1,11 @@
 Installation
- 
-    % cd ~/project/dotfiles 
+============ 
+    % cd ~/env/dotfiles 
     % ./dotsetup.sh
 
 How to customize configs
-  
+============ 
+
   customize zsh configuration
      
      create ~/.zshr-after or ~/.zshrc-before
@@ -16,22 +17,22 @@ How to customize configs
     create ~/.vimrc-after or ~/.vimrc-before
 
 How to use
+============
 
-   perl project
-    perldoc 
-      <C-f><C-p>
-
-    select buffer
-      <C-s>
-
-   snipMate
-      type a capital character
-        ex) while snippets are completed if you type 'W'
-
+vim
+---
+  select buffer
+      <C-f>
+  
+screen
+---
    Share session
     share screen session
       screen -x username/
 
     you can share a your screen session with users in .dev_users file.
 
+zsh
+---
+  C-r
 

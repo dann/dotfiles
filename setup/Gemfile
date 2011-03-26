@@ -1,0 +1,9 @@
+source 'http://rubygems.org'
+
+gem 'rails', '3.0.0'
+gem "acts_as_markup"
+gem 'memcache-client'
+gem "will_paginate", '3.0.pre'
+gem "system_timer"
+gem 'acts-as-taggable-on'
+gem "haml"
