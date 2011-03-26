@@ -14,7 +14,8 @@ pkg-config
 sqlite
 subversion
 tree
-uim
 valgrind
 w3m
 wget
+lynx
+zsh
