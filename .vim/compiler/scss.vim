@@ -1,3 +1,4 @@
+
 if exists("current_compiler")
   finish
 endif
@@ -10,11 +11,11 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
-CompilerSet makeprg=sass\ --unix-newlines\ --scss\ %\ %:s?\.scss$?.css?
+CompilerSet makeprg=sass\ --trace\ --unix-newlines\ --scss\ %\ %:s?\.scss$?.css?
 
 CompilerSet errorformat=
-	\%-G\ \ Use\ --trace\ for\ backtrace.,
-        \%ESyntax\ error:\ %m,%Z\ \ \ \ \ \ \ \ on\ line\ %l\ of\ %f
+        \%f:%l:%m\ (Sass::SyntaxError),
+        \%-G%.%#
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
