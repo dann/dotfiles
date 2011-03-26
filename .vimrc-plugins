@@ -7,6 +7,10 @@ let g:surround_71 = "loc(\"\r\")" " 71 = G
 nmap g' cs'g
 nmap g" cs"G
 
+" surround the word with characters you set
+nmap s <Plug>Ysurround
+nmap ss <Plug>Yssurround
+
 " ============================================
 " Ctags
 " ============================================
