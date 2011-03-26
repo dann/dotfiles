@@ -41,7 +41,8 @@ How to use
 ============
 zsh
 ---
-  <C-r> glob history search   ex) C-r v*m
+  glob history search   ex) C-r v*m
+    <C-r> 
 
 vim
 ---
@@ -56,6 +57,9 @@ vim
 
   Cache tags for completion with neocomplecache
       nct
+
+  perltidy
+      ,pt
   
 screen
 ---
