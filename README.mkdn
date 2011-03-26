@@ -65,9 +65,11 @@ You can share a your screen session with users in .dev_users file.
     screen -x username/
 
 Create window
+
   C-a c
 
 Move to the window
+
   C-a <num>
 
 
