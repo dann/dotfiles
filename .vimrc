@@ -26,6 +26,7 @@ scriptencoding utf-8
 " add runtimepathe .vim/bundle/* 
 call pathogen#runtime_append_all_bundles()
 
+
 " ============================================
 " plugin config 
 " ============================================

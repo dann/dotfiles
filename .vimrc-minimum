@@ -167,3 +167,9 @@ command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
 
 inoremap <ESC> <ESC>:set iminsert=0<CR>
 
+" ============================================
+" HTML
+" ============================================
+command! -range EncodeEntities :'<,'>!perl -S encode-entities.pl
+
+
