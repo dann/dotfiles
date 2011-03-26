@@ -43,6 +43,16 @@ nnoremap <C-q>p :cprevious<CR>
 " nnoremap <C-t>p :tprevious<CR>
 
 
+" ============================================
+" taglist.vim
+" ============================================
+let mapleader = ',t'
+nnoremap <Leader>l     : Tlist<CR>
+nnoremap <Leader><C-l> : Tlist<CR>
+nnoremap <Leader>o     : TlistClose<CR>
+nnoremap <Leader><C-o> : TlistClose<CR>
+
+
 " python
 let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
 
