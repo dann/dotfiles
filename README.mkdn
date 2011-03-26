@@ -21,8 +21,17 @@ How to use
 
 vim
 ---
-  select buffer
+  select buffer, file and recent files with Unite
       <C-f>
+
+  Select a buffer 
+      efb
+
+  Select files
+      eff
+
+  Cache tags for completion with neocomplecache
+      nct
   
 screen
 ---
@@ -34,5 +43,5 @@ screen
 
 zsh
 ---
-  C-r
+  <C-r> glob history search   ex) C-r v*m
 
