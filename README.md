@@ -1,10 +1,10 @@
 dann's dotfiles
 ========================== 
 
-Installation
--------------------------------------------
+INSTALLATION
+---------------------------------------
 
-### Setup dotfiles
+### dotfiles
     % cd ~/env
     % git clone https://dann@github.com/dann/dotfiles.git
     % cd dotfiles 
@@ -24,8 +24,8 @@ You need to setup coreutils and some unix tools to use this dotfiles.
 
     % perl `which minicpan` -r http://cpan.yahoo.com/ -l ~/share/minicpan
 
-How to customize configs
--------------------------------------------
+CUSTOMIZATION
+---------------------------------------
 
 ### Customize zsh configuration
 
@@ -39,8 +39,8 @@ You can customize zsh with these configs.
 Create 
     ~/.vimrc-after or ~/.vimrc-before
 
-How to use
-----------------------------
+USAGE
+---------------------------------------
 
 ### zsh
 
@@ -79,4 +79,11 @@ Move to the window
 
   C-a <num>
 
+AUTHOR
+---------------------------------------
+dann (techmemo at gmail dot com)
 
+
+LICENSE
+---------------------------------------
+Apache License 
