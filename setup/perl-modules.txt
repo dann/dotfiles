@@ -63,4 +63,5 @@ Starlet
 String::CamelCase
 Term::ReadLine::Gnu
 Test:rter
+Text::Markdown
 WebService::Validator::CSS:W3C

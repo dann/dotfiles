@@ -101,7 +101,8 @@ export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
 
 # set PERL5LIB env
 perl5lib () {
-    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${PERL5LIB}"
+    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1/lib:${HOME}/perl5/perlbrew/perls/current/lib/site_perl/5.12.1:${PERL5LIB}"
+
 }
 
 function cdmake () {
