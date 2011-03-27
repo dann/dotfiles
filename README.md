@@ -1,5 +1,6 @@
 Installation
 ============ 
+
 Setup dotfiles
 ----------------
     % cd ~/env
@@ -40,12 +41,14 @@ Create
 How to use
 ============
 zsh
----
+----------------
+
   glob history search   ex) C-r v*m
     <C-r> 
 
 vim
----
+----------------
+
   select buffer, file and recent files with Unite
       <C-f>
 
@@ -62,7 +65,7 @@ vim
       ,pt
   
 screen
----
+----------------
 Share session with other users
 You can share a your screen session with users in .dev_users file.
 
