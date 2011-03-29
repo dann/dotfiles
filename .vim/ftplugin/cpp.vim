@@ -19,6 +19,10 @@ setlocal dictionary=~/.vim/dict/cpp-libstdc++.dict,~/.vim/dict/c-eglibc.dict,~/.
 
 " tags 
 
+if has('path_extra')
+  set tags+=./**3/tags;
+endif
+
 " OmniCppComplete
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
