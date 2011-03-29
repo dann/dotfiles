@@ -59,14 +59,16 @@ nmap <silent> ,tt :TlistToggle
 nnoremap ,to     : TlistClose<CR>
 nnoremap ,t<C-o> : TlistClose<CR>
 let Tlist_Use_Horiz_Window=0
-let Tlist_Use_Right_Window = 1
+let Tlist_Use_Right_Window = 1 "display taglist window on the right
 let Tlist_Compact_Format = 1
-let Tlist_Exit_OnlyWindow = 1
-"let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Exit_OnlyWindow = 1 "if taglist window is the only window left, exit vim
+let Tlist_GainFocus_On_ToggleOpen = 1 "automatically switch to taglist window
+"let Tlist_Close_On_Select = 1 "close taglist window once we selected something
 "let Tlist_File_Fold_Auto_Close = 1
 "let Tlist_Inc_Winwidth = 0
-"let Tlist_Close_On_Select = 1
 "let Tlist_Process_File_Always = 1
+"let Tlist_Ctags_Cmd = /path/to/exuberant/ctags
+
 
 " python
 let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
