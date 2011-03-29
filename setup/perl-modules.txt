@@ -61,6 +61,7 @@ Scalar::Util
 ShipIt
 Starlet
 String::CamelCase
+TAP::Harness::JUnit
 Term::ReadLine::Gnu
 Test:rter
 Text::Markdown

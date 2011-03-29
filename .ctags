@@ -2,6 +2,10 @@
 
 --languages=-html
 
+--c++-kinds=+p
+--fields=+iaS
+--extra=+q
+
 --perl-kinds=-l
 --regex-perl=/^(field|const) +'?([^' ]+)'?( |=|;)/\2/y,spiffy,spiffy fields and consts/e
 --regex-perl=/^ *\*([A-za-z_]+) *=/\1/s,subroutines/e
