@@ -17,16 +17,13 @@ if filereadable( $HOME . "/.vimrc-minimum" )
   source ~/.vimrc-minimum
 endif
 
-" backup
-set backupdir=~/.vim/backup
-let &directory = &backupdir
-
-scriptencoding utf-8
-
-
 " add runtimepathe .vim/bundle/* 
 call pathogen#runtime_append_all_bundles()
 
+" 256 colors mode.
+"set t_Co=256
+" colorscheme
+"colorscheme wombat256mod
 
 " ============================================
 " plugin config 

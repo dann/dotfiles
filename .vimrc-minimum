@@ -172,4 +172,12 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 " ============================================
 command! -range EncodeEntities :'<,'>!perl -S encode-entities.pl
 
+" ============================================
+" backup
+" ============================================
+set backupdir=~/.vim/backup
+let &directory = &backupdir
+
+scriptencoding utf-8
+
 
