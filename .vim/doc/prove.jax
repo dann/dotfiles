@@ -1,0 +1,67 @@
+*prove.txt*	prove for vim plugin.
+
+Author:  Kazuhito Hokamura <http://webtech-walker.com/>
+Version: 0.0.1
+License: MIT License <http://www.opensource.org/licenses/mit-license.php>
+
+==============================================================================
+CONTENTS					*prove-contents*
+ 
+INTRODUCTION		|prove-introduction|
+INTERFACE		|prove-interface|
+  COMMANDS		  |prove-commands|
+  VARIABLES		  |prove-variables|
+
+==============================================================================
+INTRODUCTION					*prove-introduction*
+
+proveコマンドをvimで使えるようにするプラグインです。
+local::libの設定を自動で行ったり、無名ファイルのproveも実行することが
+できます。
+
+==============================================================================
+INTERFACE					*prove-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*prove-commands*
+
+:Prove {file}					*:Prove*
+			proveを実行します。fileを指定しなかった場合はカレント
+			バッファを対象とします。
+			fileにディレクトリを指定した場合はそのディレクトリを
+			再帰的にテストします。
+			対象のファイルからさかのぼって t というを探してそこを
+			rootディレクトリとして設定し、このrootディレクトリに
+			cdしてproveを実行します。
+
+------------------------------------------------------------------------------
+VARIABLES					*prove-variables*
+
+g:prove_use_local_lib				*g:prove_use_local_lib*
+			この設定が1の場合は|g:prove_local_lib_dir|を元に
+			local::libの設定をおこないます。デフォルトは1です。
+
+g:prove_local_lib_dir				*g:prove_local_lib_dir*
+			local::libに指定するディレクトリを設定します。
+			%prove_root% はproveのrootディレクトリに置換されま
+			す。デフォルトは %prove_root%/extlib です。
+			この設定値は|g:prove_use_local_lib|が1のときに有効に
+			なります。
+
+g:prove_lib_dirs				g:prove_lib_dirs
+			proveするときに読み込むディレクトリを指定します。
+			ここに指定されたディレクトリはproveの-Iオプション
+			を使って読み込まれます。
+
+b:prove_lib_dirs				b:prove_lib_dirs
+			|g:prove_lib_dirs|と同じですが、バッファローカルな
+			値を設定します。プロジェクト毎に読み込むディレクトリ
+			が違う場合などに使用することを想定しています。
+
+g:prove_debug					g:prove_debug
+			結果の一番上に実行したコマンドが表示されます。
+			local::libなどの設定がうまくいかないときに使うと
+			いいでしょう。
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

@@ -1,0 +1,64 @@
+*prove.txt*	prove for vim plugin.
+
+Author:  Kazuhito Hokamura <http://webtech-walker.com/>
+Version: 0.0.1
+License: MIT License <http://www.opensource.org/licenses/mit-license.php>
+
+==============================================================================
+CONTENTS					*prove-contents*
+ 
+INTRODUCTION		|prove-introduction|
+INTERFACE		|prove-interface|
+  COMMANDS		  |prove-commands|
+  VARIABLES		  |prove-variables|
+  FUNCTIONS		  |prove-functions|
+
+==============================================================================
+INTRODUCTION					*prove-introduction*
+
+prove command using in vim. setting local::lib directory and can exec 
+anonymous file.
+
+==============================================================================
+INTERFACE					*prove-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*prove-commands*
+
+:Prove {file}					*:Prove*
+			This command exec prove. When file is not specified,
+			it is current buffer is targeted.
+			When the directory is specified for file, the
+			directory is recurrently tested. 
+
+------------------------------------------------------------------------------
+VARIABLES					*prove-variables*
+
+g:prove_use_local_lib				*g:prove_use_local_lib*
+			When this setting is 1|g:prove_local_lib_dir| origin
+			local::lib is set. Default is 1. 
+
+g:prove_local_lib_dir				*g:prove_local_lib_dir*
+			The directory specified for local::lib is set. 
+			%prove_root% is substituted for the root directory
+			of prove. Default is %prove_root%/extlib.
+			This set is enabled, when |g:prove_use_local_lib|is 1.
+			
+
+g:prove_lib_dirs				g:prove_lib_dirs
+			The directory read when prove is done is specified.
+			The directory specified for here is read by using 
+                        -I optional of prove. 
+
+b:prove_lib_dirs				b:prove_lib_dirs
+			|g:prove_lib_dirs|In the same. But the value of a
+			local buffer is set. It is assumed to use it when 
+			the read directory of each project is different etc.
+
+g:prove_debug					g:prove_debug
+			The command executed on top of the result is
+			displayed. It might be good if it uses it when the
+			setting such as local::lib doesn't go well. 
+
+==============================================================================
+vim:tw=78:ts=8:sw=8:sts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:

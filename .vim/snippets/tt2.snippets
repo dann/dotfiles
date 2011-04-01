@@ -1,0 +1,85 @@
+snippet class 
+	[% USE ${1:class} = Class('${2:ClassName}') %]
+	${3}
+snippet url 
+	[% USE ${1:name} = url('${2:path}') %]
+	${3}
+snippet linkto 
+	<a href="[% c.uri_for('${1:path}', ${2:param}) %]¥">${3:label}</a>
+	${4}
+snippet if 
+	[% IF ${1:condition} -%]"
+	${2}
+	[% END -%]
+	${3}
+snippet ife 
+	[% IF ${1:condition} -%]
+	${2}
+	[% ELSE -%]
+	${3}
+	[% END -%]
+	${4}
+snippet ifee 
+	[% IF ${1:condition1} -%]
+	${2}
+	[% ELSIF ${3:condition2} -%]
+	${4}
+	[% ELSE -%]
+	${5}
+	[% END -%]
+	${6}
+snippet unless 
+	[% UNLESS ${1:condition} -%]
+	${2}
+	[% END -%]
+	${3}
+snippet for 
+	[% FOR ${1:var} = ${2:list} %]
+	${3}
+	[% END -%]
+	${4}
+snippet foreach 
+	[% FOREACH ${1:var} = ${2:list} %]
+	${3}
+	[% END -%]
+	${4}
+snippet while 
+	[% WHILE (${1:var} = ${2:rs}.next) -%]
+	${3}
+	[% END -%]
+	${4}
+snippet switch 
+	[% SWITCH ${1:var} -%]
+	${2}
+	[% END -%]
+	${3}
+snippet case 
+	[% CASE ${1:var} -%]
+	${2}
+snippet include 
+	[% INCLUDE '${1:file}' %]
+	${2}
+snippet process 
+	[% PROCESS '${1:file}' %]
+	${2}
+snippet macro 
+	[% MACRO ${1:name}(${2:E -%]
+	${3}
+	[% END -%]
+	${4}
+snippet ifee 
+	[% IF ${1:condition1} -%]
+	${2}
+	[% ELSIF ${3:condition2} -%]
+	${4}
+	[% ELSE -%]
+	${5}
+	[% END -%]
+	${6}
+snippet unless 
+	[% UNLESS ${1:condition} -%]
+	${2}
+	[% END -%]
+	${3}
+snippet for 
+	[% 

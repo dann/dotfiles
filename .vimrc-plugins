@@ -1,0 +1,190 @@
+" ============================================
+" surround.vim
+" ============================================
+" gettextnize texts
+let g:surround_103 = "loc('\r')"  " 103 = g
+let g:surround_71 = "loc(\"\r\")" " 71 = G
+nmap g' cs'g
+nmap g" cs"G
+
+
+" ============================================
+" fuzzyfinder
+" ============================================
+nnoremap <unique> <silent> <C-S> :FufBuffer!<CR>
+nnoremap <unique> <silent> ef :FufFile!<CR>
+nnoremap <silent> efb :FufBuffer!<CR>
+nnoremap <silent> eff :FufFile!<CR>
+nnoremap <silent> efm :FufMruFile!<CR>
+autocmd FileType fuf nmap <C-c> <ESC>
+let g:fuf_patternSeparator = ' '
+let g:fuf_modesDisable = ['mrucmd']
+let g:fuf_mrufile_exclude = '\v\~$|\.bak$|\.swp|\.howm$'
+let g:fuf_mrufile_maxItem = 2000
+let g:fuf_enumeratingLimit = 20
+
+
+" ============================================
+" Ctags
+" ============================================
+noremap  t  <Nop>
+noremap  T  <Nop>
+
+noremap <c-[>  :pop<CR>
+
+" search tags under current dir
+set tags+=./tags;/
+
+" use :tjump
+nnoremap <C-]> g<C-]>
+nnoremap g<C-]> <C-]>
+
+" (Ctrl + [) for tag jump back
+nmap <c-[>  :pop<CR>
+
+"QuickFix list
+nnoremap <C-q><C-n> :cnext<CR>
+nnoremap <C-q>n :cnext<CR>
+nnoremap <C-q><C-p> :cprevious<CR>
+nnoremap <C-q>p :cprevious<CR>
+" tag stack
+" nnoremap <C-t><C-t> <C-t>
+" nnoremap <C-t>t <C-t>
+" nnoremap <C-t><C-n> :tnext<CR>
+" nnoremap <C-t>n :tnext<CR>
+" nnoremap <C-t><C-p> :tprevious<CR>
+" nnoremap <C-t>p :tprevious<CR>
+
+
+
+" ============================================
+" autocomplpop.vim 
+" ============================================
+let g:acp_enableAtStartup = 1
+let g:acp_mappingDriven = 0
+let g:acp_ignorecaseOption = 1
+let g:acp_completeOption = '.,w,b,u,t,k'
+let g:acp_completeoptPreview = 0
+let g:acp_behaviorUserDefinedPattern = '\k$'
+let g:acp_behaviorKeywordCommand = "\<C-n>"
+let g:acp_behaviorKeywordLength = 2
+let g:acp_behaviorFileLength = 0
+let g:acp_behaviorRubyOmniMethodLength = 1
+let g:acp_behaviorRubyOmniSymbolLength = 1
+"let g:acp_behaviorPythonOmniLength = 1
+let g:acp_behaviorXmlOmniLength = 1
+let g:acp_behaviorHtmlOmniLength = 1
+let g:acp_behaviorCssOmniPropertyLength = 1
+let g:acp_behaviorCssOmniValueLength = 1
+let g:acp_behaviorSnipmateLength=1
+
+"set omnifunc=syntaxcomplete#Complete
+
+" python
+let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
+
+" ============================================
+" smartword.vim 
+" ============================================
+map w  <Plug>(smartword-w)
+map b  <Plug>(smartword-b)
+map e  <Plug>(smartword-e)
+map ge <Plug>(smartword-ge)
+
+" ============================================
+" Grep.vim
+" ============================================
+let Grep_Skip_Dirs = '.svn'
+let Grep_Skip_Files = '*.bak *~'
+
+" ============================================
+" Tab completion
+" ============================================
+" {{{ Autocompletion using the TAB key
+" This function determines, wether we are on the start of the line text (then tab indents) or
+" if we want to try autocompletion
+function! InsertTabWrapper()
+        let col = col('.') - 1
+        if !col || getline('.')[col - 1] !~ '\k'
+                return "\<TAB>"
+        else
+                if pumvisible()
+                        return "\<C-N>"
+                else
+                        return "\<C-N>\<C-P>"
+                end
+        endif
+endfunction
+" Remap the tab key to select action with InsertTabWrapper
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" }}} Autocompletion using the TAB key
+
+" ============================================
+" manpage view
+"=============================================
+let g:manpageview_winopen="vsplit"
+
+"=============================================
+" ref.vim
+"=============================================
+let g:ref_open = 'vsplit'
+let g:ref_perldoc_complete_head = 1
+let g:ref_pydoc_complete_head = 1
+let g:ref_use_vimproc = 0
+let g:ref_jquery_use_cache = 1
+let g:ref_phpmanual_path = $HOME.'/.vim/manual/php-chunked-xhtml'
+let g:ref_alc_use_cache = 1
+nnoremap <C-f><C-f> :<C-u>Ref<Space>
+nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
+nnoremap <C-f><C-y> :<C-u>Ref pydoc<Space>
+nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
+nnoremap <C-f><C-r> :<C-u>Ref refe<Space>
+nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
+nnoremap <C-f><C-a> :<C-u>Ref alc<Space>
+
+" ============================================
+" Help
+" ============================================
+nnoremap <C-h>  :<C-u>help<Space>
+
+" ============================================
+" taglist.vim
+" ============================================
+nnoremap ,tl     : Tlist<CR>
+nnoremap ,t<C-l> : Tlist<CR>
+nmap <silent> ,tt :TlistToggle
+nnoremap ,to     : TlistClose<CR>
+nnoremap ,t<C-o> : TlistClose<CR>
+let Tlist_Use_Horiz_Window=0
+let Tlist_Use_Right_Window = 1 "display taglist window on the right
+let Tlist_Compact_Format = 1
+let Tlist_Exit_OnlyWindow = 1 "if taglist window is the only window left, exit vim
+let Tlist_GainFocus_On_ToggleOpen = 1 "automatically switch to taglist window
+let Tlist_Show_One_File = 1 "show the tag for current file
+"let Tlist_Close_On_Select = 1 "close taglist window once we selected something
+"let Tlist_File_Fold_Auto_Close = 1
+"let Tlist_Inc_Winwidth = 0
+"let Tlist_Process_File_Always = 1
+"let Tlist_Ctags_Cmd = /path/to/exuberant/ctags
+
+
+" ============================================
+" Grep.vim
+" ============================================
+let Grep_Skip_Dirs = '.svn'
+let Grep_Skip_Files = '*.bak *~'
+
+" Shortcut to GrepBuffer
+command! -nargs=1 Gb :GrepBuffer <args>
+" Search word under the cursor
+nnoremap ,gb :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
+
+
+" ============================================
+" tag 
+" ============================================
+nnoremap t  <Nop>
+nnoremap tt  <C-]>
+nnoremap tj  :<C-u>tag<CR>
+nnoremap tk  :<C-u>pop<CR>
+nnoremap tl  :<C-u>tags<CR>
