@@ -92,14 +92,6 @@ map e  <Plug>(smartword-e)
 map ge <Plug>(smartword-ge)
 
 " ============================================
-" Grep.vim
-" ============================================
-let Grep_Skip_Dirs = '.svn'
-let Grep_Skip_Files = '*.bak *~'
-
-
-
-" ============================================
 " Tab completion
 " ============================================
 " {{{ Autocompletion using the TAB key
