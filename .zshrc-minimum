@@ -115,8 +115,6 @@ zstyle ':completion:*:complete:scp:*:files' command command -
 autoload -U compinit; compinit
 autoload colors; colors
 
-
-
 #-----------------------------------------------
 # screen
 #-----------------------------------------------

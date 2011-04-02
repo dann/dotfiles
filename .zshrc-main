@@ -147,3 +147,4 @@ if [ -x /usr/bin/rlwrap -o ]; then
     alias sqlplus='/usr/bin/rlwrap -if $HOME/.oracle_keywords sqlplus' 
 fi
 
+####
