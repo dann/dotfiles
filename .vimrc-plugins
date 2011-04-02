@@ -237,8 +237,8 @@ let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
 " git.vim 
 "=============================================
 let g:git_no_map_default = 1
-let g:git_command_edit = 'rightbelow vnew'
-nnoremap ,gd :<C-u>GitDiff --cached<Enter>
+"let g:git_command_edit = 'rightbelow vnew'
+nnoremap ,gd :<C-u>GitDiff<Enter>
 nnoremap ,gD :<C-u>GitDiff<Enter>
 nnoremap ,gs :<C-u>GitStatus<Enter>
 nnoremap ,gl :<C-u>GitLog<Enter>
