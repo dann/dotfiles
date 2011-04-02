@@ -109,6 +109,9 @@ bindkey "^[[B" down-line-or-history    # Down
 fpath=(~/.zsh/completion $fpath)
 _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
 
+# don't complete remote file path
+zstyle ':completion:*:complete:scp:*:files' command command -
+
 autoload -U compinit; compinit
 autoload colors; colors
 

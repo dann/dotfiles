@@ -44,25 +44,23 @@ USAGE
 
 ### zsh
 
-  glob history search   ex) C-r v*m
-    <C-r> 
+  glob history search  `<C-r>` ex) C-r v*m  
 
 ### vim
 
-  select buffer, file and recent files with Unite
-      <C-f>
+  Select a buffer `efb`
 
-  Select a buffer 
-      efb
+  Select files `eff`
 
-  Select files
-      eff
+  Cache tags for completion with neocomplecache `nct`
 
-  Cache tags for completion with neocomplecache
-      nct
+  perltidy `,pt`
 
-  perltidy
-      ,pt
+  quickrun `\r`
+
+  Grep buffer `,gb`
+
+  Show tag `,tl`
   
 ### screen
 
@@ -70,14 +68,6 @@ Share session with other users
 You can share a your screen session with users in .dev_users file.
 
     screen -x username/
-
-Create window
-
-  C-a c
-
-Move to the window
-
-  C-a <num>
 
 AUTHOR
 ---------------------------------------
