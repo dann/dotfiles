@@ -11,4 +11,5 @@ augroup filetypedetect
     au! BufNewFile,BufRead *.t                  setf perltest
     au! BufNewFile,BufRead *.hwd                setf hwd
     au! BufNewFile,BufRead *.wiki               setf wiki
+
 augroup END
