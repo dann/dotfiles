@@ -19,6 +19,7 @@ ln -s $CURRENT_DIR/.vimrc-minimum ~/.vimrc-minimum
 ln -s $CURRENT_DIR/.vimrc-before ~/.vimrc-before
 ln -s $CURRENT_DIR/.vimrc-plugins ~/.vimrc-plugins
 ln -s $CURRENT_DIR/.ctags ~/.ctags
+ln -s $CURRENT_DIR/.cgdb ~/.cgdb
 ln -s $CURRENT_DIR/.irbrc ~/.irbrc
 ln -s $CURRENT_DIR/devbin ~/devbin
 ln -s $CURRENT_DIR/devtools ~/devtools

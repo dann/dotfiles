@@ -1,0 +1,8 @@
+set arrowstyle=highlight
+set autosourcereload
+set tabstop=4 set 
+map r :run<CR>
+map c :continue<CR>
+map f :finish<CR>
+map n :next<CR>
+map s :step<CR>
