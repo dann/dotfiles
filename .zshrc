@@ -1,17 +1,17 @@
 #-----------------------------------------------
-# load dev env config
+# Load dev env config
 #-----------------------------------------------
 # share screen session with users in .dev_users 
 # if we load this config
 [ -e ~/.devenvrc ] && source ~/.devenvrc
 
 #-----------------------------------------------
-# load user config
+# Load user config
 #-----------------------------------------------
 [ -e ~/.zshrc-before ] && source ~/.zshrc-before
 
 #-----------------------------------------------
-# load main settings
+# Load main settings
 #-----------------------------------------------
 [ -e ~/.zshrc-main ] && source ~/.zshrc-main
 
@@ -21,7 +21,7 @@
 [ -e ~/.zshrc-java ] && source ~/.zshrc-java
 
 #-----------------------------------------------
-# load mac config
+# Load mac config
 #-----------------------------------------------
 # mac
 if [[ "${OSTYPE}" = darwin* ]] ; then
@@ -29,7 +29,7 @@ if [[ "${OSTYPE}" = darwin* ]] ; then
 fi
 
 #-----------------------------------------------
-# load user config
+# Load user config
 #-----------------------------------------------
 # if you want to customize this config,
 # you need to create .zshrc-after 
