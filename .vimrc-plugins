@@ -11,7 +11,7 @@ nmap g" cs"G
 " ============================================
 " fuzzyfinder
 " ============================================
-nnoremap <unique> <silent> <C-S> :FufBuffer!<CR>
+nnoremap <unique> <silent> <C-L> :FufBuffer!<CR>
 nnoremap <unique> <silent> ef :FufFile!<CR>
 nnoremap <silent> efb :FufBuffer!<CR>
 nnoremap <silent> eff :FufFile!<CR>
