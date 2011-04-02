@@ -24,15 +24,13 @@ au BufWritePost <buffer> call Perl_SyntaxCheck() | call Perl_SyntaxCheckMsg() | 
 "au CursorMoved <buffer> silent make
 
 " prove
-noremap <buffer> ,t <Esc>:!prv -lv t/%<CR>
-noremap <buffer> ,T <Esc>:!prv -lv t/% \| less <CR>
+" do test with quickrun
+"noremap <buffer> ,t <Esc>:!prv -lv t/%<CR>
+"noremap <buffer> ,T <Esc>:!prv -lv t/% \| less <CR>
 
 " perltidy
 noremap <buffer> ,pt <Esc>:%! perltidy -pbp<CR>
 noremap <buffer> ,ptv <Esc>:'<,'>! perltidy -pbp<CR>
-
-" prove
-noremap <buffer> ,c <Esc>:!ctagsp<CR>
 
 " dictionary
 setlocal dictionary=~/.vim/dict/perl.dict
