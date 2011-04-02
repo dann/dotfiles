@@ -209,8 +209,8 @@ alias vi='vim'
 alias cls='clear'
 alias ls='ls --color'
 
-if [ -x /usr/bin/tscreen -o ]; then
-   alias screen='tscreen'
+if [ -x ~/local/bin/screen -o ]; then
+   alias screen=$HOME/local/bin/screen
 fi
 
 # ssh-agent
@@ -222,7 +222,7 @@ alias -g V="| col -b | vim -R -"
 # disable Ctrl+S
 stty stop undef
 
-# don't add some commands to history
+# Don't add some commands to history
 zshaddhistory() {
     local line=${1%%$'\n'}
     local cmd=${line%% *}
@@ -233,6 +233,7 @@ zshaddhistory() {
     ]]
 }
 
+# Extract archive
 function extract() {
     case $1 in
         *.tar.gz|*.tgz) tar xzvf $1 ;;
@@ -249,3 +250,9 @@ function extract() {
     esac
 }
 alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
+
+#-----------------------------------------------
+# Utility functions  
+#-----------------------------------------------
+
+
