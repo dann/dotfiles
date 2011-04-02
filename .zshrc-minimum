@@ -207,7 +207,6 @@ alias gd='dirs -v; echo -n "select number: "; read newdir; cd -"$newdir"'
 alias gf=grep-find
 alias vi='vim'
 alias cls='clear'
-alias vip='vim **/*.{pm,css,tt2,t,js}'
 alias ls='ls --color'
 
 if [ -x /usr/bin/tscreen -o ]; then
@@ -223,3 +222,30 @@ alias -g V="| col -b | vim -R -"
 # disable Ctrl+S
 stty stop undef
 
+# don't add some commands to history
+zshaddhistory() {
+    local line=${1%%$'\n'}
+    local cmd=${line%% *}
+    [[  ${cmd} != (l|l[sal])
+        && ${cmd} != (cd)
+        && ${cmd} != (rm)
+        && ${cmd} != (m|man)
+    ]]
+}
+
+function extract() {
+    case $1 in
+        *.tar.gz|*.tgz) tar xzvf $1 ;;
+        *.tar.xz) tar Jxvf $1 ;;
+        *.zip) unzip $1 ;;
+        *.lzh) lha e $1 ;;
+        *.tar.bz2|*.tbz) tar xjvf $1 ;;
+        *.tar.Z) tar zxvf $1 ;;
+        *.gz) gzip -dc $1 ;;
+        *.bz2) bzip2 -dc $1 ;;
+        *.Z) uncompress $1 ;;
+        *.tar) tar xvf $1 ;;
+        *.arj) unarj $1 ;;
+    esac
+}
+alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
