@@ -117,3 +117,7 @@ command!
 \   AllMaps
 \   map <args> | map! <args> | lmap <args>
 
+" ============================================
+" Help
+" ============================================
+nnoremap <C-h>  :<C-u>help<Space>
