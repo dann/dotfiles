@@ -40,7 +40,6 @@ function! GitGrep(arg)
 endfunction
 command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
 
-au BufNewFile,BufRead *.txt set iminsert=2
 inoremap <ESC> <ESC>:set iminsert=0<CR>
 
 " Rename
