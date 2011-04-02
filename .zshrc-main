@@ -122,8 +122,6 @@ function minicpan_get () {
 #-----------------------------------------------
 [ -e ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
 
-
-
 #------------------------
 # ruby
 #------------------------
@@ -141,4 +139,11 @@ alias refe='refe_utf8'
 function cdrake () {
     cdf "Rakefile"
 }
+
+#------------------------
+# Oracle 
+#------------------------
+if [ -x /usr/bin/rlwrap -o ]; then
+    alias sqlplus='/usr/bin/rlwrap -if $HOME/.oracle_keywords sqlplus' 
+fi
 
