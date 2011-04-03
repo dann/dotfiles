@@ -64,10 +64,26 @@ USAGE
   
 ### screen
 
-Share session with other users
-You can share a your screen session with users in .dev_users file.
+  Share session with other users
+  You can share a your screen session with users in .dev_users file.
 
-    screen -x username/
+    `screen -x username/`
+
+
+  Select a region  
+    `<C-a> tab j`
+    `<C-a> tab k`
+    `<C-a> tab h` 
+    `<C-a> tab h` 
+
+  Select region
+    `<C-a> w j`
+    `<C-a> w k`
+    `<C-a> w h`
+    `<C-a> w l`
+
+  Split window
+    Vsplit `<C-a> w v`
 
 AUTHOR
 ---------------------------------------

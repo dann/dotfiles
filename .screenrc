@@ -34,10 +34,26 @@ term screen
 #-----------------------------------------
 # Window operation
 #-----------------------------------------
+# <C-a> Tab
+bind j focus down
+bind h focus left
+bind l focus right 
+bind k focus up
+bind t focus top
+bind n focus next
+bind p focus prev
+
+# <C-a> w
 bind w eval 'echo "Operate window"' 'command -c REGION'
 bind -c REGION ^]  command
 bind -c REGION j eval 'focus down' 'command -c REGION'
 bind -c REGION k eval 'focus up' 'command -c REGION'
+bind -c REGION h eval 'focus left' 'command -c REGION'
+bind -c REGION l eval 'focus right' 'command -c REGION'
+bind -c REGION n eval 'focus next' 'command -c REGION'
+bind -c REGION p eval 'focus prev' 'command -c REGION'
+bind -c REGION t eval 'focus top' 'command -c REGION'
+bind -c REGION b eval 'focus bottom' 'command -c REGION'
 bind -c REGION + eval 'resize +1' 'command -c REGION'
 bind -c REGION - eval 'resize -1' 'command -c REGION'
 bind -c REGION q eval 'remove' 'command -c REGION'
