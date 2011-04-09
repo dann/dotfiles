@@ -47,9 +47,9 @@ if filereadable( $HOME . "/.vimrc" )
 endif
 
 if has('win32')
-  source ~/_gvimrc-windows
+  source ~/.vim/_gvimrc-windows
 endif
 
 if has('gui_macvim')
-  source ~/_gvimrc-mac
+  source ~/.vim/_gvimrc-mac
 endif
