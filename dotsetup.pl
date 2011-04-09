@@ -4,54 +4,59 @@ use warnings;
 
 my @files = qw(
     .Xdefaults
-    .bash 
-    .bashrc 
-    .bashrc-mac 
+    .bash
+    .bashrc
+    .bashrc-mac
     .bashrc-minimum
-    .bashrc_profile 
-    .cgdb 
-    .ctags 
-    .dev_users 
-    .devenvrc 
+    .bashrc_profile
+    .cgdb
+    .ctags
+    .dev_users
+    .devenvrc
     .gdbini
     .gitconfig
-    .irbrc 
+    .irbrc
     .irssi
-    .my.cnf 
+    .my.cnf
     .noserc
     .perltidyrc
     .pylint
-    .screenrc 
-    .shipit 
-    .tidyrc 
-    .tscreenrc 
-    .vim 
-    .vimrc 
+    .screenrc
+    .shipit
+    .tidyrc
+    .tscreenrc
+    .vim
+    .vimrc
     .zsh
     .zshrc
-    devbin 
-    devtools 
+    devbin
+    devtools
 );
 
-&main;exit;
+&main;
+exit;
 
 sub main {
-    (my $pwd = `pwd`) =~ s/\n//;
+    ( my $pwd = `pwd` ) =~ s/\n//;
     for my $foo (@files) {
         my $src = "$pwd/$foo";
         my $dst = "$ENV{HOME}/$foo";
-        linkit($src => $dst);
+        unlink $dst;
+        linkit( $src => $dst );
     }
 }
 
 sub linkit {
-    my ($src, $dst) = @_;
+    my ( $src, $dst ) = @_;
 
-    if (!-e $src) {
+    if ( !-e $src ) {
         print "# '$src' is missing\n";
-    } elsif (-e $dst) {
+    }
+    elsif ( -e $dst ) {
         print "# $dst already exists\n";
-    } else {
+    }
+    else {
+        link $src, $dst;
         print "ln -s $src $dst\n";
     }
 }
