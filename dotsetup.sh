@@ -9,7 +9,6 @@ ln -s $CURRENT_DIR/.screenrc ~/.screenrc
 ln -s $CURRENT_DIR/.tscreenrc ~/.tscreenrc
 ln -s $CURRENT_DIR/.vimrc ~/.vimrc
 ln -s $CURRENT_DIR/.vim ~/.vim
-ln -s $CURRENT_DIR/.vim/bundle_vim72 ~/.vim/bundle
 ln -s $CURRENT_DIR/.ctags ~/.ctags
 ln -s $CURRENT_DIR/.cgdb ~/.cgdb
 ln -s $CURRENT_DIR/.irbrc ~/.irbrc
