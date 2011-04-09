@@ -83,7 +83,7 @@ imap <C-j> <esc>
 vmap <C-j> <esc>
 
 " remap <LEADER> to ',' (instead of '\')
-let mapleader = ","
+" let mapleader = ","
 
 set wildmode=list:longest
 
