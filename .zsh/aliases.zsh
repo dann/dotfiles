@@ -3,7 +3,7 @@ if [ x$TERM = xscreen ]; then
 fi
 
 if [ -x /usr/bin/rlwrap -o ]; then
-    alias sqlplus='/usr/bin/rlwrap -if $HOME/.zsh/.oracle_keywords sqlplus' 
+    alias sqlplus='/usr/bin/rlwrap -if $HOME/.zsh/misc/.oracle_keywords sqlplus' 
 fi
 
 alias df='df -h'
