@@ -5,11 +5,14 @@ INSTALLATION
 ---------------------------------------
 
 ### dotfiles
+# Install dotfiles
+
     % git clone https://github.com/dann/dotfiles.git ~/.dotfiles
     % cd ~/.dotfiles
     % ./dotsetup.pl
 
-You need to setup coreutils and some unix tools to use this dotfiles.
+# Install coreutils and some unix tools to use this dotfiles to use dotfiles
+
     % cd ~/.dotfiles/setup
     % ./setup_app_for_mac.sh
 
