@@ -5,18 +5,17 @@ INSTALLATION
 ---------------------------------------
 
 ### dotfiles
-    % cd ~/env
-    % git clone https://dann@github.com/dann/dotfiles.git
-    % cd dotfiles 
-    % ./dotsetup.sh
+    % git clone https://github.com/dann/dotfiles.git ~/.dotfiles
+    % cd ~/.dotfiles
+    % ./dotsetup.pl
 
 You need to setup coreutils and some unix tools to use this dotfiles.
-    % cd ~/env/dotfiles/setup
+    % cd ~/.dotfiles/setup
     % ./setup_app_for_mac.sh
 
 ### Setup perl and perl modules
 
-    % cd ~/env/dotfiles/setup
+    % cd ~/.dotfiles/dotfiles/setup
     % ./setup_perl.sh 
     % ./setup/setup_perl_modules.sh 
 
@@ -68,7 +67,6 @@ USAGE
   You can share a your screen session with users in .dev_users file.
 
     `screen -x username/`
-
 
   Select a region  
     `<C-a> tab j`
