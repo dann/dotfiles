@@ -21,6 +21,11 @@ export WORDCHARS='*?[]~=&;!#$%^(){}<>'
 # MySQL
 export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
 
+# for screen
+if [ -r ~/devbin/devenv.pl ]; then
+    eval `~/devbin/devenv.pl`
+fi
+
 # version detection
 autoload -Uz is-at-least
 
@@ -235,4 +240,6 @@ stty stop undef
 # rvm for ruby
 #-----------------------------------------------
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
 

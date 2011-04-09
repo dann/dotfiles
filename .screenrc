@@ -15,9 +15,9 @@ defutf8 on
 #-----------------------------------------
 # share session for pair programming
 #-----------------------------------------
-multiuser on
-aclumask ${DEV_USERS}-w
-acladd ${DEV_USERS}
+#multiuser on
+#aclumask ${DEV_USERS}-w
+#acladd ${DEV_USERS}
 
 #-----------------------------------------
 # chgange encoding
