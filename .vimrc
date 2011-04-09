@@ -17,9 +17,12 @@ if filereadable( $HOME . "/.vim/.vimrc-minimum" )
   source ~/.vim/.vimrc-minimum
 endif
 
-" backup
-set backupdir=~/.vim/backup
-let &directory = &backupdir
+" ============================================
+" functions 
+" ============================================
+if filereadable( $HOME . "/.vim/.vimrc-functions" )
+  source ~/.vim/.vimrc-functions
+endif
 
 " ============================================
 " plugin config 
@@ -29,28 +32,11 @@ if filereadable( $HOME . "/.vim/.vimrc-plugins" )
 endif
 
 " ============================================
-" Utility
-" ============================================
-function! GitGrep(arg)
-  let gtmp = &grepprg
-  let &grepprg = 'git-grep -n'
-  silent execute ':grep '.a:arg
-  let &grepprg = gtmp
-  silent cwin
-endfunction
-command! -nargs=1 -complete=tag GitGrep call GitGrep(<q-args>)
-
-inoremap <ESC> <ESC>:set iminsert=0<CR>
-
-" Rename
-command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
-
-" ============================================
 " mac
 " ============================================
 if has("mac") 
   if filereadable( $HOME . "/.vim/.vimrc-mac" )
-    source ~/.vimrc-mac
+    source ~/.vim/.vimrc-mac
   endif
 endif
 

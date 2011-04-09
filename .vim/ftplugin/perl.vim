@@ -13,6 +13,8 @@ setlocal shiftwidth=4
 setlocal expandtab
 setlocal iskeyword+=:
 
+setlocal isfname-=-
+
 " auto syntax check with Perl support
 au BufWritePost <buffer> call Perl_SyntaxCheck() | call Perl_SyntaxCheckMsg() | redraw!
 
