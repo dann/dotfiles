@@ -88,9 +88,11 @@ let mapleader = ","
 set wildmode=list:longest
 
 " ============================================
-" open perl module with gf
+" encoding 
 " ============================================
-
+nmap ,eu :e ++enc=utf-8<CR>
+nmap ,ee :e ++enc=euc-jp<CR>
+nmap ,ec :e ++enc=cp932<CR>
 
 " ============================================
 " statusline

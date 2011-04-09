@@ -56,7 +56,7 @@ USAGE
 
   perltidy `,pt`
 
-  quickrun `\r`
+  quickrun `,r`
 
   Grep buffer `,gb`
 
