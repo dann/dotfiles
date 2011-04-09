@@ -1,9 +1,32 @@
 #!/bin/bash
 
-rm ~/.zshrc ~/.zshrc-minimum ~/.zshrc-main ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctags ~/.vim ~/devbin ~/.zsh ~/.my.cnf ~/.dev_users ~/.devenvrc ~/.vimrc-before ~/.tidyrc ~/.perltidyrc  ~/.gitconfig  ~/.zshrc-mac ~/.vimrc-before ~/.vimrc-mac ~/.vimrc-minimum ~/.vimrc-plugins ~/.Xdefaults ~/.zshrc-java ~/.noserc ~/.pylint ~/.bashrc ~/.bash_profile ~/.bashrc-minimum  ~/.bashrc-mac ~/.bash ~/.shipit ~/.tscreenrc ~/.gdbinit
+# Remove current settings 
+rm ~/.Xdefaults 
+rm ~/.bash 
+rm ~/.bash_profile 
+rm ~/.bashrc 
+rm ~/.ctags 
+rm ~/.dev_users 
+rm ~/.devenvrc 
+rm ~/.gdbinit
+rm ~/.gitconfig  
+rm ~/.irbrc 
+rm ~/.my.cnf 
+rm ~/.noserc 
+rm ~/.perltidyrc  
+rm ~/.pylint 
+rm ~/.screenrc 
+rm ~/.shipit 
+rm ~/.tidyrc
+rm ~/.tscreenrc 
+rm ~/.vim 
+rm ~/.vimrc 
+rm ~/.zsh 
+rm ~/.zshrc 
+rm ~/devbin 
 
+# Link dotfiles
 CURRENT_DIR=`pwd`
-
 ln -s $CURRENT_DIR/.Xdefaults       ~/.Xdefaults
 ln -s $CURRENT_DIR/.bash            ~/.bash
 ln -s $CURRENT_DIR/.bashrc          ~/.bashrc
@@ -25,7 +48,6 @@ ln -s $CURRENT_DIR/.tidyrc          ~/.tidyrc
 ln -s $CURRENT_DIR/.tscreenrc       ~/.tscreenrc
 ln -s $CURRENT_DIR/.vim             ~/.vim
 ln -s $CURRENT_DIR/.vimrc           ~/.vimrc
-ln -s $CURRENT_DIR/.vimrc-before    ~/.vimrc-before
 ln -s $CURRENT_DIR/.zsh             ~/.zsh
 ln -s $CURRENT_DIR/.zshrc           ~/.zshrc
 ln -s $CURRENT_DIR/devbin           ~/devbin
