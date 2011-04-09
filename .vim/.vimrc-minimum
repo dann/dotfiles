@@ -78,9 +78,7 @@ nmap ; :
 
 " Escape sequence mapping 
 imap jj <Esc>
-vmap jj <Esc>
 imap <C-j> <esc>
-vmap <C-j> <esc>
 
 " remap <LEADER> to ',' (instead of '\')
 " let mapleader = ","

@@ -30,11 +30,6 @@ let g:fuf_enumeratingLimit = 20
 " ============================================
 " Ctags
 " ============================================
-noremap  t  <Nop>
-noremap  T  <Nop>
-
-noremap <c-[>  :pop<CR>
-
 " search tags under current dir
 set tags+=./tags;/
 
@@ -57,8 +52,6 @@ nnoremap <C-q>p :cprevious<CR>
 " nnoremap <C-t>n :tnext<CR>
 " nnoremap <C-t><C-p> :tprevious<CR>
 " nnoremap <C-t>p :tprevious<CR>
-
-
 
 " ============================================
 " autocomplpop.vim 
