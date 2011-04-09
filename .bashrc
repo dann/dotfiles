@@ -1,61 +1,65 @@
-#-------------------------------------------------------------
-# load custom config
-#-------------------------------------------------------------
-[ -r ~/.bashrc-before ] && source ~/.bashrc-before
+umask 022
+ulimit -c 0
+shopt -u sourcepath
 
-#-------------------------------------------------------------
-# load minimum settings
-#-------------------------------------------------------------
-source ~/.bashrc-minimum
+if [[ "$PS1" ]]; then
+    # Interactive mode
 
-#-------------------------------------------------------------
-# basics
-#-------------------------------------------------------------
-export LANG=ja_JP.UTF-8
-export TERM=xterm-color
+    #-------------------------------------------------------------
+    # Shell options
+    #-------------------------------------------------------------
+    IGNOREEOF=10
+    unset MAIL
+    unset command_not_found_handle
+    shopt -s histappend
+    shopt -s histverify
+    shopt -s histreedit
+    shopt -s checkwinsize
+    shopt -u hostcomplete
+    shopt -s checkhash
+    shopt -s no_empty_cmd_completion
 
-#-------------------------------------------------------------
-# Prompt 
-#-------------------------------------------------------------
-color_prompt=yes
-if [ "$color_prompt" = yes ]; then
-    GREEN="\033[01;32m"; blue="\033[00;34m"
-    cyan="\033[00;36m"; none="\033[00m"
-    if [ -x /usr/bin/tput ] && tput setaf 1 >& /dev/null; then
-        if [ $TERM = screen ];then
-            PS1="\[$GREEN\]\u@\h\[$none\]:\[$blue\]\w\[$cyan\]\$\[$none\] "
-            PS2="\[$cyan\]>\[$none\] "
-        else
-            PS1="\[$GREEN\]\u@\h\[$none\]:\[$blue\]\w\[$none\]\$ "
-            PS2="> "
-        fi
-    fi
-else
-    PS1="\u@\h:\w\$ "
+    #-------------------------------------------------------------
+    # Env vars
+    #-------------------------------------------------------------
+    unset LANG
+    export PAGER=less
+    export EDITOR=vi
+    export LESS='-X -i -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
+    export RSYNC_RSH=ssh
+    export CVS_RSH=ssh
+
+    # Terminal setting
+    #eval `SHELL=sh tset -sQI`
+    stty sane erase ^? intr ^C eof ^D susp ^Z quit ^\\ start ^- stop ^-
+
+    #-------------------------------------------------------------
+    # Prompt setting
+    #-------------------------------------------------------------
+    export PS1="[\u@\h:\w]\$ "
+
+    #-------------------------------------------------------------
+    # Completion
+    #-------------------------------------------------------------
+    complete -d cd
+    complete -c man
+    complete -v unset
+
+    #-------------------------------------------------------------
+    # history
+    #-------------------------------------------------------------
+    function share_history {
+      history -a
+      history -c
+      history -r
+    }
+    PROMPT_COMMAND='share_history'
+    export HISTSIZE=300000
+    export HISTFILESIZE=300000
+    export HISTCONTROL=ignoreboth
+    export HISTFILE=~/.bash_myhistory
+
+    function fceditor ()  {  tt=/tmp/$$.sh; cat $1 | ( read -rd '' s; t=/tmp/$$; echo "function a(){" > $t; echo "$s" >> $t; echo -e " }\n declare -f a" >> $t; chmod +x $t; $t > /dev/null 2>&1; if [ $? = 0 ]; then a=`$t|sed '1,2d;$d;s/....//'`";"`echo "$s"|tail -1|sed 's/^.\+\(#[^#]\+\)$/\1/'`; else a="$s"; fi; rm $t; echo "$a" ) > $tt; vim $tt; sed 's/^ *//' $tt > $1; rm $tt; }
+    export FCEDIT=fceditor
+
 fi
-unset color_prompt GREEN blue cyan none
-
-#-------------------------------------------------------------
-# completion
-#-------------------------------------------------------------
-if [ -f ~/.bash/bash_completion ]; then
-    export BASH_COMPLETION=~/.bash/bash_completion
-    source $BASH_COMPLETION
-fi
-
-if [ -f ~/devbin/acd_func.sh ]; then
-    source ~/devbin/acd_func.sh
-fi
-
-#-------------------------------------------------------------
-# Mac settings
-#-------------------------------------------------------------
-if [[ "${OSTYPE}" = darwin* ]] ; then
-    [ -e ~/.bashrc-mac ] && source ~/.bashrc-mac
-fi
-
-#-------------------------------------------------------------
-# load custom config
-#-------------------------------------------------------------
-
-[ -r ~/.bashrc-after ] && source ~/.bashrc-after
