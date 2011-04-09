@@ -18,6 +18,9 @@ export LESS="-erX"
 export HISTSIZE=100000 HISTFILE=~/.zsh_history SAVEHIST=100000
 export WORDCHARS='*?[]~=&;!#$%^(){}<>'
 
+# MySQL
+export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
+
 # version detection
 autoload -Uz is-at-least
 
@@ -73,9 +76,20 @@ setopt \
     no_beep \
     auto_param_slash \
     magic_equal_subst \
-
 #    correct \
 #    correct_all \
+
+
+# Don't add some commands to history
+zshaddhistory() {
+    local line=${1%%$'\n'}
+    local cmd=${line%% *}
+    [[  ${cmd} != (l|l[sal])
+        && ${cmd} != (cd)
+        && ${cmd} != (rm)
+        && ${cmd} != (m|man)
+    ]]
+}
 
 #-----------------------------------------------
 # vi-keys
@@ -196,63 +210,29 @@ compctl -g \
 fignore=(.o \~ .swp CVS)
 zmodload zsh/complist
 
-#-----------------------------------------------
-#  alias
-#-----------------------------------------------
-alias df='df -h'
-alias du='du -h'
-alias j='jobs -l'
-alias sl='ls'
-alias gd='dirs -v; echo -n "select number: "; read newdir; cd -"$newdir"'
-alias gf=grep-find
-alias vi='vim'
-alias cls='clear'
-alias ls='ls --color'
-
-if [ -x ~/local/bin/screen -o ]; then
-   alias screen=$HOME/local/bin/screen
-fi
-
-# ssh-agent
-alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
-
-# global alias
-alias -g V="| col -b | vim -R -"
-
 # disable Ctrl+S
 stty stop undef
 
-# Don't add some commands to history
-zshaddhistory() {
-    local line=${1%%$'\n'}
-    local cmd=${line%% *}
-    [[  ${cmd} != (l|l[sal])
-        && ${cmd} != (cd)
-        && ${cmd} != (rm)
-        && ${cmd} != (m|man)
-    ]]
-}
-
-# Extract archive
-function extract() {
-    case $1 in
-        *.tar.gz|*.tgz) tar xzvf $1 ;;
-        *.tar.xz) tar Jxvf $1 ;;
-        *.zip) unzip $1 ;;
-        *.lzh) lha e $1 ;;
-        *.tar.bz2|*.tbz) tar xjvf $1 ;;
-        *.tar.Z) tar zxvf $1 ;;
-        *.gz) gzip -dc $1 ;;
-        *.bz2) bzip2 -dc $1 ;;
-        *.Z) uncompress $1 ;;
-        *.tar) tar xvf $1 ;;
-        *.arj) unarj $1 ;;
-    esac
-}
-alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
-
+#------------------------
+# Perl
+#------------------------
+# perlbrew
 #-----------------------------------------------
-# Utility functions  
-#-----------------------------------------------
+[ -e ~/perl5/perlbrew/etc/bashrc ] && source ~/perl5/perlbrew/etc/bashrc
 
+#------------------------
+# Python
+#------------------------
+
+# pythonbrew
+#-----------------------------------------------
+[ -e ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
+
+#------------------------
+# ruby
+#------------------------
+
+# rvm for ruby
+#-----------------------------------------------
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 

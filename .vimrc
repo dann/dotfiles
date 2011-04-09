@@ -13,8 +13,8 @@ endif
 " ============================================
 " minimum config 
 " ============================================
-if filereadable( $HOME . "/.vimrc-minimum" )
-  source ~/.vimrc-minimum
+if filereadable( $HOME . "/.vim/.vimrc-minimum" )
+  source ~/.vim/.vimrc-minimum
 endif
 
 " backup
@@ -24,8 +24,8 @@ let &directory = &backupdir
 " ============================================
 " plugin config 
 " ============================================
-if filereadable( $HOME . "/.vimrc-plugins" )
-  source ~/.vimrc-plugins
+if filereadable( $HOME . "/.vim/.vimrc-plugins" )
+  source ~/.vim/.vimrc-plugins
 endif
 
 " ============================================
@@ -49,7 +49,7 @@ command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 " mac
 " ============================================
 if has("mac") 
-  if filereadable( $HOME . "/.vimrc-mac" )
+  if filereadable( $HOME . "/.vim/.vimrc-mac" )
     source ~/.vimrc-mac
   endif
 endif

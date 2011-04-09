@@ -4,11 +4,7 @@ rm ~/.zshrc ~/.zshrc-minimum ~/.zshrc-main ~/.screenrc ~/.vimrc ~/.irbrc ~/.ctag
 
 CURRENT_DIR=`pwd`
 ln -s $CURRENT_DIR/.zshrc ~/.zshrc
-ln -s $CURRENT_DIR/.zshrc-minimum ~/.zshrc-minimum
-ln -s $CURRENT_DIR/.zshrc-main ~/.zshrc-main
 ln -s $CURRENT_DIR/.zsh ~/.zsh
-ln -s $CURRENT_DIR/.zshrc-java ~/.zshrc-java
-ln -s $CURRENT_DIR/.zshrc-mac ~/.zshrc-mac
 ln -s $CURRENT_DIR/.screenrc ~/.screenrc
 ln -s $CURRENT_DIR/.tscreenrc ~/.tscreenrc
 ln -s $CURRENT_DIR/.vimrc ~/.vimrc
@@ -33,7 +29,6 @@ ln -s $CURRENT_DIR/.Xdefaults ~/.Xdefaults
 ln -s $CURRENT_DIR/.irssi ~/.irssi
 ln -s $CURRENT_DIR/.noserc ~/.noserc
 ln -s $CURRENT_DIR/.pylint ~/.pylint
-ln -s $CURRENT_DIR/.zshrc-java ~/.zshrc-java
 ln -s $CURRENT_DIR/.bash ~/.bash
 ln -s $CURRENT_DIR/.bashrc_profile ~/.bashrc_profile
 ln -s $CURRENT_DIR/.bashrc-minimum ~/.bashrc-minimum
