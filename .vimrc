@@ -10,6 +10,9 @@ if filereadable( $HOME . "/.vimrc-before" )
   source ~/.vimrc-before
 endif
 
+" add runtimepathe .vim/bundle/* 
+call pathogen#runtime_append_all_bundles()
+
 " ============================================
 " minimum config 
 " ============================================
