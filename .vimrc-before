@@ -1,9 +1,0 @@
-" If vim isn't build with + python,
-" you need to uncomment the line below
-" to disable trac.vim
-" ---------------------------------------
-let g:TracPlugin_disabled = 1
-
-" US Keyboard
-noremap ; :
-noremap : ; 
