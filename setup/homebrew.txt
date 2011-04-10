@@ -2,10 +2,13 @@ bvi
 coreutils
 gettext
 git
+htop
 jsl
 lha
 libiconv
 lv
+lynx
+multitail
 neon
 ngrep
 nkf
@@ -17,5 +20,4 @@ tree
 valgrind
 w3m
 wget
-lynx
 zsh

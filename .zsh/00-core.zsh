@@ -81,6 +81,8 @@ setopt \
     no_beep \
     auto_param_slash \
     magic_equal_subst \
+    noflowcontrol \
+
 #    correct \
 #    correct_all \
 
@@ -103,6 +105,7 @@ bindkey -v
 bindkey "^P" up-line-or-history
 bindkey "^N" down-line-or-history
 bindkey "^K" vi-change-eol
+bindkey "^B" push-line-or-edit
 
 if is-at-least 4.3.10; then
     bindkey '^R' history-incremental-pattern-search-backward

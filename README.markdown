@@ -58,11 +58,13 @@ USAGE
 
   perltidy `,pt`
 
-  quickrun `,r`
+  quickrun `\r`
 
   Grep buffer `,gb`
 
   Show tag `,tl`
+
+  Show man `K`
   
 ### screen
 
