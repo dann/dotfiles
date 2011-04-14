@@ -105,7 +105,10 @@ bindkey -v
 bindkey "^P" up-line-or-history
 bindkey "^N" down-line-or-history
 bindkey "^K" vi-change-eol
-bindkey "^B" push-line-or-edit
+bindkey "^L" push-line-or-edit
+
+bindkey "^W" forward-word
+bindkey "^B" backward-word
 
 if is-at-least 4.3.10; then
     bindkey '^R' history-incremental-pattern-search-backward
