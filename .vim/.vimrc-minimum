@@ -106,6 +106,13 @@ function! GetFileEncoding()
     return str
 endfunction
 
+" ============================================
+" color
+" ============================================
+set background=dark
+colorscheme wombat256mod
+"colorscheme desert256 
+"colorscheme solarized
 
 " ============================================
 " completion color
