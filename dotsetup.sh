@@ -28,17 +28,29 @@ devbin
 devtools
 )
 
-# Remove dotfiles
-for dotfile in ${DOTFILES[@]}
-do
-    rm $HOME/$dotfile
-done
+setup() {
+    remove_dotfiles
+    link_dotfiles
+    make_executable
+}
 
-# Link dotfiles
-CURRENT_DIR=`pwd`
-for dotfile in ${DOTFILES[@]}
-do
-    ln -s $CURRENT_DIR/$dotfile $HOME/$dotfile
-done
+remove_dotfiles() {
+    for dotfile in ${DOTFILES[@]}
+    do
+        rm $HOME/$dotfile
+    done
+}
 
-chmod 700 ~/devbin/*
+link_dotfiles() {
+    CURRENT_DIR=`pwd`
+    for dotfile in ${DOTFILES[@]}
+    do
+        ln -s $CURRENT_DIR/$dotfile $HOME/$dotfile
+    done
+}
+
+make_executable() {
+    chmod 700 ~/devbin/*
+}
+
+setup
