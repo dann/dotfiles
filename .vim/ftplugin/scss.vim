@@ -13,4 +13,5 @@ function! s:CompileSCCS(...)
 endfunction
 
 compiler scss
-autocmd BufWritePost <buffer> :call <SID>CompileSCCS()
+
+"autocmd BufWritePost <buffer> :call <SID>CompileSCCS()

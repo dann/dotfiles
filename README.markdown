@@ -68,11 +68,9 @@ USAGE
   
 ### screen
 
-  Share session with other users
+  Share session with other users. `screen -x username/`
   You can share a your screen session with users in .dev_users file.
-
-    `screen -x username/`
-
+    
   Select a region  
     `<C-a> tab j`
     `<C-a> tab k`
