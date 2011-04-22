@@ -9,8 +9,7 @@ setlocal filetype=xhtml
 setlocal omnifunc=htmlcomplete#CompleteTags
 
 " Compiler
-compiler tidy
-setlocal makeprg=tidy\ -raw\ -quiet\ -errors\ --gnu-emacs\ yes\ \"%\"
+compiler xhtml
 
 " Completion
 set dictionary=~/.vim/dict/html.dict
