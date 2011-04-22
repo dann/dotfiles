@@ -85,6 +85,11 @@ USAGE
 
   Split window
     Vsplit `<C-a> w v`
+    split `<C-a> w s`
+
+### html
+
+  close tag `,/`
 
 AUTHOR
 ---------------------------------------
