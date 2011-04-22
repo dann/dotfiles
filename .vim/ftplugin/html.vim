@@ -18,7 +18,7 @@ set dictionary+=~/.vim/dict/css.dict
 set iskeyword+=-,:
 
 " Tab settings
-setlocal tabstop=4 softtabstop=4 shiftwidth=4
+setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " HTML tidy
 noremap ,ht <ESC>:%! tidy -config ~/.tidyrc -m -q <CR>:retab<CR>
