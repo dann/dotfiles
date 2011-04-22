@@ -244,3 +244,10 @@ nnoremap ,gC :<C-u>GitCommit --amend<Enter>
 nnoremap ,gp :<C-u>Git push
 
 
+"=============================================
+" ragtag
+"=============================================
+inoremap <M-o>       <Esc>o
+inoremap <C-j>       <Down>
+let g:ragtag_global_maps = 1
+
