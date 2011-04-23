@@ -90,6 +90,7 @@ USAGE
 ### html
 
   close tag `,/`
+  expand tag with zencoding `<c-y>,`
 
 AUTHOR
 ---------------------------------------
