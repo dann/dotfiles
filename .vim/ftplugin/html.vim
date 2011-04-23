@@ -8,8 +8,14 @@ runtime! ftplugin/xml.vim
 setlocal filetype=xhtml
 setlocal omnifunc=htmlcomplete#CompleteTags
 
-" Compiler
-compiler xhtml
+" double quotations for % ("%") are needed for Windows
+if has('win32')
+    setlocal makeprg=tidy\ -raw\ -quiet\ -errors\ --gnu-emacs\ yes\ \"%\"
+    setlocal errorformat=%f:%l:%c:\ %t%*[^:]:\ %m
+else
+    setlocal makeprg=tidy\ -raw\ -quiet\ -errors\ --gnu-emacs\ yes\ %
+    setlocal errorformat=%f:%l:%c:\ %t%*[^:]:\ %m
+endif
 
 " Completion
 set dictionary=~/.vim/dict/html.dict
@@ -25,3 +31,5 @@ noremap ,htv <ESC>:'<,'>! tidy -config ~/.tidyrc -m -q <CR>:retab<CR>
 
 " html close
 inoremap ,/ </<C-X><C-O>
+
+" autocmd BufWritePost * silent make %

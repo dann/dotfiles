@@ -243,11 +243,7 @@ nnoremap ,gc :<C-u>GitCommit<Enter>
 nnoremap ,gC :<C-u>GitCommit --amend<Enter>
 nnoremap ,gp :<C-u>Git push
 
-
 "=============================================
-" ragtag
+" zencoding
 "=============================================
-inoremap <M-o>       <Esc>o
-inoremap <C-j>       <Down>
-let g:ragtag_global_maps = 1
-
+let g:user_zen_settings = {'indentation' : '  '} 
