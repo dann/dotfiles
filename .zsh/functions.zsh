@@ -58,8 +58,7 @@ alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz,dmg}=extract
 
 # set PERL5LIB env
 perl5lib () {
-    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1/lib:${HOME}/perl5/perlbrew/perls/current/lib/site_perl/5.12.1:${PERL5LIB}"
-
+    export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1/lib:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1:${HOME}/perl5/perlbrew/perls/current/lib/site_perl/5.12.1:${HOME}/perl5/perlbrew/perls/perl-5.12.1/lib/5.12.1:$HOME/perl5/perlbrew/perls/perl-5.12.1/lib/site_perl/5.12.1/darwin-2level:${PERL5LIB}"
 }
 
 function cdmake () {
