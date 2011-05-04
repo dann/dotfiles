@@ -136,6 +136,7 @@ _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/know
 
 # don't complete remote file path
 zstyle ':completion:*:complete:scp:*:files' command command -
+zstyle ':completion:*' use-cache true
 
 autoload -U compinit; compinit
 autoload colors; colors
