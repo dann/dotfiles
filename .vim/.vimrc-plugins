@@ -169,7 +169,6 @@ command! -nargs=1 Gb :GrepBuffer <args>
 " Search word under the cursor
 nnoremap ,gb :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
 
-
 " ============================================
 " tag 
 " ============================================
@@ -247,3 +246,10 @@ nnoremap ,gp :<C-u>Git push
 " zencoding
 "=============================================
 let g:user_zen_settings = {'indentation' : '  '} 
+
+" ============================================
+" NERDTree
+" ============================================
+nnoremap ,nt :<C-u>NERDTree<Enter>
+nnoremap ,ntt :<C-u>NERDTreeToggle<Enter>
+
