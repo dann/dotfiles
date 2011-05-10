@@ -7,6 +7,7 @@ virtualenvwrapper
 pylint
 pyflakes
 pep8
+nose
 )
 
 setup() {
