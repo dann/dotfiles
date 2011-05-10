@@ -253,3 +253,25 @@ let g:user_zen_settings = {'indentation' : '  '}
 nnoremap ,nt :<C-u>NERDTree<Enter>
 nnoremap ,ntt :<C-u>NERDTreeToggle<Enter>
 
+
+" ============================================
+" gundo 
+" ============================================
+map <leader>g :GundoToggle<CR>
+
+
+" ============================================
+" python (pep)
+" ============================================
+let g:pep8_map='<leader>8'
+
+" ============================================
+" python (pyflakes)
+" ============================================
+" let g:pyflakes_use_quickfix = 0
+
+" ============================================
+" python (Rope)
+" ============================================
+map <leader>j :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
