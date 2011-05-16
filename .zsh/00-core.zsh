@@ -134,6 +134,9 @@ bindkey "^[[B" down-line-or-history    # Down
 fpath=(~/.zsh/completion $fpath)
 _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
 
+# complete capital characters too.
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 # don't complete remote file path
 zstyle ':completion:*:complete:scp:*:files' command command -
 zstyle ':completion:*' use-cache true
