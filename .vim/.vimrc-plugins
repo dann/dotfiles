@@ -156,6 +156,7 @@ let Tlist_Show_One_File = 1 "show the tag for current file
 "let Tlist_Inc_Winwidth = 0
 "let Tlist_Process_File_Always = 1
 "let Tlist_Ctags_Cmd = /path/to/exuberant/ctags
+let tlist_objc_settings    = 'objc;i:interface;c:class;m:method;p:property'
 
 
 " ============================================
