@@ -194,6 +194,8 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function chpwd() {
+    # for cdd
+    _reg_pwd_screennum
     if [[ "${OSTYPE}" = darwin* ]] ; then
         ls -al --color 
     else
@@ -251,5 +253,5 @@ stty stop undef
 #-----------------------------------------------
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-
-
+# cdd
+source ~/.zsh/misc/cdd
