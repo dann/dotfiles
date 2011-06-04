@@ -53,8 +53,7 @@ filetype indent on
 filetype plugin on
 
 " backup
-set backupdir=~/.vim/backup
-let &directory = &backupdir
+set nobackup
 
 " auto change directory
 if has("autochdir")
