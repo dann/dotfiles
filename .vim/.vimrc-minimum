@@ -52,8 +52,7 @@ filetype on
 filetype indent on
 filetype plugin on
 
-" backup
-set nobackup
+set whichwrap=b,s,h,l,<,>,[,]
 
 " auto change directory
 if has("autochdir")
