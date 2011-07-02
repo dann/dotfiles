@@ -139,6 +139,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # don't complete remote file path
 zstyle ':completion:*:complete:scp:*:files' command command -
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' use-cache true
 
 autoload -U compinit; compinit
