@@ -31,7 +31,7 @@ endif
 " plugin config 
 " ============================================
 if filereadable( $HOME . "/.vim/.vimrc-plugins" )
-  source ~/.vim/.vimrc-plugins
+   source ~/.vim/.vimrc-plugins
 endif
 
 " ============================================
@@ -55,4 +55,4 @@ if !exists('s:loaded_my_vimrc')
   let s:loaded_my_vimrc = 1
 endif
  
-set secure " must be written at the last. see :help 'secure'.
+" set secure " must be written at the last. see :help 'secure'.

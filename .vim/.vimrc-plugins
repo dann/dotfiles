@@ -246,4 +246,4 @@ nnoremap ,gp :<C-u>Git push
 "=============================================
 " zencoding
 "=============================================
-let g:user_zen_settings = {'indentation' : '  '} 
+"let g:user_zen_settings = {'indentation' : '  '} 
