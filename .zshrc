@@ -9,6 +9,14 @@
 for config_file ($HOME/.zsh/*.zsh) source $config_file
 
 #-----------------------------------------------
+# Load host specific settings
+#-----------------------------------------------
+h="${HOST%%.*}"
+if [[ -f "$HOME/.zsh/host/$h.zsh" ]]; then
+    source "$HOME/.zsh/host/$h.zsh"
+fi
+
+#-----------------------------------------------
 # Load user config
 #-----------------------------------------------
 # if you want to customize this config,

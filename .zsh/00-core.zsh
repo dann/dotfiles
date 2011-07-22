@@ -134,8 +134,13 @@ bindkey "^[[B" down-line-or-history    # Down
 fpath=(~/.zsh/completion $fpath)
 _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
 
+# complete capital characters too.
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 # don't complete remote file path
 zstyle ':completion:*:complete:scp:*:files' command command -
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' use-cache true
 
 autoload -U compinit; compinit
 autoload colors; colors
@@ -190,6 +195,8 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function chpwd() {
+    # for cdd
+    _reg_pwd_screennum
     if [[ "${OSTYPE}" = darwin* ]] ; then
         ls -al --color 
     else
@@ -247,5 +254,5 @@ stty stop undef
 #-----------------------------------------------
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-
-
+# cdd
+source ~/.zsh/misc/cdd

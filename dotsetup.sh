@@ -22,6 +22,7 @@ DOTFILES=(
 .tscreenrc
 .vim
 .vimrc
+.vrapperrc
 .zsh
 .zshrc
 devbin

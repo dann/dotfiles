@@ -60,3 +60,17 @@ vnoremap ,c <Esc>:call CommentMark(1,'<','>')<CR>
 vnoremap ,uc <Esc>:call CommentMark(0,'<','>')<CR>
 
 
+" ============================================
+" Open browser
+" ============================================
+function! HandleURI()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  echo s:uri
+  if s:uri != ""
+    exec "!open \"" . s:uri . "\""
+  else
+    echo "No URI found in line."
+  endif
+endfunction
+
+map <Leader>w :call HandleURI()<CR>

@@ -52,9 +52,7 @@ filetype on
 filetype indent on
 filetype plugin on
 
-" backup
-set backupdir=~/.vim/backup
-let &directory = &backupdir
+set whichwrap=b,s,h,l,<,>,[,]
 
 " auto change directory
 if has("autochdir")
@@ -111,13 +109,16 @@ endfunction
 " ============================================
 set background=dark
 colorscheme wombat256mod
+"colorscheme zenburn
+"colorscheme molokai
 "colorscheme desert256 
 "colorscheme solarized
 
 " ============================================
 " completion color
 " ============================================
-set t_Co=16
+" set t_Co=16
+set t_Co=256
 set t_Sf=[3%dm
 set t_Sb=[4%dm
 

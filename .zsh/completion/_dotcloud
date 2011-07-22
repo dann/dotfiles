@@ -1,0 +1,31 @@
+#compdef dotcloud
+
+typeset -A opt_args
+local context state line
+
+_arguments -C \
+    '(- 1 *)'{-h,--help}'[prints help]' \
+    '1: :->cmds' \
+    '(1 *): :->args' && return 0
+
+case $state in
+  cmds)
+    local -a cmds
+    cmds=(status info run logs deploy setup list alias ssh destroy push rollback create restart )
+    _describe -t commands 'dotcloud command' cmds && ret=0
+  ;;
+  args)
+    case $line[1] in
+      (status | info | ssh | logs | push| restart | rollback )
+        local -a services
+        services=(system $(_call_program commands dotcloud list 2>/dev/null | grep "-" | awk '{print $2}' ))
+        _wanted services expl 'service' compadd $services && ret=0 
+      ;;
+      *)
+        (( ret )) && _message 'no more arguments'
+      ;;
+    esac
+  ;;
+esac
+
+return ret

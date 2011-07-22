@@ -156,6 +156,7 @@ let Tlist_Show_One_File = 1 "show the tag for current file
 "let Tlist_Inc_Winwidth = 0
 "let Tlist_Process_File_Always = 1
 "let Tlist_Ctags_Cmd = /path/to/exuberant/ctags
+let tlist_objc_settings    = 'objc;i:interface;c:class;m:method;p:property'
 
 
 " ============================================
@@ -168,7 +169,6 @@ let Grep_Skip_Files = '*.bak *~'
 command! -nargs=1 Gb :GrepBuffer <args>
 " Search word under the cursor
 nnoremap ,gb :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
-
 
 " ============================================
 " tag 
@@ -243,7 +243,31 @@ nnoremap ,gc :<C-u>GitCommit<Enter>
 nnoremap ,gC :<C-u>GitCommit --amend<Enter>
 nnoremap ,gp :<C-u>Git push
 
-"=============================================
-" zencoding
-"=============================================
-"let g:user_zen_settings = {'indentation' : '  '} 
+" ============================================
+" NERDTree
+" ============================================
+nnoremap ,nt :<C-u>NERDTree<Enter>
+nnoremap ,ntt :<C-u>NERDTreeToggle<Enter>
+
+
+" ============================================
+" gundo 
+" ============================================
+map <leader>g :GundoToggle<CR>
+
+
+" ============================================
+" python (pep)
+" ============================================
+let g:pep8_map='<leader>8'
+
+" ============================================
+" python (pyflakes)
+" ============================================
+" let g:pyflakes_use_quickfix = 0
+
+" ============================================
+" python (Rope)
+" ============================================
+map <leader>j :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
