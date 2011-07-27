@@ -48,9 +48,4 @@ command! PyChecker call PythonGrep('pychecker')
 command! Pylint call PythonGrep('pylint')
 command! PyLint call PythonGrep('pylint')
 
-" These three are successively more informative and aggressive in their
-" warnings with pyflakes as the least noisy. Only uncomment one.
-autocmd BufWrite *.{py} :Pyflakes
-"autocmd BufWrite *.{py} :Pychecker
-"autocmd BufWrite *.{py} :Pylint
 

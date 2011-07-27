@@ -37,3 +37,10 @@ noremap <buffer> ,pp :call Pep8()<CR>
 "noremap <buffer> ,pp <Esc>:!pep8 %<CR>
 noremap <buffer> ,pt <Esc>:!pythontidy <CR>
 
+"--------------------------------------------------
+" Syntax Check
+"--------------------------------------------------
+autocmd BufWrite *.{py} :Pyflakes
+"autocmd BufWrite *.{py} :Pychecker
+"autocmd BufWrite *.{py} :Pylint
+
