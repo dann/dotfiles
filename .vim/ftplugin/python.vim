@@ -31,6 +31,12 @@ setlocal omnifunc=pythoncomplete#Complete
 setlocal tags+=~/.vim/tags/python/python.tags
 
 "--------------------------------------------------
+" Format 
+"--------------------------------------------------
+noremap <buffer> ,pp <Esc>:!pep8 %<CR>
+noremap <buffer> ,pt <Esc>:!pythontidy <CR>
+
+"--------------------------------------------------
 " Syntax Check
 "--------------------------------------------------
 function! PythonGrep(tool)
@@ -66,7 +72,6 @@ function! PythonGrep(tool)
         \ execute 'resize +'.l:mod_total                                                   
   " Open cwindow                                                                           
   execute 'belowright cw '.l:mod_total                                                     
-  nnoremap   c :cclose                                                 
   set nolazyredraw                                                                         
   redraw!                                                                                  
 endfunction
@@ -83,3 +88,5 @@ command! PyLint call PythonGrep('pylint')
 autocmd BufWrite *.{py} :Pyflakes
 "autocmd BufWrite *.{py} :Pychecker
 "autocmd BufWrite *.{py} :Pylint
+
+
