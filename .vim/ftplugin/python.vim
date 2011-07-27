@@ -36,11 +36,10 @@ setlocal tags+=~/.vim/tags/python/python.tags
 noremap <buffer> ,pp :call Pep8()<CR>
 "noremap <buffer> ,pp <Esc>:!pep8 %<CR>
 noremap <buffer> ,pt <Esc>:!pythontidy <CR>
+noremap <buffer> ,pf :call Pyflakes()<CR>
 
 "--------------------------------------------------
 " Syntax Check
 "--------------------------------------------------
-autocmd BufWrite *.{py} :Pyflakes
-"autocmd BufWrite *.{py} :Pychecker
-"autocmd BufWrite *.{py} :Pylint
+autocmd BufWrite *.{py} :call Pyflakes()
 
