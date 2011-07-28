@@ -112,7 +112,7 @@ inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 " ============================================
 " manpage view
 "=============================================
-let g:manpageview_winopen="vsplit"
+let g:manpageview_winopen="vsplit="
 
 "=============================================
 " ref.vim

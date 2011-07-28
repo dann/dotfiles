@@ -43,3 +43,10 @@ noremap <buffer> ,pf :call Pyflakes()<CR>
 "--------------------------------------------------
 autocmd BufWrite *.{py} :call Pyflakes()
 
+"--------------------------------------------------
+" Pydoc
+"--------------------------------------------------
+" remap the K (or 'help') key
+nnoremap <silent> <buffer> K :call ShowPyDoc(expand("<cword>"), 1)<CR>
+
+
