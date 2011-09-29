@@ -19,6 +19,7 @@
     d4 = diff HEAD^^^^
     d5 = diff HEAD^^^^^
     d10 = diff HEAD^^^^^^^^^^
+    tree = log --graph --pretty=oneline --abbrev-commit --decorate
 
 [color]
     diff   = auto
@@ -41,3 +42,5 @@
     changed = green
     untracked = cyan
 
+[core]
+	editor = /usr/bin/vim

@@ -4,6 +4,9 @@ export LANG=ja_JP.UTF-8
 export LC_CTYPE=ja_JP.UTF-8
 export LC_ALL=ja_JP.UTF-8
 
+# Path
+export PATH=$PATH:/usr/local/mysql/bin
+
 # for pbcopy to copy utf8 text
 export __CF_USER_TEXT_ENCODING=0x1F6:0x08000100:14
 
