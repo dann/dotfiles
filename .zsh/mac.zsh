@@ -10,6 +10,8 @@ export PATH=$PATH:/usr/local/mysql/bin
 # for pbcopy to copy utf8 text
 export __CF_USER_TEXT_ENCODING=0x1F6:0x08000100:14
 
+export PYTHONPATH="/usr/local/lib/python2.6/site-packages/:$PYTHONPATH"
+
 # for CPAN
 # export PERL5LIB="/opt/local/lib/perl5/site_perl/5.8.8:${PERL5LIB}"
 

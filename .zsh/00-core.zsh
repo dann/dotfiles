@@ -252,7 +252,7 @@ stty stop undef
 
 # rvm for ruby
 #-----------------------------------------------
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # cdd
 source ~/.zsh/misc/cdd
