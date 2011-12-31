@@ -14,7 +14,7 @@ exit;
 
 sub main {
     my $config = pit_get(
-        "pmsetup",
+        "pysetup",
         require => {
             author  => "your username",
             email   => "your email",
