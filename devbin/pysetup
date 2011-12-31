@@ -129,6 +129,59 @@ template: |
   """
 
 ---
+file: $module/tests/test_pyflakes.py
+template: |
+# -*- coding: utf-8 -*-
+
+import compiler
+import os
+import sys
+
+import pyflakes.checker
+
+
+def check(codeString, filename):
+    try:
+        tree = compiler.parse(codeString)
+    except (SyntaxError, IndentationError):
+        value = sys.exc_info()[1]
+        (lineno, offset, line) = value[1][1:]
+        if line.endswith("\n"):
+            line = line[:-1]
+        raise AssertionError(
+            "could not compile %s:%d: %s" % (filename[9:], lineno, line))
+    else:
+        w = pyflakes.checker.Checker(tree, filename)
+        w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
+        return list(w.messages)
+    return []
+
+
+def check_path(filename):
+    if os.path.exists(filename):
+        return check(file(filename).read(), filename)
+    return []
+
+
+def check_subdirectory(directory):
+    warnings = []
+    for dirpath, dirnames, filenames in os.walk(directory):
+        for filename in filenames:
+            if filename.endswith('.py'):
+                warnings += check_path(os.path.join(dirpath, filename))
+    return warnings
+
+
+def test_pyflakes():
+    test_dir = os.path.dirname(__file__)
+    lib_dir = os.path.join(test_dir, '..')
+    warnings = check_subdirectory(lib_dir)
+    if warnings:
+        for warning in warnings:
+            print str(warning)[9:]
+        assert warnings == 0, "%d warnings" % len(warnings)
+
+---
 file: $module/tests/test_pep8.py
 template: |
   # -*- coding: utf-8 -*-
