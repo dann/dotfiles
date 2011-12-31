@@ -73,6 +73,7 @@ sub init_git_repo {
     !system 'git add CHANGES.txt'            or die $?;
     !system 'git add LICENSE.txt'            or die $?;
     !system 'git add .gitignore'             or die $?;
+    !system 'git add Makefile'               or die $?;
     !system "git add ${module}"              or die $?;
     !system "git add docs"                   or die $?;
     !system 'git commit -m "initial commit"' or die $?;
@@ -291,7 +292,17 @@ template: |
         entry_points = """\
         """
         )
+
+---
+file: setup.cfg 
+template: |
+  [egg_info]
+  tag_build = dev
+  tag_date = true
   
+  [aliases]
+  release = egg_info -RDb ''
+
 ---
 file: .gitignore
 template: |
@@ -316,4 +327,55 @@ template: |
   jyenv/
   pypyenv/
   env*/
+
+---
+file: tox.ini 
+template: |
+  [tox]
+  envlist=py25,py26,py27
   
+  [testenv]
+  commands=make test
+
+---
+file: Manifest.in 
+template: |
+  include Makefile CHANGES.txt LICENSE.txt
+  recursive-include tests *
+  recursive-include examples *
+  recursive-include docs *
+  recursive-exclude docs *.pyc
+  recursive-exclude docs *.pyo
+  recursive-exclude tests *.pyc
+  recursive-exclude tests *.pyo
+  recursive-exclude examples *.pyc
+  recursive-exclude examples *.pyo
+  prune docs/_build
+  prune docs/_themes/.git
+
+---
+file: Makefile 
+template: |
+  .PHONY: clean-pyc test docs dist
+  
+  all: clean-pyc test
+  
+  test:
+  	python setup.py test 
+  
+  tox-test:
+  	PYTHONDONTWRITEBYTECODE= tox
+  
+  clean-pyc:
+  	find . -name '*.pyc' -exec rm -f {} +
+  	find . -name '*.pyo' -exec rm -f {} +
+  	find . -name '*~' -exec rm -f {} +
+  
+  docs:
+  	$(MAKE) -C docs html
+
+  dist:
+  	python setup.py sdist
+
+  install:
+  	python setup.py install
