@@ -1,0 +1,317 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use ExtUtils::MakeMaker qw(prompt);
+use File::Basename;
+use File::Path;
+use File::Spec;
+use Text::Xslate;
+use YAML;
+use Config::Pit;
+
+main();
+exit;
+
+sub main {
+    my $config = pit_get(
+        "pmsetup",
+        require => {
+            author  => "your username",
+            email   => "your email",
+            workdir => "$ENV{HOME}/tmp",
+        }
+    );
+
+           $config->{author}
+        || $config->{email}
+        || $config->{workdir}
+        || die("no settings");
+
+    -e $config->{workdir} || mkdir $config->{workdir}, 0777;
+
+    my $modname = shift @ARGV or die "Usage: $0 module\n";
+    $modname =~ s/-/::/g;
+
+    write_plugin_files( $modname, $config );
+}
+
+sub write_plugin_files {
+    my ( $module, $config ) = @_;
+
+    my $dist_dir = _create_dist_dir($module);
+    chdir $dist_dir;
+
+    my @template = YAML::Load( join '', <DATA> );
+    my $vars = {
+        module    => $module,
+        config    => $config,
+        localtime => scalar localtime
+    };
+
+    for my $tmpl (@template) {
+        my $file = $tmpl->{file};
+        $file =~ s/(\$\w+)/$1/eeg;
+        write_file( $file, $tmpl->{template}, $vars );
+        chmod oct( $tmpl->{chmod} ), $tmpl->{file} if $tmpl->{chmod};
+    }
+
+    init_git_repo($module);
+}
+
+sub _create_dist_dir {
+    my $module = shift;
+    my $dist = "py-${module}";
+    mkdir $dist, 0777;
+    $dist;
+}
+
+sub init_git_repo {
+    my $module = shift;
+    !system 'git init'                       or die $?;
+    !system 'git add *.*'                    or die $?;
+    !system 'git add README.rst'             or die $?;
+    !system 'git add CHANGES.txt'            or die $?;
+    !system 'git add .gitignore'             or die $?;
+    !system "git add ${module}"              or die $?;
+    !system 'git commit -m "initial commit"' or die $?;
+}
+
+sub write_file {
+    my ( $path, $template, $vars ) = @_;
+
+    if ( -e $path ) {
+        my $ans = prompt( "$path exists. Override? [yN] ", 'n' );
+        return if $ans !~ /[Yy]/;
+    }
+
+    my $dir = File::Basename::dirname($path);
+    unless ( -e $dir ) {
+        warn "Creating directory $dir\n";
+        File::Path::mkpath( $dir, 1, 0777 );
+    }
+
+    my $tt = Text::Xslate->new( syntax => 'TTerse' );
+    my $content = $tt->render_string( $template, $vars );
+
+    warn "Creating $path\n";
+    open my $out, ">", $path or die "$path: $!";
+    print $out $content;
+    close $out;
+}
+
+=pod
+
+=cut
+
+__DATA__
+---
+file: $module/__init__.py
+template: |
+  # -*- coding: utf-8 -*-
+
+  """
+      [% module %] is the .
+  
+      It provides .
+  
+      :copyright: (c) 2011 by [% config.author %].
+      :license: BSD, see LICENSE for more details.
+  """
+
+---
+file: $module/tests/__init__.py
+template: |
+  # -*- coding: utf-8 -*-
+  """
+  """
+
+---
+file: $module/tests/test_pep8.py
+template: |
+  # -*- coding: utf-8 -*-
+  
+  import os
+  import pep8
+  
+  CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+  BASE_DIR = os.path.dirname(CURRENT_DIR)
+
+  
+  def test_pep8():
+      arglist = [
+          '--statistics',
+          '--filename=*.py',
+          '--show-source',
+          '--repeat',
+          #'--show-pep8',
+          #'-qq',
+          #'-v',
+          BASE_DIR,
+      ]
+  
+      options, args = pep8.process_options(arglist)
+      runner = pep8.input_file
+  
+      for path in args:
+          if os.path.isdir(path):
+              pep8.input_dir(path, runner=runner)
+          elif not pep8.excluded(path):
+              options.counters['files'] += 1
+              runner(path)
+  
+      pep8.print_statistics()
+      errors = pep8.get_count('E')
+      warnings = pep8.get_count('W')
+      message = 'pep8: %d errors / %d warnings' % (errors, warnings)
+      print message
+      assert errors + warnings == 0, message
+  
+---
+file: docs/.gitignore
+template: |
+  _themes
+  _build
+ 
+---
+file: CHANGES.txt
+template: |
+  Revision history for Python extension [% module %]
+
+  0.01 [% localtime %]
+  	* original version
+
+---
+file: LICENSE.txt
+template: |
+  Copyright (c) 2012, [% config.author %]
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the [% config.author %] nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+file: README.rst
+template: |
+
+  This is Python module [% module %].
+
+  INSTALLATION
+  -------
+
+  [% module %] installation is straightforward. If your pip is set up,
+  you should just be able to do
+
+      % pip install [% module %]
+
+  DOCUMENTATION
+  -------
+
+  [% module %] documentation is available . So you can do:
+
+      % pydoc [% module %]
+
+  to read the documentation online with your favorite pager.
+
+  [% config.author %]
+
+---
+file: setup.py
+template: |
+  import os
+  import sys
+  
+  from setuptools import setup, find_packages
+  
+  if sys.version_info[:2] < (2, 6):
+      raise RuntimeError('Requires Python 2.6 or better')
+  
+  here = os.path.abspath(os.path.dirname(__file__))
+  try:
+      README = open(os.path.join(here, 'README.rst')).read()
+      CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
+  except IOError:
+      README = CHANGES = ''
+  
+  install_requires=[
+      'setuptools',
+      ]
+  
+  tests_require = install_requires + [
+      'virtualenv',
+      'Sphinx',
+      'docutils',
+      ]
+  
+  setup(name='[% module %]',
+        version='0.01',
+        description=('[% module %] project'),
+        long_description=README + '\n\n' +  CHANGES,
+        classifiers=[
+          "Intended Audience :: Developers",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.6",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: Implementation :: CPython",
+          "Programming Language :: Python :: Implementation :: PyPy",
+          "License :: OSI Approved :: BSD License",
+          "Topic :: "
+          ],
+        keywords='',
+        author="[% config.author %]",
+        author_email="[% config.email %] ",
+        url="http://github.com/py-[% module %]",
+        license="New BSD License",
+        packages=find_packages(),
+        include_package_data=True,
+        zip_safe=False,
+        install_requires = install_requires,
+        tests_require = tests_require,
+        test_suite="[% module %].tests",
+        entry_points = """\
+        """
+        )
+  
+---
+file: .gitignore
+template: |
+  *.egg
+  *.egg-info
+  *.pyc
+  *$py.class
+  *.pt.py
+  *.txt.py
+  *~
+  .coverage
+  .tox/
+  nosetests.xml
+  [% module %]/coverage.xml
+  build/
+  dist/
+  bin/
+  lib/
+  include/
+  distribute-*.tar.gz
+  bookenv/
+  jyenv/
+  pypyenv/
+  env*/
+  
