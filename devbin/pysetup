@@ -329,7 +329,7 @@ template: |
           "Programming Language :: Python :: Implementation :: CPython",
           "Programming Language :: Python :: Implementation :: PyPy",
           "License :: OSI Approved :: BSD License",
-          "Topic :: "
+          'Topic :: Software Development :: Libraries :: Python Modules'
           ],
         keywords='',
         author="[% config.author %]",
