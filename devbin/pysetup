@@ -60,7 +60,7 @@ sub write_plugin_files {
 
 sub _create_dist_dir {
     my $module = shift;
-    my $dist = "py-${module}";
+    my $dist   = "py-${module}";
     mkdir $dist, 0777;
     $dist;
 }
@@ -71,8 +71,10 @@ sub init_git_repo {
     !system 'git add *.*'                    or die $?;
     !system 'git add README.rst'             or die $?;
     !system 'git add CHANGES.txt'            or die $?;
+    !system 'git add LICENSE.txt'            or die $?;
     !system 'git add .gitignore'             or die $?;
     !system "git add ${module}"              or die $?;
+    !system "git add docs"                   or die $?;
     !system 'git commit -m "initial commit"' or die $?;
 }
 
