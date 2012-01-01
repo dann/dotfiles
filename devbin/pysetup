@@ -13,6 +13,24 @@ main();
 exit;
 
 sub main {
+    my $config = initialize_config();
+    -e $config->{workdir} || mkdir $config->{workdir}, 0777;
+    my $module = get_module_name();
+
+    my $dist_dir = _create_dist_dir($module);
+    chdir $dist_dir;
+
+    generate_sphinx_docs($module, $config);
+    write_plugin_files( $module, $config );
+}
+
+sub get_module_name {
+    my $module = shift @ARGV or die "Usage: $0 module\n";
+    $module =~ s/-/::/g;
+    return $module;
+}
+
+sub initialize_config {
     my $config = pit_get(
         "pysetup",
         require => {
@@ -25,20 +43,11 @@ sub main {
            $config->{author}
         || $config->{email}
         || $config->{workdir} || die("no settings");
-
-    -e $config->{workdir} || mkdir $config->{workdir}, 0777;
-
-    my $modname = shift @ARGV or die "Usage: $0 module\n";
-    $modname =~ s/-/::/g;
-
-    write_plugin_files( $modname, $config );
+    return $config;
 }
 
 sub write_plugin_files {
     my ( $module, $config ) = @_;
-
-    my $dist_dir = _create_dist_dir($module);
-    chdir $dist_dir;
 
     my @template = YAML::Load( join '', <DATA> );
     my $vars = {
@@ -62,6 +71,34 @@ sub _create_dist_dir {
     my $dist   = "py-${module}";
     mkdir $dist, 0777;
     $dist;
+}
+
+sub generate_sphinx_docs {
+    my ($module, $config) = @_;
+    system "cat <<EOF | sphinx-quickstart
+docs
+n
+_
+$module
+$config->{author}
+0.01
+0.01
+.rst
+index
+y
+y
+y
+y
+y
+y
+y
+y
+y
+y
+y
+y
+EOF
+";
 }
 
 sub init_git_repo {
@@ -422,6 +459,7 @@ template: |
   	find . -name '*.pyc' -exec rm -f {} +
   	find . -name '*.pyo' -exec rm -f {} +
   	find . -name '*~' -exec rm -f {} +
+  	python setup.py clean
   
   docs:
   	$(MAKE) -C docs html
