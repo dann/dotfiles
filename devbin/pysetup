@@ -68,7 +68,7 @@ sub write_plugin_files {
 
 sub _create_dist_dir {
     my $module = shift;
-    my $dist   = "py-${module}";
+    my $dist   = "python-${module}";
     mkdir $dist, 0777;
     $dist;
 }
@@ -473,7 +473,7 @@ template: |
         keywords='',
         author="[% config.author %]",
         author_email="[% config.email %] ",
-        url="http://github.com/py-[% module %]",
+        url="http://github.com/dann/python-[% module %]",
         license="New BSD License",
         packages=find_packages(),
         include_package_data=True,
