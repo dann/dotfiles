@@ -366,8 +366,8 @@ template: |
 ---
 file: CHANGES.rst
 template: |
-  Revision history for Python extension [% module %]
-  ==================================================
+  [% module %] ChangeLog
+  ===============================
 
   Version 0.01 
   ------------
@@ -406,11 +406,12 @@ template: |
 ---
 file: README.rst
 template: |
+  [% module %]
+  =====================
 
-  This is Python module [% module %].
 
   INSTALLATION
-  -------
+  -------------
 
   [% module %] installation is straightforward. If your pip is set up,
   you should just be able to do
@@ -418,7 +419,7 @@ template: |
       % pip install [% module %]
 
   DOCUMENTATION
-  -------
+  -------------
 
   [% module %] documentation is available . So you can do:
 
@@ -532,7 +533,7 @@ template: |
 ---
 file: Manifest.in 
 template: |
-  include Makefile CHANGES.txt LICENSE.txt
+  include Makefile CHANGES.rst LICENSE.txt
   recursive-include tests *
   recursive-include examples *
   recursive-include docs *
@@ -548,7 +549,7 @@ template: |
 ---
 file: Makefile 
 template: |
-  .PHONY: clean test docs dist
+  .PHONY: clean test docs dist check_release
   
   all: clean test
   
@@ -572,3 +573,7 @@ template: |
 
   install:
   	python setup.py install
+
+  check_release:
+  	python setup.py --long-description | rst2html.py
+
