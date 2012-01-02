@@ -446,9 +446,7 @@ template: |
       ]
   
   tests_require = install_requires + [
-      'virtualenv',
-      'Sphinx',
-      'docutils',
+      'nose',
       ]
   
   setup(name='[% module %]',
