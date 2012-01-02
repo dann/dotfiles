@@ -112,6 +112,7 @@ sub init_git_repo {
     !system 'git add Makefile'               or die $?;
     !system "git add ${module}"              or die $?;
     !system "git add docs"                   or die $?;
+    !system "git add tests"                   or die $?;
     !system 'git commit -m "initial commit"' or die $?;
 }
 
@@ -158,14 +159,7 @@ template: |
   """
 
 ---
-file: $module/tests/__init__.py
-template: |
-  # -*- coding: utf-8 -*-
-  """
-  """
-
----
-file: $module/tests/test_pyflakes.py
+file: tests/test_pyflakes.py
 template: |
   # -*- coding: utf-8 -*-
   
@@ -218,7 +212,7 @@ template: |
           assert warnings == 0, "%d warnings" % len(warnings)
   
 ---
-file: $module/tests/test_pep8.py
+file: tests/test_pep8.py
 template: |
   # -*- coding: utf-8 -*-
   
@@ -481,7 +475,7 @@ template: |
         zip_safe=False,
         install_requires = install_requires,
         tests_require = tests_require,
-        test_suite="[% module %].tests",
+        test_suite = 'nose.collector',
         entry_points = """\
         """
         )
