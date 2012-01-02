@@ -35,7 +35,7 @@ setlocal tags+=~/.vim/tags/python/python.tags
 "--------------------------------------------------
 noremap <buffer> ,pp :call Pep8()<CR>
 "noremap <buffer> ,pp <Esc>:!pep8 %<CR>
-noremap <buffer> ,pt <Esc>:!pythontidy <CR>
+noremap <buffer> ,pt <Esc>:call PythonTidy()<CR>
 noremap <buffer> ,pf :call Pyflakes()<CR>
 
 "--------------------------------------------------
@@ -50,3 +50,8 @@ autocmd BufWrite *.{py} :call Pyflakes()
 nnoremap <silent> <buffer> K :call ShowPyDoc(expand("<cword>"), 1)<CR>
 
 
+function! PythonTidy()
+    let oldpos=getpos('.')
+    %!pythontidy    
+    call setpos('.',oldpos)
+endfunction
