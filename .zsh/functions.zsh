@@ -52,6 +52,13 @@ function extract() {
 }
 alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz,dmg}=extract
 
+
+function cdgit() {
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    cd `git rev-parse --show-toplevel`
+  fi
+}
+
 #-------------------------------
 # Perl
 #-------------------------------
