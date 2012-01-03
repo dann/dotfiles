@@ -64,7 +64,7 @@ function cdgit() {
 #-------------------------------
 
 # set PERL5LIB env
-perl5lib () {
+function perl5lib () {
     export PERL5LIB="$PWD/lib:$PWD/t/lib:$PWD/t/*/lib:/opt/local/lib/perl5/site_perl/5.8.8/darwin-2level:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1/lib:${HOME}/perl5/perlbrew/perls/current/lib/5.12.1:${HOME}/perl5/perlbrew/perls/current/lib/site_perl/5.12.1:${HOME}/perl5/perlbrew/perls/perl-5.12.1/lib/5.12.1:$HOME/perl5/perlbrew/perls/perl-5.12.1/lib/site_perl/5.12.1/darwin-2level:${PERL5LIB}"
 }
 
@@ -80,7 +80,7 @@ function minicpan_get () {
 #-------------------------------
 # Ruby 
 #-------------------------------
-refe_utf8() {
+function refe_utf8() {
   refe $@ | nkf -Ew
 }
 alias refe='refe_utf8'
