@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """ Usage
@@ -28,15 +28,28 @@ class ModuleStarter:
         self.config = self.init_config()
 
     def generate(self, module):
-        self.creaete_and_move_distdir(module)
+        dist_dir = self.creaete_and_move_distdir(module)
         self.write_template_files(module, self.config)
         self.generate_sphinx_docs(module, self.config)
         self.init_git_repo(module)
+        self.show_banner(dist_dir)
+
+    def show_banner(self, dist_dir):
+        banner = \
+            """
+======================================================= 
+%s module was successfully created!!
+=======================================================
+        """ \
+            % dist_dir
+
+        print banner
 
     def creaete_and_move_distdir(self, module):
         self._create_workdir(self.config)
         dist_dir = self._create_dist_dir(module)
         PathUtil.chdir(dist_dir)
+        return dist_dir
 
     def _create_dist_dir(self, module):
         dist_dir = 'python-%s' % module
