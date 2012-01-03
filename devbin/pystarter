@@ -5,7 +5,7 @@
 
     pystarter <module_name>
 
-  You need to store the template file at ~/.pystarter/module_templates.yaml
+  You need to store the template file at ~/devbin/python_module_templates.yaml
   before you run the script. 
 """
 
