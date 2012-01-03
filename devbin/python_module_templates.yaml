@@ -1,257 +1,23 @@
-#!/usr/bin/perl
-use strict;
-use warnings;
-use ExtUtils::MakeMaker qw(prompt);
-use File::Basename;
-use File::Path;
-use File::Spec;
-use Text::Xslate;
-use YAML;
-use Config::Pit;
-
-main();
-exit;
-
-sub main {
-    my $config = initialize_config();
-    -e $config->{workdir} || mkdir $config->{workdir}, 0777;
-    my $module = get_module_name();
-
-    my $dist_dir = _create_dist_dir($module);
-    chdir $dist_dir;
-
-    generate_sphinx_docs($module, $config);
-    write_plugin_files( $module, $config );
-}
-
-sub get_module_name {
-    my $module = shift @ARGV or die "Usage: $0 module\n";
-    $module =~ s/-/::/g;
-    return $module;
-}
-
-sub initialize_config {
-    my $config = pit_get(
-        "pysetup",
-        require => {
-            author  => "your username",
-            email   => "your email",
-            workdir => "$ENV{HOME}/tmp",
-        }
-    );
-
-           $config->{author}
-        || $config->{email}
-        || $config->{workdir} || die("no settings");
-    return $config;
-}
-
-sub write_plugin_files {
-    my ( $module, $config ) = @_;
-
-    my @template = YAML::Load( join '', <DATA> );
-    my $vars = {
-        module    => $module,
-        config    => $config,
-        localtime => scalar localtime
-    };
-
-    for my $tmpl (@template) {
-        my $file = $tmpl->{file};
-        $file =~ s/(\$\w+)/$1/eeg;
-        write_file( $file, $tmpl->{template}, $vars );
-        chmod oct( $tmpl->{chmod} ), $tmpl->{file} if $tmpl->{chmod};
-    }
-
-    init_git_repo($module);
-}
-
-sub _create_dist_dir {
-    my $module = shift;
-    my $dist   = "python-${module}";
-    mkdir $dist, 0777;
-    $dist;
-}
-
-sub generate_sphinx_docs {
-    my ($module, $config) = @_;
-    system "cat <<EOF | sphinx-quickstart
-docs
-n
-_
-$module
-$config->{author}
-0.01
-0.01
-.rst
-index
-y
-y
-y
-y
-y
-y
-y
-y
-y
-y
-y
-y
-EOF
-";
-}
-
-sub init_git_repo {
-    my $module = shift;
-    !system 'git init'                       or die $?;
-    !system 'git add *.*'                    or die $?;
-    !system 'git add README.rst'             or die $?;
-    !system 'git add CHANGES.rst'            or die $?;
-    !system 'git add LICENSE.txt'            or die $?;
-    !system 'git add .gitignore'             or die $?;
-    !system 'git add Makefile'               or die $?;
-    !system "git add ${module}"              or die $?;
-    !system "git add docs"                   or die $?;
-    !system "git add tests"                   or die $?;
-    !system 'git commit -m "initial commit"' or die $?;
-}
-
-sub write_file {
-    my ( $path, $template, $vars ) = @_;
-
-    if ( -e $path ) {
-        my $ans = prompt( "$path exists. Override? [yN] ", 'n' );
-        return if $ans !~ /[Yy]/;
-    }
-
-    my $dir = File::Basename::dirname($path);
-    unless ( -e $dir ) {
-        warn "Creating directory $dir\n";
-        File::Path::mkpath( $dir, 1, 0777 );
-    }
-
-    my $tt = Text::Xslate->new( syntax => 'TTerse' );
-    my $content = $tt->render_string( $template, $vars );
-
-    warn "Creating $path\n";
-    open my $out, ">", $path or die "$path: $!";
-    print $out $content;
-    close $out;
-}
-
-=pod
-
-=cut
-
-__DATA__
 ---
 file: $module/__init__.py
 template: |
   # -*- coding: utf-8 -*-
 
   """
-      [% module %] is the .
+      {{ module }} is the .
   
       It provides .
   
-      :copyright: (c) 2011 by [% config.author %].
+      :copyright: (c) 2011 by {{ config.author }}.
       :license: BSD, see LICENSE for more details.
   """
 
 ---
-file: tests/test_pyflakes.py
+file: tests/README.rst
 template: |
-  # -*- coding: utf-8 -*-
-  
-  import compiler
-  import os
-  import sys
-  
-  import pyflakes.checker
-  
-  
-  def check(codeString, filename):
-      try:
-          tree = compiler.parse(codeString)
-      except (SyntaxError, IndentationError):
-          value = sys.exc_info()[1]
-          (lineno, offset, line) = value[1][1:]
-          if line.endswith("\n"):
-              line = line[:-1]
-          raise AssertionError(
-              "could not compile %s:%d: %s" % (filename[9:], lineno, line))
-      else:
-          w = pyflakes.checker.Checker(tree, filename)
-          w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
-          return list(w.messages)
-      return []
-  
-  
-  def check_path(filename):
-      if os.path.exists(filename):
-          return check(file(filename).read(), filename)
-      return []
-  
-  
-  def check_subdirectory(directory):
-      warnings = []
-      for dirpath, dirnames, filenames in os.walk(directory):
-          for filename in filenames:
-              if filename.endswith('.py'):
-                  warnings += check_path(os.path.join(dirpath, filename))
-      return warnings
-  
-  
-  def test_pyflakes():
-      test_dir = os.path.dirname(__file__)
-      lib_dir = os.path.join(test_dir, '..')
-      warnings = check_subdirectory(lib_dir)
-      if warnings:
-          for warning in warnings:
-              print str(warning)[9:]
-          assert warnings == 0, "%d warnings" % len(warnings)
-  
----
-file: tests/test_pep8.py
-template: |
-  # -*- coding: utf-8 -*-
-  
-  import os
-  import pep8
-  
-  CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-  BASE_DIR = os.path.dirname(CURRENT_DIR)
+  How to test
+  ===========
 
-  
-  def test_pep8():
-      arglist = [
-          '--statistics',
-          '--filename=*.py',
-          '--show-source',
-          '--repeat',
-          #'--show-pep8',
-          #'-qq',
-          #'-v',
-          BASE_DIR,
-      ]
-  
-      options, args = pep8.process_options(arglist)
-      runner = pep8.input_file
-  
-      for path in args:
-          if os.path.isdir(path):
-              pep8.input_dir(path, runner=runner)
-          elif not pep8.excluded(path):
-              options.counters['files'] += 1
-              runner(path)
-  
-      pep8.print_statistics()
-      errors = pep8.get_count('E')
-      warnings = pep8.get_count('W')
-      message = 'pep8: %d errors / %d warnings' % (errors, warnings)
-      print message
-      assert errors + warnings == 0, message
-  
 ---
 file: docs/.gitignore
 template: |
@@ -360,19 +126,19 @@ template: |
 ---
 file: CHANGES.rst
 template: |
-  [% module %] ChangeLog
+  {{ module }} ChangeLog
   ===============================
 
   Version 0.01 
   ------------
-  Released on [% localtime %]
+  Released on {{ localtime }}
 
   - initial release
 
 ---
 file: LICENSE.txt
 template: |
-  Copyright (c) 2012, [% config.author %]
+  Copyright (c) 2012, {{ config.author }}
   All rights reserved.
   
   Redistribution and use in source and binary forms, with or without
@@ -382,7 +148,7 @@ template: |
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-      * Neither the name of the [% config.author %] nor the
+      * Neither the name of the {{ config.author }} nor the
         names of its contributors may be used to endorse or promote products
         derived from this software without specific prior written permission.
   
@@ -400,28 +166,28 @@ template: |
 ---
 file: README.rst
 template: |
-  [% module %]
+  {{ module }}
   =====================
 
 
   INSTALLATION
   -------------
 
-  [% module %] installation is straightforward. If your pip is set up,
+  {{ module }} installation is straightforward. If your pip is set up,
   you should just be able to do
 
-      % pip install [% module %]
+      % pip install {{ module }}
 
   DOCUMENTATION
   -------------
 
-  [% module %] documentation is available . So you can do:
+  {{ module }} documentation is available . So you can do:
 
-      % pydoc [% module %]
+      % pydoc {{ module }}
 
   to read the documentation online with your favorite pager.
 
-  [% config.author %]
+  {{ config.author }}
 
 ---
 file: setup.py
@@ -449,9 +215,9 @@ template: |
       'nose',
       ]
   
-  setup(name='[% module %]',
+  setup(name='{{ module }}',
         version='0.01',
-        description=('[% module %] project'),
+        description=('{{ module }} project'),
         long_description=README + '\n\n' +  CHANGES,
         classifiers=[
           "Intended Audience :: Developers",
@@ -465,9 +231,9 @@ template: |
           'Topic :: Software Development :: Libraries :: Python Modules'
           ],
         keywords='',
-        author="[% config.author %]",
-        author_email="[% config.email %] ",
-        url="http://github.com/dann/python-[% module %]",
+        author="{{ config.author }}",
+        author_email="{{ config.email }} ",
+        url="http://github.com/dann/python-{{ module }}",
         license="New BSD License",
         packages=find_packages(),
         include_package_data=True,
@@ -502,7 +268,7 @@ template: |
   .coverage
   .tox/
   nosetests.xml
-  [% module %]/coverage.xml
+  {{ module }}/coverage.xml
   build/
   dist/
   bin/
