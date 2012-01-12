@@ -38,7 +38,7 @@ class ModuleStarter:
         banner = \
             """
 ======================================================= 
-%s module was successfully created!!
+%s module was successfully created by pystarter!!
 =======================================================
         """ \
             % dist_dir
