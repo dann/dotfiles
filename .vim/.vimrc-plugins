@@ -271,3 +271,12 @@ let g:pep8_map='<leader>8'
 " ============================================
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
+
+
+" ============================================
+" Format
+" ============================================
+" format json
+map ,fj !python -m json.tool<CR>
+" format xml
+map ,fx !python -m BeautifulSoup<CR>
