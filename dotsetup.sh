@@ -27,6 +27,7 @@ DOTFILES=(
 .zshrc
 devbin
 devtools
+.tmux.conf
 )
 
 setup() {

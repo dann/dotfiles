@@ -16,6 +16,7 @@ nmap
 pkg-config
 sqlite
 subversion
+tmux
 tree
 valgrind
 w3m
