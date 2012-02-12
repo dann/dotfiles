@@ -19,6 +19,7 @@ DOTFILES=(
 .screenrc
 .shipit
 .tidyrc
+.tmux.conf
 .tscreenrc
 .vim
 .vimrc
@@ -27,7 +28,6 @@ DOTFILES=(
 .zshrc
 devbin
 devtools
-.tmux.conf
 )
 
 setup() {
