@@ -17,6 +17,8 @@ alias vi='vim'
 alias cls='clear'
 alias ls='ls --color'
 
+alias tmux="TERM=screen-256color-bce tmux"
+
 if [ -x ~/local/bin/screen -o ]; then
    alias screen=$HOME/local/bin/screen
 fi
