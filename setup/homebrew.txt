@@ -16,6 +16,7 @@ nmap
 pkg-config
 sqlite
 subversion
+tig
 tmux
 tree
 valgrind
