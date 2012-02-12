@@ -19,6 +19,7 @@ DOTFILES=(
 .screenrc
 .shipit
 .tidyrc
+.tmux
 .tmux.conf
 .tscreenrc
 .vim
