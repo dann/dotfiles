@@ -2,6 +2,8 @@ bvi
 coreutils
 gettext
 git
+git-flow
+git-now
 htop
 jsl
 lha
@@ -23,4 +25,3 @@ valgrind
 w3m
 wget
 zsh
-git-now
