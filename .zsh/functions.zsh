@@ -89,4 +89,11 @@ function cdrake () {
     cdf "Rakefile"
 }
 
-
+#-------------------------------
+# z 
+#-------------------------------
+_Z_CMD=j
+source ~/.zsh/misc/z.sh
+precmd() {
+  _z --add "$(pwd -P)"
+}

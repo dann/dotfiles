@@ -44,6 +44,7 @@ export PATH="/usr/local/bin:${PATH}"
 export PATH="$HOME/bin:${PATH}"
 export PATH="$HOME/devbin:${PATH}"
 export PATH="$HOME/local/bin:${PATH}"
+export PATH="${HOME}/.rvm/bin:${PATH}"
 
 #-----------------------------------------------
 # option

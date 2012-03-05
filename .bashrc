@@ -63,3 +63,5 @@ if [[ "$PS1" ]]; then
     export FCEDIT=fceditor
 
 fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
