@@ -15,6 +15,7 @@ DOTFILES=(
 .my.cnf
 .noserc
 .perltidyrc
+.pryrc
 .pylint
 .screenrc
 .shipit
