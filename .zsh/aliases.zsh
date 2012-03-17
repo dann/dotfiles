@@ -1,7 +1,3 @@
-if [ x$TERM = xscreen ]; then
-    alias ssh=ssh_screen
-fi
-
 if [ -x /usr/bin/rlwrap -o ]; then
     alias sqlplus='/usr/bin/rlwrap -if $HOME/.zsh/misc/.oracle_keywords sqlplus' 
     alias gnuplot='rlwrap -a -c gnuplot'

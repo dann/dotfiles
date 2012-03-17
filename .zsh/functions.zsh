@@ -6,12 +6,6 @@ grep-find () { find . -type f -print0 | xargs -0 -e grep -n --binary-files=witho
 # show all history
 function history-all { history -E 1 }
 
-function ssh_screen(){
-    A=$#
-    eval server=$"$A"
-    screen -t $server ssh "$@"
-}
-
 # http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
 function cdf () {
     local -a tmpparent; tmpparent=""
