@@ -12,6 +12,7 @@ alias gf=grep-find
 alias vi='vim'
 alias cls='clear'
 alias ls='ls --color'
+alias fastscp='scp -c arcfour -o Compression=no'
 
 alias tmux="TERM=screen-256color-bce tmux"
 
