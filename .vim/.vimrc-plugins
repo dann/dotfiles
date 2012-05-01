@@ -26,6 +26,17 @@ let g:fuf_mrufile_exclude = '\v\~$|\.bak$|\.swp|\.howm$'
 let g:fuf_mrufile_maxItem = 2000
 let g:fuf_enumeratingLimit = 20
 
+" ============================================
+" CtrlP 
+" ============================================
+let g:ctrlp_jump_to_buffer      = 2
+let g:ctrlp_working_path_mode   = 2
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_mruf_max            = 500
+nnoremap ,ff :CtrlP<CR>
+nnoremap ,fb :CtrlPBuffer<CR>
+nnoremap ,fm :CtrlPMRUFiles<CR>
+let g:ctrlp_max_height = &lines
 
 " ============================================
 " Ctags
@@ -280,3 +291,13 @@ map <leader>r :RopeRename<CR>
 map ,fj !python -m json.tool<CR>
 " format xml
 map ,fx !python -m BeautifulSoup<CR>
+
+" ============================================
+" memolist 
+" ============================================
+let g:memolist_qfixgrep = 1
+map ,ml  :MemoList<CR>
+map ,mn  :MemoNew<CR>
+map ,mg  :MemoGrep<CR>
+nmap ,mf  :FufFile <C-r>=expand(g:memolist_path."/")<CR><CR>
+
