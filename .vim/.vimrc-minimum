@@ -140,3 +140,14 @@ command!
 nnoremap <C-h>  :<C-u>help<Space>
 
 
+" ============================================
+" mappings
+" ============================================
+" split window
+nnoremap ,w <C-w>v<C-w>l
+
+" save on losing focus
+au FocusLost * :wa
+
+nnoremap <unique> ,g :exec ':GitGrep ' . expand('<cword>')<CR>
+nnoremap <unique> ,G :GitGrep<space>

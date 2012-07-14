@@ -283,7 +283,6 @@ let g:pep8_map='<leader>8'
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
 
-
 " ============================================
 " Format
 " ============================================
@@ -300,4 +299,15 @@ map ,ml  :MemoList<CR>
 map ,mn  :MemoNew<CR>
 map ,mg  :MemoGrep<CR>
 nmap ,mf  :FufFile <C-r>=expand(g:memolist_path."/")<CR><CR>
+
+" ============================================
+" Yankring
+" ============================================
+nnoremap <silent> <F3> :YRShow<cr>
+inoremap <silent> <F3> <ESC>:YRShow<cr>
+
+" ============================================
+" Ack plugin
+" ============================================
+nnoremap <unique> ,a :exec ':Ack ' . expand('<cword>')<CR>
 
