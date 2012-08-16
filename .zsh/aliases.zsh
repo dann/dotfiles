@@ -26,4 +26,9 @@ alias ssh-add-sh='eval `ssh-agent -s` ; ssh-add'
 # global alias
 alias -g V="| col -b | vim -R -"
 
-
+# dstat
+alias dstat-full='dstat -Tclmdrn'
+alias dstat-mem='dstat -Tclm'
+alias dstat-cpu='dstat -Tclr'
+alias dstat-net='dstat -Tclnd'
+alias dstat-disk='dstat -Tcldr'
