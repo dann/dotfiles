@@ -1,5 +1,7 @@
 :set ignorecase
 :set smartcase
+:set autoindent
+:set smartindent 
 
 nnoremap vv vawy
 
@@ -12,83 +14,47 @@ noremap : ;
 vnoremap ; :
 vnoremap : ;
 
+"
+nnoremap [ %
+nnoremap ] %
+
 " Esc
 noremap  <C-c>  <C-[>
 noremap! <C-c> <C-[>
 
-" Navigation
-nnoremap <space>nt :OpenTypeHierarchy<CR>
-nnoremap <space>ns :OpenStructure<CR>
-nnoremap <space>nc :OpenCallHierarchy<CR>
 
-" Jump
-"nnoremap <C-]> :OpenEditor<CR>
-nnoremap ]] :GotoNextMember<CR>
-nnoremap [[ :GotoPreviousMember<CR>
+"==================================================
+" Search
+"==================================================
+eclipseaction SearchRef  org.eclipse.jdt.ui.edit.text.java.search.references.in.project
+noremap sr :SearchRef<C-m>
+
+eclipseaction GoLastEditPosition org.eclipse.ui.edit.text.gotoLastEditPosition
 nnoremap gb :GoLastEditPosition<C-m>
 
-" Refactoring 
-nnoremap <space>rc :ExtractConstant<CR>
-nnoremap <space>rm :ExtractMethod<CR>
-nnoremap <space>rr :RenameElement<CR>
-
-" Source
-nnoremap <space>sd :CreateDelegateMethods<CR>
-nnoremap <space>sg :CreateGetterSetter<CR>
-nnoremap <space>sc :GenerateConstructorUsingFields<CR>
-nnoremap <space>so :OverrideMethods<CR>
-nnoremap <space>sf :Format<CR>
-
-" Search
-noremap sr :SearchReferencesInWorkspace <C-m>
-
 "==================================================
-" Search
+" Move
 "==================================================
-"definition ID of the search -> references in hierarchy action 
-eclipseaction SearchReferencesInHierarchy org.eclipse.jdt.ui.edit.text.java.search.references.in.hierarchy
-
-"definition ID of the search -> references in project action 
-eclipseaction SearchReferencesInProject org.eclipse.jdt.ui.edit.text.java.search.references.in.project
-
-"definition ID of the search -> references in working set action 
-eclipseaction SearchReferencesInWorkingSet org.eclipse.jdt.ui.edit.text.java.search.references.in.working.set
-
-"definition ID of the search -> references in workspace action 
-eclipseaction SearchReferencesInWorkspace org.eclipse.jdt.ui.edit.text.java.search.references.in.workspace
+eclipseaction GoNextMember org.eclipse.jdt.ui.edit.text.java.goto.next.member
+nnoremap mn :GoNextMember<C-m>
+eclipseaction GoPrevMember org.eclipse.jdt.ui.edit.text.java.goto.previous.member
+nnoremap mp :GoPrevMember<C-m>
 
 "==================================================
 " Refactoring
 "==================================================
-"definition ID of the refactor -> extract class action
-eclipseaction ExtractClass org.eclipse.jdt.ui.edit.text.java.extract.class
-
 "definition ID of the refactor -> extract constant action
 eclipseaction ExtractConstant org.eclipse.jdt.ui.edit.text.java.extract.constant
-
-"definition ID of the refactor -> extract interface action 
-eclipseaction ExtractInterface org.eclipse.jdt.ui.edit.text.java.extract.interface
-
-"definition ID of the refactor -> extract local variable action
-eclipseaction ExtractLocalVariable org.eclipse.jdt.ui.edit.text.java.extract.local.variable
+vnoremap ec :ExtractConstant<C-m>
+nnoremap ec :ExtractConstant<C-m>
 
 "definition ID of the refactor -> extract method action
 eclipseaction ExtractMethod org.eclipse.jdt.ui.edit.text.java.extract.method
+vnoremap em :ExtractMethod<C-m>
+nnoremap em :ExtractMethod<C-m>
 
 "definition ID of the refactor -> rename element action
 eclipseaction RenameElement org.eclipse.jdt.ui.edit.text.java.rename.element
-
-"==================================================
-" Go to
-"==================================================
-eclipseaction GotoMatchingBracket org.eclipse.jdt.ui.edit.text.java.goto.matching.bracket
-
-"definition ID of the edit -> go to next member action
-eclipseaction GotoNextMember org.eclipse.jdt.ui.edit.text.java.goto.next.member
-
-"definition ID of the edit -> go to previous member action
-eclipseaction GotoPreviousMember org.eclipse.jdt.ui.edit.text.java.goto.previous.member
-
-"Action definition id of go to last edit position action.
-eclipseaction GotoLastEditPosition org.eclipse.ui.edit.text.gotoLastEditPosition
+nnoremap er :RenameElement<C-m>
+vnoremap er :RenameElement<C-m>
 
