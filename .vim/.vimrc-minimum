@@ -93,7 +93,8 @@ nmap ,ec :e ++enc=cp932<CR>
 " ============================================
 " statusline
 " ============================================
-set statusline=%y%{GetFileEncoding()}%F%m%r%=%c:%l%5(\ %)%3p%%
+" Don't use this because I use vim-powerline
+" set statusline=%y%{GetFileEncoding()}%F%m%r%=%c:%l%5(\ %)%3p%%
 
 function! GetFileEncoding()
     let str = &fileformat . ']'
@@ -138,7 +139,6 @@ command!
 " Help
 " ============================================
 nnoremap <C-h>  :<C-u>help<Space>
-
 
 " ============================================
 " mappings

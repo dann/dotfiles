@@ -1,0 +1,12 @@
+*** ATTENTION PLEASE ***
+
+I stopped maintaining this plugin long time ago. I just made it to prove
+we could do the same thing with Vim and Rspec as Textmate. 
+Now Yan Pritzker is maintaining the plugin with his fork (now the official
+vim-rspec plugin):
+
+https://github.com/skwp/vim-rspec 
+
+Thanks Yan!
+
+Please don't use the code here. I'll keep it just for reference.

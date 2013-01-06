@@ -1,8 +1,7 @@
 " Run commands quickly.
-" Version: 0.4.2
+" Version: 0.6.0
 " Author : thinca <thinca+vim@gmail.com>
-" License: Creative Commons Attribution 2.1 Japan License
-"          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+" License: zlib License
 
 if exists('g:loaded_quickrun')
   finish
@@ -12,22 +11,17 @@ let g:loaded_quickrun = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-" MISC Functions. {{{1
-" ----------------------------------------------------------------------------
-" Function for |g@|.
-function! QuickRun(mode)  " {{{2
-  execute 'QuickRun -mode o -visualmode' a:mode
-endfunction
+
+command! -nargs=* -range=0 -complete=customlist,quickrun#complete QuickRun
+\ call quickrun#command(<q-args>, <count>, <line1>, <line2>)
 
 
-command! -nargs=* -range=% -complete=customlist,quickrun#complete QuickRun
-\ call quickrun#run('-start <line1> -end <line2> ' . <q-args>)
+nnoremap <silent> <Plug>(quickrun-op)
+\        :<C-u>set operatorfunc=quickrun#operator<CR>g@
 
+nnoremap <silent> <Plug>(quickrun) :<C-u>QuickRun -mode n<CR>
+vnoremap <silent> <Plug>(quickrun) :<C-u>QuickRun -mode v<CR>
 
-nnoremap <silent> <Plug>(quickrun-op) :<C-u>set operatorfunc=QuickRun<CR>g@
-
-silent! nnoremap <silent> <Plug>(quickrun) :<C-u>QuickRun -mode n<CR>
-silent! vnoremap <silent> <Plug>(quickrun) :<C-u>QuickRun -mode v<CR>
 " Default key mappings.
 if !hasmapto('<Plug>(quickrun)')
 \  && (!exists('g:quickrun_no_default_key_mappings')
