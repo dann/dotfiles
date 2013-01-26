@@ -300,6 +300,7 @@ template: |
   ^[^/]+\.yaml$
   ^[^/]+\.pl$
   ^\.shipit$
+  ^MYMETA\.
 ---
 file: README
 template: |
