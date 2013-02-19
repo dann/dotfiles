@@ -9,6 +9,7 @@ DOTFILES=(
 .dev_users
 .devenvrc
 .gdbinit
+.gemrc
 .gitconfig
 .irbrc
 .irssi

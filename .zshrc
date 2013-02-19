@@ -22,5 +22,3 @@ fi
 # if you want to customize this config,
 # you need to create .zshrc-after 
 [ -e ~/.zshrc-after ] && source ~/.zshrc-after
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

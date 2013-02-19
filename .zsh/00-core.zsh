@@ -37,15 +37,16 @@ export PATH="/usr/bin:${PATH}"
 export PATH="/usr/games:${PATH}"
 export PATH="/sbin:${PATH}"
 export PATH="/usr/sbin:${PATH}"
-export PATH="/var/lib/gems/1.8/bin/:${PATH}"
 export PATH="/opt/local/bin:${PATH}"
 export PATH="/opt/local/sbin:${PATH}"
 export PATH="/usr/local/bin:${PATH}"
 export PATH="/usr/local/sbin:${PATH}"
-export PATH="$HOME/bin:${PATH}"
-export PATH="$HOME/devbin:${PATH}"
-export PATH="$HOME/local/bin:${PATH}"
-export PATH="${HOME}/.rvm/bin:${PATH}"
+export PATH="${HOME}/bin:${PATH}"
+export PATH="${HOME}/devbin:${PATH}"
+export PATH="${HOME}/local/bin:${PATH}"
+export PATH="${HOME}/.plenv/bin:${PATH}"
+export PATH="${HOME}/.pyenv/bin:${PATH}"
+export PATH="${HOME}/.rbenv/bin:${PATH}"
 
 #-----------------------------------------------
 # option
@@ -203,6 +204,12 @@ zmodload zsh/complist
 # disable Ctrl+S
 stty stop undef
 
+#-----------------------------------------------
+# plenv/pyenv/rbenv
+#-----------------------------------------------
+eval "$(plenv init -)"
+eval "$(pyenv init -)"
+eval "$(rbenv init -)"
 
 #-----------------------------------------------
 # Util
@@ -213,29 +220,6 @@ function print_known_hosts (){
   fi  
 }
 _cache_hosts=($( print_known_hosts ))
-
-#------------------------
-# Perl
-#------------------------
-# perlbrew
-#-----------------------------------------------
-[ -e ~/perl5/perlbrew/etc/bashrc ] && source ~/perl5/perlbrew/etc/bashrc
-
-#------------------------
-# Python
-#------------------------
-
-# pythonbrew
-#-----------------------------------------------
-[ -e ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
-
-#------------------------
-# ruby
-#------------------------
-
-# rvm for ruby
-#-----------------------------------------------
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # cdd
 source ~/.zsh/misc/cdd
