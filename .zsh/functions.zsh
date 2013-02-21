@@ -53,6 +53,28 @@ function cdgit() {
   fi
 }
 
+# http://blog.kamipo.net/entry/2013/02/20/122225
+function static_httpd {
+  if which plackup > /dev/null; then
+    plackup -MPlack::App::Directory -e 'Plack::App::Directory->new(root => ".")->to_app'
+  elif which ruby > /dev/null; then
+    ruby -rwebrick -e 'WEBrick::HTTPServer.new(:Port => 5000, :DocumentRoot => ".").start'
+  elif which python > /dev/null; then
+    if python -V 2>&1 | grep -qm1 'Python 3\.'; then
+      python -m http.server 5000
+    else
+      python -m SimpleHTTPServer 5000
+    fi
+  elif which node > /dev/null; then
+    node -e "var c=require('connect'), d=process.env.PWD; c().use(c.logger()).use(c.static(d)).use(c.directory(d)).listen(5000);"
+  elif which php > /dev/null && php -v | grep -qm1 'PHP 5\.[45]\.'; then
+    php -S 0.0.0.0:5000
+  elif which erl > /dev/null; then
+    erl -eval 'inets:start(), inets:start(httpd, [{server_name, "httpd"}, {server_root, "."}, {document_root, "."}, {port, 5000}])'
+  fi
+}
+
+
 #-------------------------------
 # Perl
 #-------------------------------
