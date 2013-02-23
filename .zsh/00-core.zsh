@@ -47,6 +47,7 @@ export PATH="${HOME}/local/bin:${PATH}"
 export PATH="${HOME}/.plenv/bin:${PATH}"
 export PATH="${HOME}/.pyenv/bin:${PATH}"
 export PATH="${HOME}/.rbenv/bin:${PATH}"
+export PATH="${HOME}/mysql-build/bin:${PATH}"
 
 #-----------------------------------------------
 # option
