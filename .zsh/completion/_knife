@@ -1,0 +1,164 @@
+#compdef knife
+
+# This completion offers automatic completion for knife, the
+# command line interface to Opscode's Chef and the respective API.
+# We got a few special things about knife, especially the fact that 
+# some subcommands include whitespace.
+# For example there is a 
+# - 'knife cookbook' subcommand and a 
+# - 'knife cookbook site' subcommand,
+# and both of sound similar but handle different things.
+# Another example would be the 'knife data bag' subcommand.
+# Once you have 'knife data' on your commandline, then (currently) there is 
+# no other useful command that doesn't continue as 'knife data bag'.
+# Thus typing 'knife da<TAB>' should autocomplete to 'knife data bag'.
+# The thing is, it is not trivial to deal with such a thing.
+# My take on this is to use compadd -Q, see [1] and temporarily changing
+# the internal field separator ($IFS) from any whitespace to only new lines.
+# [1] http://zsh.sourceforge.net/Guide/zshguide06.html#l184
+
+# Main dispatcher
+_knife() {
+  typeset -A opt_args
+  if (( CURRENT == 2)); then
+
+      # First of all, we change the IFS to \n only, so each element of the 
+      # later on declared array allcmds is not a single word but a single line
+
+      saveIFS=$IFS; IFS=$'\n'; 
+
+      # To deal with plugins etc. automatically, I try to generate as much of
+      # the completion as possible with generic functions.
+      # With 'knife --help' a relative detailed output of possible actions 
+      # is returned. In this phase, I'm only interested in a subset of those.
+      # The output of "knife --help | grep -E '\*\* [][[:upper:].]+'":
+      #
+      # ** BOOTSTRAP COMMANDS **
+      # ** CLIENT COMMANDS **
+      # ** CONFIGURE COMMANDS **
+      # ** COOKBOOK COMMANDS **
+      # ** COOKBOOK SITE COMMANDS **
+      # ** DATA BAG COMMANDS **
+      #
+      # The rest of the command to fill the array allcmds is just enough sed 
+      # and tr magic to transform each output line to e.g. 'bootstrap' or 'client'.
+      # If the output format of knife changes, you obviously have to adapt that and the greps
+
+      allcmds=($(knife --help | grep -E '\*\* [][[:upper:].]+' | sed -e 's/\*\* //' | sed -e 's/ COMMANDS \*\*//' | tr '[A-Z]' '[a-z]')); IFS=$saveIFS
+
+      # For each of the subcommands we retrieved that way, we add to the completers.
+
+       compadd -Q $allcmds
+  else
+      _knife_cmd_completions
+  fi
+}
+
+_knife_cmd_completions() {
+  # I retrieve the last word currently on the command line.
+  # Later on we'll work on a line such as 
+  # 'knife role bulk delete REGEX (options)' after an input of
+  # 'knife role'. I then want to strip down the former line to
+  # 'bulk delete' as a completion.
+
+  lastword=$words[-2]
+
+  case $lastword in
+    search)
+      compadd "$@" client environment node role $(_chef_databags_remote)
+    ;;
+    upload)
+      compadd "$@" $(_chef_cookbooks_local)
+    ;;
+    add|delete|edit|remove|show)
+      case $words[3] in
+        bag)
+	  compadd "$@" $(_chef_databags_remote)
+	;;
+        site)
+          compadd "$@" COOKBOOKNAME
+        ;;
+        *)
+          compadd "$@" $(_chef_things_remote)
+        ;;
+        esac
+    ;;
+    file|exec)
+      compadd "$@" $(ls *.rb *.json)
+    ;;
+    *)
+      if [[ $words =~ node\ run_list\ add\ ([[:alnum:]]+\\.)+[[:alnum:]]+[[:blank:]]* ]]; then
+	  compadd "$@" $(_chef_roles_runlist) $(_chef_cookbook_runlist)
+      elif [[ $words =~ node\ run_list\ remove\ ([[:alnum:]]+\\.)+[[:alnum:]]+[[:blank:]]* ]]; then
+	  compadd "$@" $(_chef_node_runlist_items)
+      else
+	  saveIFS=$IFS; IFS=$'\n';
+      # White space is fudging significant.
+      # First we only grep for all line starting with knife.
+      # Then we replace the last word with a capital D, which will the delimiter for
+      # my first cut. For that cut I only want to consider the right side of the D.
+      # 'knife Dbulk delete REGEX (options)' => 'bulk delete REGEX (options)' 
+      # I then replace all characters that are not part of the command but
+      # rather a description or a parameter with U's.
+      # 'bulk delete UUUUU UoptionsU'
+      # Finally I throw away everything that's right of the first U, including that U.
+      # Also, strip trailing whitespace.
+      # 'bulk delete ' => 'bulk delete'
+	  subcmds=($($words --help | grep '^knife' | \
+	      sed -e "s/$lastword /D/" | cut -dD -f2 | \
+	      sed -e 's/\([^[:lower:] |_]\)/U/g' | \
+	      cut -d 'U' -f1 | sed 's/ *$//' ))
+
+      # If only one or no subcmd is available. display the options
+	  case ${#subcmds[*]} in
+              0|1)
+
+	  # I need to add "" to the completions here or the options, starting with --,
+          # will not be offered as completions. Dirty workaroud, don't know how it's supposed to be...
+		  compadd "$@" "" $(_help_opts)
+		  ;;
+              *)
+		  compadd -Q "$@" $subcmds
+		  ;;
+	  esac
+	  IFS=$saveIFS
+      fi
+  esac
+}
+
+# Retrieve the cookbook path from the default location of knife.rb, complete with all
+# directories within each of the cookbook paths
+_chef_cookbooks_local() {
+  (for i in $( grep cookbook_path $HOME/.chef/knife.rb | \
+   awk 'BEGIN {FS = "[" }; {print $2}' | sed 's/\,//g' | sed "s/'//g" | \
+   sed 's/\(.*\)]/\1/' ); do ls $i; done)
+}
+
+# Run 'knife #{item} list and return the first field only.
+_chef_things_remote() {
+  ( ${words[1,2]} list | awk '{print $1}' )
+}
+
+_chef_cookbook_runlist() {
+  ( knife cookbook list | awk '{print "recipe["$1"]"}' )
+}
+_chef_roles_runlist() {
+  ( knife role list | awk '{print "role["$1"]"}' )
+}
+
+_chef_node_runlist_items() {
+  ( knife node show ${words[5]} -a run_list | cut -d ":" -f2 | sed 's/,/\n/g' | sed 's/^[ \t]*//' )
+}
+
+_chef_databags_remote() {
+  ##item=$($words[2] | sed 's/data/data bag/')
+  ( knife data bag list | awk '{print $1}' )
+}
+
+# Strip the available options to getoptlong (--OPTNAMELONG, not -OPTNAME) format
+_help_opts() {
+  ($words --help| grep -v '^knife' | \
+                     sed "s/^\(.\)*--/--/" | sed "s/[ \t][[:upper:]\:]*[ \t]*/D/" | cut -f1 -dD)
+}
+
+_knife "$@"
