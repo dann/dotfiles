@@ -11,7 +11,9 @@ if filereadable( $HOME . "/.vimrc-before" )
 endif
 
 " add runtimepathe .vim/bundle/* 
-call pathogen#runtime_append_all_bundles()
+" call pathogen#runtime_append_all_bundles()
+" unbundle
+:runtime bundle/vim-unbundle/unbundle.vim
 
 " ============================================
 " minimum config 

@@ -1,0 +1,13 @@
+<Plug>(smartword-b)	smartword.txt	/*<Plug>(smartword-b)*
+<Plug>(smartword-e)	smartword.txt	/*<Plug>(smartword-e)*
+<Plug>(smartword-ge)	smartword.txt	/*<Plug>(smartword-ge)*
+<Plug>(smartword-w)	smartword.txt	/*<Plug>(smartword-w)*
+smartword	smartword.txt	/*smartword*
+smartword-bugs	smartword.txt	/*smartword-bugs*
+smartword-changelog	smartword.txt	/*smartword-changelog*
+smartword-contents	smartword.txt	/*smartword-contents*
+smartword-examples	smartword.txt	/*smartword-examples*
+smartword-interface	smartword.txt	/*smartword-interface*
+smartword-introduction	smartword.txt	/*smartword-introduction*
+smartword-mappings	smartword.txt	/*smartword-mappings*
+smartword.txt	smartword.txt	/*smartword.txt*

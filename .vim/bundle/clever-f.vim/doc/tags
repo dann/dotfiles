@@ -1,0 +1,11 @@
+<Plug>(clever-F)	clever_f.txt	/*<Plug>(clever-F)*
+<Plug>(clever-f)	clever_f.txt	/*<Plug>(clever-f)*
+<Plug>(clever-f-reset)	clever_f.txt	/*<Plug>(clever-f-reset)*
+clever-f	clever_f.txt	/*clever-f*
+clever-f.txt	clever_f.txt	/*clever-f.txt*
+clever-f.vim	clever_f.txt	/*clever-f.vim*
+clever-f.vim-contents	clever_f.txt	/*clever-f.vim-contents*
+clever-f.vim-introduction	clever_f.txt	/*clever-f.vim-introduction*
+clever-f.vim-license	clever_f.txt	/*clever-f.vim-license*
+clever-f.vim-mappings	clever_f.txt	/*clever-f.vim-mappings*
+clever-f.vim-usage	clever_f.txt	/*clever-f.vim-usage*
