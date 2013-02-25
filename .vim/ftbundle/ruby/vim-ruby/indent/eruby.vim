@@ -1,7 +1,7 @@
 " Vim indent file
 " Language:		eRuby
 " Maintainer:		Tim Pope <vimNOSPAM@tpope.org>
-" URL:			http://vim-ruby.rubyforge.org
+" URL:			https://github.com/vim-ruby/vim-ruby
 " Anon CVS:		See above site
 " Release Coordinator:	Doug Kearns <dougkearns@gmail.com>
 
@@ -50,7 +50,7 @@ function! GetErubyIndent(...)
   let inruby = searchpair('<%','','%>','W')
   call cursor(v:lnum,vcol)
   if inruby && getline(v:lnum) !~ '^<%\|^\s*[-=]\=%>'
-    let ind = GetRubyIndent()
+    let ind = GetRubyIndent(v:lnum)
   else
     exe "let ind = ".b:eruby_subtype_indentexpr
   endif

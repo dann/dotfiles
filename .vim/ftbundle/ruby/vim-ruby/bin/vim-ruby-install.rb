@@ -31,10 +31,6 @@ SOURCE_FILES = %w{
   syntax/eruby.vim
   syntax/ruby.vim
 }
-#FIXME: ftdetect/ruby.vim - vim 6.3+ only. This won't cause problems for
-#	earlier versions; it just won't work! For versions less than 6.2 we
-#	need to create a filetype.vim file and add it to the root of the
-#	runtime directory.
 
   #
   # Miscellaneous functions in the user's environment.
@@ -431,6 +427,7 @@ begin
     puts
     puts "Target directory '#{target_dir}' does not exist."
     response = Env.ask_user "Do you want to create it? [Yn] "
+    response = "y" if response.empty?
     if response.strip =~ /^y(es)?$/i
       FileUtils.mkdir_p(target_dir, :verbose => true)
     else
