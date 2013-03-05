@@ -2,6 +2,7 @@
 
 DOTFILES=(
 .Xdefaults
+.ackrc
 .bash
 .bashrc
 .bashrc_profile
