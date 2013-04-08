@@ -54,6 +54,9 @@ alias priv2text='openssl rsa -text -in '
 alias gd='dirs -v; echo -n "select number: "; read newdir; cd -"$newdir"'
 alias gf=grep-find
 
+# Mac apps
+alias mou="open /Applications/Mou.app"
+
 if [ -x ~/local/bin/screen -o ]; then
    alias screen=$HOME/local/bin/screen
 fi
