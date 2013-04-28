@@ -105,6 +105,8 @@ zshaddhistory() {
 #-----------------------------------------------
 # completion
 #-----------------------------------------------
+
+fpath=(~/.zsh/zsh-completions/src $fpath)
 fpath=(~/.zsh/completion $fpath)
 _cache_hosts=(`perl -ne  'if (/^([a-zA-Z0-9.-]+)/) { print "$1\n";}' ~/.ssh/known_hosts`)
 
