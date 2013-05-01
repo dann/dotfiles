@@ -1,0 +1,4 @@
+(:name clmemo
+       :type http
+       :url "https://github.com/ataka/clmemo/raw/master/clmemo.el"
+       :features clmemo)

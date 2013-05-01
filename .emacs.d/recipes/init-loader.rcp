@@ -1,0 +1,4 @@
+(:name init-loader
+       :type http
+       :url "https://github.com/emacs-jp/init-loader/raw/master/init-loader.el"
+       :features init-loader)
