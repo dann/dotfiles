@@ -63,4 +63,4 @@
 (anything anything-for-document-sources (thing-at-point 'symbol) nil nil nil "*anything for document*"))
 
 ;; C-hで一文字削除になるように
-(define-key anything-map (kbd "C-h") 'delete-backward-char))
+(define-key anything-map (kbd "C-h") 'delete-backward-char)
