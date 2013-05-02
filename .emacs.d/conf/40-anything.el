@@ -32,7 +32,7 @@
   (descbinds-anything-install))
 
 ;; anything-for-me
-(setq anything-for-document-sources
+(setq anything-for-me-sources
   (list anything-c-source-buffers
         anything-c-source-recentf
         anything-c-source-man-pages
