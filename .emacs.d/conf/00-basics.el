@@ -2,6 +2,22 @@
 (when (eq system-type 'darwin)
   (setq mac-pass-control-to-system t)) ; コントロールキーを Mac ではなく Emacs に渡す
 
+;; fullscreen
+(when (eq system-type 'darwin)
+  (defun mac-toggle-fullscreen ()
+    (interactive)
+      (if (frame-parameter nil 'fullscreen)
+          (set-frame-parameter nil 'fullscreen nil)
+              (set-frame-parameter nil 'fullscreen 'fullboth)))
+
+  ;; M-RET でフルスクリーン切り替え
+  (define-key global-map (kbd "M-RET") 'mac-toggle-fullscreen)
+
+  ;; 起動時にfullscreenにする
+  (add-hook 'window-setup-hook 'mac-toggle-fullscreen))
+
+
+
 (setq ns-command-modifier (quote meta))
 (setq ns-alternate-modifier (quote super))
 
