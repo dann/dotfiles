@@ -27,8 +27,10 @@
 (el-get 'sync '(
       el-get
       anything
+      anything-config
       anything-project
       anything-c-moccur
+      anything-grep
       auto-save-buffers-enhanced
       auto-complete
       clmemo
@@ -54,6 +56,7 @@
 ;; hide compilation results
 (let ((win (get-buffer-window "*Compile-Log*")))
   (when win (delete-window win)))
+
 
 ;; =================================================================
 ;; site-lisp 

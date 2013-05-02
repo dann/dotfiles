@@ -15,12 +15,12 @@
 (setq ns-command-modifier (quote meta))
 (setq ns-alternate-modifier (quote super))
 
-;; full screen toggle
-(define-key global-map (kbd "M-RET") 'ns-toggle-fullscreen)
-
 ;; 関連づけなどからファイルを開く場合に新規ウィンドウを開かない
 (setq ns-pop-up-frames nil)
 
 ;; C-z で最小化するのうざいのでころす
 (define-key global-map (kbd "C-z") nil)
+
+;; M-RET でフルスクリーン切り替え
+(define-key global-map (kbd "M-RET") 'ns-toggle-fullscreen)
 
