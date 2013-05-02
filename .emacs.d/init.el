@@ -37,10 +37,11 @@
       ee
       emacs-w3m
       git-gutter
-      init-loader
       howm
+      init-loader
       markdown-mode
       open-junk-file
+      popwin
       switch-window
     ))
 
