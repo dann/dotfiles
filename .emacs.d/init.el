@@ -62,7 +62,7 @@
 
 
 ;; =================================================================
-;; site-lisp 
+;; Load site-lisp 
 ;; =================================================================
 (when (fboundp 'normal-top-level-add-subdirs-to-load-path)
   (let* ((dir (locate-user-emacs-file "site-lisp"))
@@ -70,3 +70,9 @@
     (when (file-directory-p dir)
       (add-to-list 'load-path dir)
       (normal-top-level-add-subdirs-to-load-path))))
+
+;; =================================================================
+;; Load local settings
+;; =================================================================
+(if (file-exists-p "~/.emacs.d/conf/local.el")
+    (load my-local-dir "~/.emacs.d/conf/local.el"))
