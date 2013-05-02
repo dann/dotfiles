@@ -1,3 +1,10 @@
+;; key settings
+(when (eq system-type 'darwin)
+  (setq mac-pass-control-to-system t)) ; コントロールキーを Mac ではなく Emacs に渡す
+
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
+
 ;; スタートアップ時のメッセージを抑制
 (setq inhibit-startup-message t)
 
@@ -27,28 +34,6 @@
 (setq-default indent-tabs-mode nil)
 ;; タブ幅は4
 (setq-default tab-width 4)
-
-;; mode line
-(setq mode-line-format
-      '(""
-        mode-line-mule-info
-        mode-line-modified
-        mode-line-frame-identification
-        mode-line-buffer-identification
-        " "
-        (-3 "%p")
-        (line-number-mode
-         (column-number-mode "(%l,%c)" " L%l")
-         (column-number-mode " C%c"))
-        " %[("
-        mode-name
-        mode-line-process
-        minor-mode-alist
-        "%n"
-        ")%]-"
-        (which-func-mode ("" which-func-format "-"))
-;;         global-mode-string
-        "-%-"))
 
 ;; C-hでバックスペース
 (global-set-key "\C-h" 'delete-backward-char)
@@ -118,3 +103,17 @@
   (interactive)
   (kill-buffer))
 (define-key global-map (kbd "C-x k") 'kill-current-buffer)
+
+;; highlight current line
+(defface hlline-face
+  '((((class color)
+      (background dark))
+     (:background "dark slate gray"))
+    (((class color)
+      (background light))
+     (:background  "#98FB98"))
+    (t
+     ()))
+  "*Face used by hl-line.")
+(setq hl-line-face 'hlline-face)
+(global-hl-line-mode)

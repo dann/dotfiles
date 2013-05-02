@@ -1,17 +1,19 @@
 ;; =================================================================
-;; Emacs directory
+;; Load Path 
 ;; =================================================================
+;; emacs directory
 (when load-file-name
   (setq user-emacs-directory (file-name-directory load-file-name)))
 (add-to-list 'load-path user-emacs-directory)
+(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
 
 ;; =================================================================
 ;; el-get
 ;; =================================================================
-(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
 (setq-default el-get-dir (locate-user-emacs-file "el-get")
               el-get-emacswiki-base-url
               "http://raw.github.com/emacsmirror/emacswiki.org/master/")
+(setq el-get-generate-autoloads nil)
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -20,25 +22,25 @@
       (goto-char (point-max))
       (eval-print-last-sexp))))
 (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipes"))
-(el-get 'sync
-        '(el-get
-          anything
-          anything-project
-          anything-c-moccur
-          auto-save-buffers-enhanced
-          auto-complete
-          cperl-mode
-          clmemo
-          ee
-          emacs-w3m
-          git-gutter
-          init-loader
-          markdown-mode
-          open-junk-file
-          perl-completion
-          switch-window
-          shell-history 
-          ))
+
+;; install packages by el-get
+(el-get 'sync '(
+      el-get
+      anything
+      anything-project
+      anything-c-moccur
+      auto-save-buffers-enhanced
+      auto-complete
+      clmemo
+      ee
+      emacs-w3m
+      git-gutter
+      init-loader
+      howm
+      markdown-mode
+      open-junk-file
+      switch-window
+    ))
 
 ;; =================================================================
 ;; Load init files

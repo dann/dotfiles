@@ -1,3 +1,6 @@
+;; anything
+(define-key global-map (kbd "C-x b") 'anything)
+
 ;; basic key bindings
 (global-set-key (kbd "C-h") #'backward-delete-char)
 (global-set-key (kbd "M-g") #'goto-line)
@@ -24,3 +27,5 @@
 (global-set-key (kbd "M-O 3 a") #'shrink-window)
 (global-set-key (kbd "ESC M-O d") #'backward-sexp)
 (global-set-key (kbd "ESC M-O c") #'forward-sexp)
+
+
