@@ -83,6 +83,11 @@ imap <C-j> <esc>
 
 set wildmode=list:longest
 
+;; disable useless keys
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+nnoremap Q <Nop>
+
 " ============================================
 " encoding 
 " ============================================
