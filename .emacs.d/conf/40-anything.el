@@ -39,7 +39,7 @@
         anything-c-source-emacs-commands
         anything-c-source-emacs-functions
         anything-c-source-files-in-current-dir))
-(defun anything-for-me()
+(defun anything-for-me ()
 "Preconfigured `anything' for anything-for-me."
 (interactive)
 (anything anything-for-me-sources (thing-at-point 'symbol) nil nil nil "*anything for me"))
