@@ -13,16 +13,6 @@ set guioptions-=T
 " メニューバーも消す
 "set guioptions-=m
 
-" =========================
-" IME
-" =========================
-" 挿入モードでインライン入力
-" 挿入モードから抜けたときにIMEがOff
-if has('kaoriya')
-    set iminsert=1
-    set imsearch=0
-endif
-
 " ==========================
 " Window
 " ==========================
@@ -37,7 +27,11 @@ set lines=55
 colorscheme wombat
 if g:colors_name ==? 'wombat'
   hi Visual gui=none guifg=khaki guibg=olivedrab
+
 endif
+
+" IME
+set noimdisableactivate
 
 " ============================================
 " load common config

@@ -42,6 +42,7 @@
       markdown-mode
       open-junk-file
       popwin
+      recentf-ext
       shellenv
       switch-window
       undohist

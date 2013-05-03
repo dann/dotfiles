@@ -12,6 +12,7 @@ DOTFILES=(
 .gdbinit
 .gemrc
 .gitconfig
+.gvimrc
 .irbrc
 .irssi
 .my.cnf
