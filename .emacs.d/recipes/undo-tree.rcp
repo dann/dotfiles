@@ -1,8 +1,4 @@
 (:name undo-tree
-       :description "Treat undo history as tree"
-       :type elpa
-       :prepare (progn
-                  (autoload 'undo-tree-mode "undo-tree.el"
-                    "Undo tree mode; see undo-tree.el for details" t)
-                  (autoload 'global-undo-tree-mode "undo-tree.el"
-                    "Global undo tree mode" t)))
+       :type http
+       :url "https://gist.github.com/mori-dev/301447/raw/a9d4a2202e695f950076fbec6fd6fc9407774b6a/undo-tree.el"
+       :features undo-tree)

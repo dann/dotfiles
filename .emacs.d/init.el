@@ -44,6 +44,8 @@
       popwin
       shellenv
       switch-window
+      undohist
+      undo-tree
       wdired
     ))
 
