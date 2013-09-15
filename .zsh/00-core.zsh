@@ -48,6 +48,12 @@ export PATH="${HOME}/.plenv/bin:${PATH}"
 export PATH="${HOME}/.pyenv/bin:${PATH}"
 export PATH="${HOME}/.rbenv/bin:${PATH}"
 export PATH="${HOME}/mysql-build/bin:${PATH}"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
+
+# Go
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/.go
+export PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin"
 
 #-----------------------------------------------
 # option

@@ -56,3 +56,4 @@ endfunction
 nmap ,tc :call <SID>PerlTestClassMethodRun()<CR>
 
 noremap ,pd :Perldoc<CR>
+noremap K :Perldoc<CR>

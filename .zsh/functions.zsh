@@ -74,6 +74,8 @@ function static_httpd {
   fi
 }
 
+# Simple Calculator
+calc(){ awk "BEGIN{ print $* }" ;}
 
 #-------------------------------
 # Perl
@@ -113,3 +115,4 @@ source ~/.zsh/misc/z.sh
 precmd() {
   _z --add "$(pwd -P)"
 }
+

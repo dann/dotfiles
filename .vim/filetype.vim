@@ -56,4 +56,5 @@ augroup filetypedetect
         \ else |
         \   setf markdown |
         \ endif
+    au BufRead,BufNewFile *.go set filetype=go
 augroup END

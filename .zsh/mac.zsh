@@ -18,4 +18,3 @@ export PYTHONPATH="/usr/local/lib/python2.6/site-packages/:$PYTHONPATH"
 # alias
 alias here="open ." # path finder
 alias fcd='source ~/devbin/fcd.sh'
-
