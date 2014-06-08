@@ -49,6 +49,7 @@ export PATH="${HOME}/.pyenv/bin:${PATH}"
 export PATH="${HOME}/.rbenv/bin:${PATH}"
 export PATH="${HOME}/mysql-build/bin:${PATH}"
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
+export PATH="${HOME}/homebrew/bin:${PATH}"
 
 # Go
 export GOROOT=/usr/local/go

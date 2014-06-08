@@ -24,6 +24,7 @@ libiconv
 lv
 lynx
 multitail
+node
 neon
 ngrep
 nkf
@@ -46,18 +47,18 @@ caffeine
 dash
 day-o
 dropbox
-eclipse-ide
+#eclipse-ide
 flux
 google-chrome
 growl-fork
-iterm2
-java
+#iterm2
+#java
 firefox
 keyremap4macbook
 pandoc
 vagrant
 virtualbox
-xtrafinder
+#xtrafinder
 )
 
 #===================================
