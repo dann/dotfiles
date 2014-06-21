@@ -19,6 +19,8 @@ git-flow
 git-now
 htop
 jsl
+jsonpp
+jq
 lha
 libiconv
 lv
@@ -32,6 +34,7 @@ nmap
 pkg-config
 sqlite
 subversion
+the_silver_searcher
 tig
 tmux
 tree
