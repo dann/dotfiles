@@ -7,6 +7,8 @@ REPOSITORIES=(
 homebrew/versions
 phinze/homebrew-cask
 homebrew/binary
+caskroom/versions
+motemen/ghq
 )
 
 PACKAGES=(
@@ -14,6 +16,8 @@ bvi
 brew-cask
 coreutils
 gettext
+unzip
+ghq
 git
 git-flow
 git-now
@@ -25,6 +29,8 @@ lha
 libiconv
 lv
 lynx
+maven31
+mercurial
 multitail
 node
 neon

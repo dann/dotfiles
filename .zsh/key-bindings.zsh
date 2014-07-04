@@ -30,4 +30,6 @@ bindkey "^[[3~" delete-char            # Del
 bindkey "^[[A" up-line-or-history      # Up
 bindkey "^[[B" down-line-or-history    # Down
 
-
+if which peco > /dev/null; then
+    bindkey '^R' peco-select-history
+fi

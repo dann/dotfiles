@@ -66,3 +66,7 @@ if [ -x /usr/bin/rlwrap -o ]; then
     alias gnuplot='rlwrap -a -c gnuplot'
 fi
 
+# peco
+alias o='git ls-files | peco | xargs open'
+alias e='cd $(ghq list -p | peco)'
+alias s='ssh $(grep -iE "^host[[:space:]]+[^*]" ~/.ssh/config|peco|awk "{print \$2}")'

@@ -52,7 +52,6 @@ export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
 export PATH="${HOME}/homebrew/bin:${PATH}"
 
 # Go
-export GOROOT=/usr/local/go
 export GOPATH=$HOME/.go
 export PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin"
 
@@ -217,17 +216,48 @@ stty stop undef
 #-----------------------------------------------
 # plenv/pyenv/rbenv
 #-----------------------------------------------
-eval "$(plenv init -)"
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
+
+if which plenv > /dev/null; then
+    eval "$(plenv init -)"
+fi
+
+if which pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+fi
+if which rbenv > /dev/null; then
+    eval "$(rbenv init -)"
+fi
+
+#-----------------------------------------------
+# Peco
+#-----------------------------------------------
+
+#######################################
+# peco hitory
+#######################################
+
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(history -n 1 | \
+        eval $tac | \
+        peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
 
 #-----------------------------------------------
 # Util
 #-----------------------------------------------
 function print_known_hosts (){
-  if [ -f $HOME/.ssh/known_hosts ]; then
-    cat $HOME/.ssh/known_hosts | tr ',' ' ' | cut -d' ' -f1
-  fi  
+    if [ -f $HOME/.ssh/known_hosts ]; then
+        cat $HOME/.ssh/known_hosts | tr ',' ' ' | cut -d' ' -f1
+    fi  
 }
 _cache_hosts=($( print_known_hosts ))
 
