@@ -32,4 +32,5 @@ bindkey "^[[B" down-line-or-history    # Down
 
 if which peco > /dev/null; then
     bindkey '^R' peco-select-history
+    bindkey '^o' peco-cdr
 fi

@@ -177,14 +177,23 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function chpwd() {
-    # for cdd
-    _reg_pwd_screennum
     if [[ "${OSTYPE}" = darwin* ]] ; then
         ls -al --color 
     else
         ls -al
     fi
 }
+
+# CDR
+if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ':completion:*:*:cdr:*:*' menu selection
+  zstyle ':completion:*' recent-dirs-insert both
+  zstyle ':chpwd:*' recent-dirs-max 500
+  zstyle ':chpwd:*' recent-dirs-default true
+  zstyle ':chpwd:*' recent-dirs-pushd true
+fi
 
 #-----------------------------------------------
 # command line
@@ -251,6 +260,27 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 
+
+function peco-global() {
+    global $@ | peco | xargs less
+}
+
+function peco-ag() {
+    local word=$1
+    local search_dir=$2 
+    ag -l $word $search_dir | peco | xargs less
+}
+
+function peco-cdr () {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-cdr
+
 #-----------------------------------------------
 # Util
 #-----------------------------------------------
@@ -261,5 +291,3 @@ function print_known_hosts (){
 }
 _cache_hosts=($( print_known_hosts ))
 
-# cdd
-source ~/.zsh/misc/cdd

@@ -5,6 +5,7 @@
 [alias]
     ci = commit -a
     co = checkout
+    cop = "!f() { git checkout $(git branch | peco); };`f`"
     st = status
     praise = blame 
     up = pull --rebase
