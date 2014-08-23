@@ -67,6 +67,10 @@ if [ -x /usr/bin/rlwrap -o ]; then
 fi
 
 # peco
+alias p-ghq='cd $(ghq list -p | peco)'
+alias e=peco-ghq
 alias o='git ls-files | peco | xargs open'
-alias e='cd $(ghq list -p | peco)'
-alias s='ssh $(grep -iE "^host[[:space:]]+[^*]" ~/.ssh/config|peco|awk "{print \$2}")'
+alias p-ssh='ssh $(grep -iE "^host[[:space:]]+[^*]" ~/.ssh/config|peco|awk "{print \$2}")'
+alias s=peco-ssh
+alias p-perldoc='perldoc $(plenv list-modules | peco)'
+alias p-perl-version='plenv install --list | grep -v Available | peco'

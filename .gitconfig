@@ -8,7 +8,7 @@
     cop = "!f() { git checkout $(git branch | peco); };`f`"
     st = status
     praise = blame 
-    up = pull --rebase
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
     amend = commit --amend
     url = config --get remote.origin.url
     edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
@@ -21,6 +21,8 @@
     d5 = diff HEAD^^^^^
     d10 = diff HEAD^^^^^^^^^^
     tree = log --graph --pretty=oneline --abbrev-commit --decorate
+    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+    bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 
 [color]
     diff   = auto

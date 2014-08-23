@@ -9,12 +9,14 @@ phinze/homebrew-cask
 homebrew/binary
 caskroom/versions
 motemen/ghq
+tcr/tcr
 )
 
 PACKAGES=(
 bvi
 brew-cask
 coreutils
+clang-format
 gettext
 unzip
 ghq
@@ -37,6 +39,8 @@ neon
 ngrep
 nkf
 nmap
+plenv
+perl-build
 pkg-config
 sqlite
 subversion

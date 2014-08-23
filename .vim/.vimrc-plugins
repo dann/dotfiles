@@ -359,3 +359,9 @@ nnoremap <unique> ,a :exec ':Ack ' . expand('<cword>')<CR>
 " ============================================
 let g:wildfire_water_map = '<S-Enter>'
 let g:wildfire_objects = ["i'", 'i"', 'i)', 'i]', 'i}', 'ip', 'it', 'i>']
+
+
+" ============================================
+" YCM
+" ============================================
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'

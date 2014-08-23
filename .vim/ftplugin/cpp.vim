@@ -63,3 +63,16 @@ if has("cscope")
   setlocal cscopetag
   setlocal cscopequickfix=s-,g-,c-,d-,t-,e-,f-,i-
 endif
+
+function! s:clang_format()
+  let now_line = line(".")
+  exec ":%! clang-format -style=Google"
+  exec ":" . now_line
+endfunction
+
+if executable('clang-format')
+  augroup cpp_clang_format
+    autocmd!
+    autocmd BufWrite,FileWritePre,FileAppendPre *.[ch]pp call s:clang_format()
+  augroup END
+endif
