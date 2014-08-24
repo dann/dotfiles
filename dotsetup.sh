@@ -39,7 +39,6 @@ devtools
 setup() {
     remove_dotfiles
     link_dotfiles
-    make_executable
 }
 
 remove_dotfiles() {
@@ -55,10 +54,6 @@ link_dotfiles() {
     do
         ln -s $CURRENT_DIR/$dotfile $HOME/$dotfile
     done
-}
-
-make_executable() {
-    chmod 700 ~/devbin/*
 }
 
 setup
