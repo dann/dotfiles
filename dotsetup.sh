@@ -39,6 +39,7 @@ devtools
 setup() {
     remove_dotfiles
     link_dotfiles
+    install_vim_plugins
 }
 
 remove_dotfiles() {
@@ -54,6 +55,10 @@ link_dotfiles() {
     do
         ln -s $CURRENT_DIR/$dotfile $HOME/$dotfile
     done
+}
+
+install_vim_plugins() {
+    vim +PlugInstall +qall
 }
 
 setup
