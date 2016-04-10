@@ -29,6 +29,7 @@ DOTFILES=(
 .vim
 .vimrc
 .vrapperrc
+.zplug
 .zsh
 .zshrc
 devbin

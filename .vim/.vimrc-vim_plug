@@ -19,7 +19,6 @@ Plug 'FuzzyFinder'
 Plug 'LeafCage/yankround.vim'
 Plug 'Puppet-Syntax-Highlighting'
 Plug 'Raimondi/delimitMate'
-Plug 'SirVer/ultisnips'
 Plug 'ack.vim'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'christoomey/vim-tmux-navigator'

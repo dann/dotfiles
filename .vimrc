@@ -13,7 +13,11 @@ endif
 " add runtimepathe .vim/bundle/* 
 " call pathogen#runtime_append_all_bundles()
 " unbundle
-:runtime bundle/vim-unbundle/unbundle.vim
+" :runtime bundle/vim-unbundle/unbundle.vim
+
+if filereadable( $HOME . "/.vim/.vimrc-vim_plug" )
+  source ~/.vim/.vimrc-vim_plug
+endif
 
 " ============================================
 " minimum config 

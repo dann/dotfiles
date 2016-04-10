@@ -41,7 +41,7 @@ noremap <buffer> ,pf :call Pyflakes()<CR>
 "--------------------------------------------------
 " Syntax Check
 "--------------------------------------------------
-autocmd BufWrite *.{py} :call Pyflakes()
+"autocmd BufWrite *.{py} :call Pyflakes()
 
 "--------------------------------------------------
 " Pydoc
