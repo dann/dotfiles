@@ -1,4 +1,0 @@
-(:name shellenv 
-       :type http
-       :url "https://raw.github.com/zonuexe/shellenv-el/master/shellenv.el"
-       :features shellenv)

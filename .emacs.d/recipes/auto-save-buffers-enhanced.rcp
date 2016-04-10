@@ -1,5 +1,0 @@
-(:name auto-save-buffers-enhanced
-       :type github
-       :pkgname "kentaro/auto-save-buffers-enhanced"
-       :features auto-save-buffers-enhanced
-       :post-init (auto-save-buffers-enhanced t))

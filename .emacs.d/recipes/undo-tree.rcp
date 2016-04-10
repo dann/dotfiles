@@ -1,4 +1,0 @@
-(:name undo-tree
-       :type http
-       :url "https://gist.github.com/mori-dev/301447/raw/a9d4a2202e695f950076fbec6fd6fc9407774b6a/undo-tree.el"
-       :features undo-tree)

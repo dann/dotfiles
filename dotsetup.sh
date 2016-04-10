@@ -33,7 +33,6 @@ DOTFILES=(
 .zshrc
 devbin
 devtools
-.emacs.d
 )
 
 setup() {

@@ -1,4 +1,0 @@
-(:name perl-completion
-       :type github
-       :pkgname "imakado/perl-completion"
-       :depends anything)
