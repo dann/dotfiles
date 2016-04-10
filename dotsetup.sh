@@ -14,7 +14,6 @@ DOTFILES=(
 .gitconfig
 .gvimrc
 .irbrc
-.irssi
 .my.cnf
 .noserc
 .perltidyrc
