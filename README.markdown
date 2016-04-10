@@ -9,7 +9,7 @@ INSTALLATION
 
     % git clone https://github.com/dann/dotfiles.git ~/.dotfiles
     % cd ~/.dotfiles
-    % ./dotsetup.pl
+    % ./dotsetup.sh
 
 # Install coreutils and some unix tools to use this dotfiles to use dotfiles
 
