@@ -4,21 +4,41 @@
 [ -e ~/.zshrc-before ] && source ~/.zshrc-before
 
 #-----------------------------------------------
-# Load zsh config files
+# Load zsh plugins 
 #-----------------------------------------------
-source ~/.zplug/zplug
-# for config_file ($HOME/.zsh/*.zsh) source $config_file
-source ~/.zsh/zplug.zsh
+source ~/.zsh/zgen
 
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
-    fi
+if ! zgen saved; then
+    zgen oh-my-zsh
+
+    zgen oh-my-zsh plugins/ssh-agent
+    zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/tmux
+
+    zgen load b4b4r07/enhancd
+    zgen load zsh-users/zaw
+    zgen load mollifier/zload
+    zgen load peco/peco
+
+    # Completions
+    zgen load zsh-users/zsh-completions
+    zgen load glidenote/hub-zsh-completion
+    zgen load felixr/docker-zsh-completion
+
+    zgen load joel-porquet/zsh-dircolors-solarized
+
+    zgen load zsh-users/zsh-history-substring-search
+    zgen load zsh-users/zsh-syntax-highlighting
+
+    zgen save
 fi
-zplug load --verbose
+
+#-----------------------------------------------
+# Load main settings
+#-----------------------------------------------
+for conf in $HOME/.zsh/*.zsh; do
+    source $conf;
+done
 
 #-----------------------------------------------
 # Load host specific settings
@@ -35,4 +55,9 @@ fi
 # you need to create .zshrc-after 
 [ -e ~/.zshrc-after ] && source ~/.zshrc-after
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Performance Measurement
+#if (which zprof > /dev/null 2>&1) ;then
+#  zprof
+#fi

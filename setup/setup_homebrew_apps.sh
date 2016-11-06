@@ -69,8 +69,8 @@ growl-fork
 firefox
 keyremap4macbook
 pandoc
-vagrant
-virtualbox
+#vagrant
+#virtualbox
 #xtrafinder
 )
 

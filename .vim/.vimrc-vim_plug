@@ -73,6 +73,7 @@ Plug 'shawncplus/phpcomplete.vim'
 Plug 'davidhalter/jedi-vim', { 'do': 'pip install jedi' }
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 "Plug 'Shougo/vimproc.vim'
+Plug 'elixir-lang/vim-elixir'
 
 " colorscheme
 Plug 'altercation/vim-colors-solarized'

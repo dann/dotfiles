@@ -28,7 +28,6 @@ DOTFILES=(
 .vim
 .vimrc
 .vrapperrc
-.zplug
 .zsh
 .zshrc
 devbin
@@ -58,6 +57,7 @@ link_dotfiles() {
 
 install_vim_plugins() {
     vim +PlugInstall +qall
+    vim +GoInstallBinaries +qall
 }
 
 setup

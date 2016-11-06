@@ -124,7 +124,7 @@ zstyle ':completion:*:complete:scp:*:files' command command -
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' use-cache true
 
-autoload -U compinit; compinit
+#autoload -U compinit; compinit
 autoload colors; colors
 
 #-----------------------------------------------
