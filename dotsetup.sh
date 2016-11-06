@@ -56,7 +56,6 @@ link_dotfiles() {
 }
 
 install_vim_plugins() {
-    vim +PlugInstall +qall
     vim +GoInstallBinaries +qall
 }
 
