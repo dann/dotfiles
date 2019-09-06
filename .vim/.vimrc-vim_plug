@@ -52,6 +52,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
 Plug 'dann/vim-autocomplpop'
+Plug 'tell-k/vim-autopep8'
 
 " colorscheme
 Plug 'altercation/vim-colors-solarized'
