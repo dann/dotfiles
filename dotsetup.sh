@@ -37,7 +37,7 @@ devtools
 setup() {
     remove_dotfiles
     link_dotfiles
-    install_vim_plugins
+    setup_language_servers
 }
 
 remove_dotfiles() {
@@ -55,8 +55,11 @@ link_dotfiles() {
     done
 }
 
-install_vim_plugins() {
-    vim +GoInstallBinaries +qall
+
+setup_language_servers() {
+    go get golang.org/x/tools/cmd/gopls
+    pip3 install python-language-server
+    npm install -g typescript typescript-language-server
 }
 
 setup

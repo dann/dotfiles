@@ -19,7 +19,6 @@ if ! zgen saved; then
     zgen load zsh-users/zaw
     zgen load mollifier/zload
     zgen load peco/peco
-
     # Completions
     zgen load zsh-users/zsh-completions
     zgen load glidenote/hub-zsh-completion
@@ -29,6 +28,10 @@ if ! zgen saved; then
 
     zgen load zsh-users/zsh-history-substring-search
     zgen load zsh-users/zsh-syntax-highlighting
+#    zgen load zsh-users/zsh-autosuggestions
+    zgen load mollifier/anyframe
+
+
 
     zgen save
 fi

@@ -67,28 +67,28 @@ nnoremap <C-q>p :cprevious<CR>
 " ============================================
 " autocomplpop.vim 
 " ============================================
-let g:acp_enableAtStartup = 1
-let g:acp_mappingDriven = 0
-let g:acp_ignorecaseOption = 1
-let g:acp_completeOption = '.,w,b,u,t,k'
-let g:acp_completeoptPreview = 0
-let g:acp_behaviorUserDefinedPattern = '\k$'
-let g:acp_behaviorKeywordCommand = "\<C-n>"
-let g:acp_behaviorKeywordLength = 2
-let g:acp_behaviorFileLength = 0
-let g:acp_behaviorRubyOmniMethodLength = 1
-let g:acp_behaviorRubyOmniSymbolLength = 1
+"let g:acp_enableAtStartup = 1
+"let g:acp_mappingDriven = 0
+"let g:acp_ignorecaseOption = 1
+"let g:acp_completeOption = '.,w,b,u,t,k'
+"let g:acp_completeoptPreview = 0
+"let g:acp_behaviorUserDefinedPattern = '\k$'
+"let g:acp_behaviorKeywordCommand = "\<C-n>"
+"let g:acp_behaviorKeywordLength = 2
+"let g:acp_behaviorFileLength = 0
+"let g:acp_behaviorRubyOmniMethodLength = 1
+"let g:acp_behaviorRubyOmniSymbolLength = 1
 "let g:acp_behaviorPythonOmniLength = 1
-let g:acp_behaviorXmlOmniLength = 1
-let g:acp_behaviorHtmlOmniLength = 1
-let g:acp_behaviorCssOmniPropertyLength = 1
-let g:acp_behaviorCssOmniValueLength = 1
+"let g:acp_behaviorXmlOmniLength = 1
+"let g:acp_behaviorHtmlOmniLength = 1
+"let g:acp_behaviorCssOmniPropertyLength = 1
+"let g:acp_behaviorCssOmniValueLength = 1
 "let g:acp_behaviorSnipmateLength=1
 
 "set omnifunc=syntaxcomplete#Complete
 
 " python
-let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
+"let g:pydiction_location = '~/.vim/dict/pydiction/complete-dict' 
 
 " ============================================
 " smartword.vim 
@@ -99,49 +99,9 @@ map e  <Plug>(smartword-e)
 map ge <Plug>(smartword-ge)
 
 " ============================================
-" Tab completion
-" ============================================
-" {{{ Autocompletion using the TAB key
-" This function determines, wether we are on the start of the line text (then tab indents) or
-" if we want to try autocompletion
-function! InsertTabWrapper()
-        let col = col('.') - 1
-        if !col || getline('.')[col - 1] !~ '\k'
-                return "\<TAB>"
-        else
-                if pumvisible()
-                        return "\<C-N>"
-                else
-                        return "\<C-N>\<C-P>"
-                end
-        endif
-endfunction
-" Remap the tab key to select action with InsertTabWrapper
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-" }}} Autocompletion using the TAB key
-
-" ============================================
 " manpage view
 "=============================================
 let g:manpageview_winopen="vsplit="
-
-"=============================================
-" ref.vim
-"=============================================
-let g:ref_open = 'vsplit'
-let g:ref_perldoc_complete_head = 1
-let g:ref_pydoc_complete_head = 1
-let g:ref_use_vimproc = 0
-let g:ref_jquery_use_cache = 1
-let g:ref_phpmanual_path = $HOME.'/.vim/manual/php-chunked-xhtml'
-let g:ref_alc_use_cache = 1
-nnoremap <C-f><C-f> :<C-u>Ref<Space>
-nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
-nnoremap <C-f><C-y> :<C-u>Ref pydoc<Space>
-nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
-nnoremap <C-f><C-r> :<C-u>Ref refe<Space>
-nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
-nnoremap <C-f><C-a> :<C-u>Ref alc<Space>
 
 " ============================================
 " Help
@@ -173,7 +133,7 @@ let tlist_objc_settings    = 'objc;i:interface;c:class;m:method;p:property'
 " ============================================
 " Grep.vim
 " ============================================
-let Grep_Skip_Dirs = '.svn'
+let Grep_Skip_Dirs = '.git'
 let Grep_Skip_Files = '*.bak *~'
 
 " Shortcut to GrepBuffer
@@ -210,76 +170,6 @@ let Tlist_Show_One_File = 1 "show the tag for current file
 "let Tlist_Process_File_Always = 1
 "let Tlist_Ctags_Cmd = /path/to/exuberant/ctags
 
-" ============================================
-" Grep.vim
-" ============================================
-let Grep_Skip_Dirs = '.svn'
-let Grep_Skip_Files = '*.bak *~'
-
-" Shortcut to GrepBuffer
-command! -nargs=1 Gb :GrepBuffer <args>
-" Search word under the cursor
-nnoremap ,gb :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
-
-"=============================================
-" quickrun
-"=============================================
-"augroup QuickRunUnitTest
-"  autocmd!
-"  autocmd BufWinEnter,BufNewFile *test.php set filetype=php.unit
-"  autocmd BufWinEnter,BufNewFile test_*.py set filetype=python.unit
-"  autocmd BufWinEnter,BufNewFile *.t set filetype=perl.unit
-"  autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
-"augroup END
-"let g:quickrun_config = {}
-"let g:quickrun_config['php.unit'] = {'command': 'phpunitrunner'}
-"let g:quickrun_config['python.unit'] = {'command': 'nosetests', 'cmdopt': '-s -vv'}
-"let g:quickrun_config['perl.unit'] = {'command': 'prove'}
-"
-"" Rspec
-"let g:quickrun_config['ruby.rspec'] = {
-"      \ 'type' : 'ruby.rspec',
-"      \ 'command': 'rspec',
-"      \ 'exec': 'bundle exec %c %o %s',
-"      \ 'outputter' : 'rspec_outputter'
-"      \}
-"
-"let rspec_outputter = quickrun#outputter#buffer#new()
-"function! rspec_outputter.init(session)
-"  call call(quickrun#outputter#buffer#new().init, [a:session], self)
-"endfunction
-"
-" syntax color
-"function! rspec_outputter.finish(session)
-"  highlight default RSpecGreen   ctermfg=White ctermbg=Green guifg=White guibg=Green
-"  highlight default RSpecRed     ctermfg=White ctermbg=Red   guifg=White guibg=Red
-" 
-"  call matchadd("RSpecGreen", "^[\.F]*\.[\.F]*$")
-"  call matchadd("RSpecGreen", "^.*, 0 failures$")
-"  call matchadd("RSpecRed", "F")
-"  call matchadd("RSpecRed", "^.*, [1-9]* failures.*$")
-"  call matchadd("RSpecRed", "^.*, 1 failure.*$")
-"  call matchadd("RSpecRed", "^ *(.*$")
-"  call matchadd("RSpecRed", "^ *expected.*$")
-"  call matchadd("RSpecRed", "^ *got.*$")
-"  call matchadd("RSpecRed", "Failure/Error:.*$")
-"  call matchadd("RSpecRed", "^.*(FAILED - [0-9]*)$")
-"  call matchadd("NonText", "Failures:")
-"  call matchadd("NonText", "Finished")
-"  call matchadd("NonText", "Failed")
-"  call call(quickrun#outputter#buffer#new().finish,  [a:session], self)
-"endfunction
-"call quickrun#register_outputter("rspec_outputter", rspec_outputter)
-" 
-"function! RSpecQuickrun()
-"  nmap <silent><buffer><Leader>lr :<C-U>QuickRun ruby.rspec.oneline<CR>
-"  let b:quickrun_config = {'type' : 'ruby.rspec'}
-"  " nnoremap <silent><buffer><Leader>lr :QuickRun ruby.rspec line('.')<CR>
-"  nnoremap <expr><silent><buffer><Leader>lr "<Esc>:QuickRun ruby.rspec -cmdopt \"-l" .  line('.') . "\"<CR>"
-"endfunction
-"au BufReadPost *_spec.rb call RSpecQuickrun()
-
-"
 "=============================================
 " git.vim 
 "=============================================
@@ -310,30 +200,6 @@ map <leader>g :GundoToggle<CR>
 
 
 " ============================================
-" python (pep)
-" ============================================
-let g:pep8_map='<leader>8'
-
-" ============================================
-" python (pyflakes)
-" ============================================
-" let g:pyflakes_use_quickfix = 0
-
-" ============================================
-" python (Rope)
-" ============================================
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
-
-" ============================================
-" Format
-" ============================================
-" format json
-map ,fj !python -m json.tool<CR>
-" format xml
-map ,fx !python -m BeautifulSoup<CR>
-
-" ============================================
 " memolist 
 " ============================================
 let g:memolist_qfixgrep = 1
@@ -362,37 +228,61 @@ let g:wildfire_objects = ["i'", 'i"', 'i)', 'i]', 'i}', 'ip', 'it', 'i>']
 
 
 " ============================================
-" YCM
+" LPS
 " ============================================
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/vim-asyncomplete.log')
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_completion_delay=0
+set completeopt+=preview
 
-" ============================================
-" syntastic
-" ============================================
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+augroup MyLsp
+  autocmd!
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+  au FileType go,python,typescript call s:configure_lsp()
 
-let g:syntastic_python_checkers = ["python", "pyflakes", "pep8"]
+  if executable('gopls')
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'gopls',
+          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+          \ 'whitelist': ['go'],
+          \ })
+  endif
 
-" ============================================
-" jedi
-" ============================================
+  
+  if executable('pyls')
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'pyls',
+          \ 'cmd': {server_info->['pyls']},
+          \ 'whitelist': ['python'],
+          \ })
+  endif
 
-let g:jedi#popup_select_first = 0
-let g:jedi#auto_vim_configuration = 1
-let g:jedi#use_tabs_not_buffers = 1
-let g:jedi#completions_enabled=0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "gd"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "1"
-au FileType python setlocal completeopt-=preview
+  
+  if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'javascript support using typescript-language-server',
+      \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+      \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'package.json'))},
+      \ 'whitelist': ['javascript', 'javascript.jsx'],
+      \ })
+
+  endif
+
+augroup END
+
+function! s:configure_lsp() abort
+  setlocal omnifunc=lsp#complete
+  nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+  nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+  nnoremap <buffer> gD :<C-u>LspReferences<CR>
+  nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+  nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+  nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+  vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+  nnoremap <buffer> K :<C-u>LspHover<CR>
+  nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+  nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+endfunction

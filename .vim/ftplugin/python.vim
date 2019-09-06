@@ -22,15 +22,6 @@ setlocal smarttab
 let python_highlight_all=1
 
 "--------------------------------------------------
-" Completion
-"--------------------------------------------------
-" Turn on completion:
-setlocal omnifunc=pythoncomplete#Complete
-
-" tags
-setlocal tags+=~/.vim/tags/python/python.tags
-
-"--------------------------------------------------
 " Format 
 "--------------------------------------------------
 noremap <buffer> ,pp :call Pep8()<CR>

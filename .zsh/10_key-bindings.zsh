@@ -40,3 +40,12 @@ bindkey '^X^F' zaw-git-files
 bindkey '^X^B' zaw-git-branches
 bindkey '^X^P' zaw-process
 bindkey '^A' zaw-tmux
+
+
+# --------------
+# anyframe
+# --------------
+zstyle ":anyframe:selector:" use peco
+bindkey '^Z' anyframe-widget-cdr
+bindkey '^R' anyframe-widget-put-history
+

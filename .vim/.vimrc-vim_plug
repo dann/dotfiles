@@ -1,103 +1,61 @@
-if has('vim_starting')
-  set rtp+=~/.vim/plugged/vim-plug
-  if !isdirectory(expand('~/.vim/plugged/vim-plug'))
-    echo 'install vim-plug...'
-    call system('mkdir -p ~/.vim/plugged/vim-plug')
-    call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
-  end
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'junegunn/vim-plug',
-      \ {'dir': '~/.vim/plugged/vim-plug/autoload'}
 
-
-
-" Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'L9'
-Plug 'FuzzyFinder'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'vim-scripts/L9'
+Plug 'vim-scripts/FuzzyFinder'
 Plug 'LeafCage/yankround.vim'
-Plug 'Puppet-Syntax-Highlighting'
-Plug 'Raimondi/delimitMate'
-Plug 'ack.vim'
+Plug 'vim-scripts/ack.vim'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'corylanou/vim-present', {'for' : 'present'}
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'eregex.vim'
-Plug 'evanmiller/nginx-vim-syntax'
+Plug 'vim-scripts/eregex.vim'
 Plug 'fatih/molokai'
 Plug 'fatih/vim-go'
 Plug 'fatih/vim-nginx' , {'for' : 'nginx'}
 Plug 'fuenor/qfixgrep'
-Plug 'garyburd/go-explorer'
 Plug 'glidenote/memolist.vim'
-Plug 'glidenote/rspec-result-syntax'
 Plug 'glidenote/vim-chef'
 Plug 'godlygeek/tabular'
 Plug 'h1mesuke/vim-alignta'
 Plug 'itchyny/lightline.vim'
 Plug 'joker1007/vim-markdown-quote-syntax'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
-Plug 'matchit.zip'
+Plug 'vim-scripts/matchit.zip'
 Plug 'mattn/benchvimrc-vim'
 Plug 'moll/vim-node'
 Plug 'rcmdnk/vim-markdown'
 Plug 'rhysd/clever-f.vim'
-Plug 'rhysd/vim-go-impl'
 Plug 'rking/ag.vim'
-Plug 'ruby-matchit'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 'smartchr'
-Plug 'sudo.vim'
-Plug 'surround.vim'
+Plug 'vim-scripts/smartchr'
+Plug 'vim-scripts/sudo.vim'
+Plug 'vim-scripts/surround.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-template'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-surround'
-Plug 'vim-ruby/vim-ruby'
-Plug 'vim-scripts/perl-support.vim'
-"Plug 'othree/vim-autocomplpop'
 Plug 'dann/vim-autocomplpop'
-Plug 'mattn/perl-completion.vim'
-Plug 'shawncplus/phpcomplete.vim'
-Plug 'davidhalter/jedi-vim', { 'do': 'pip install jedi' }
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-"Plug 'Shougo/vimproc.vim'
-Plug 'elixir-lang/vim-elixir'
 
 " colorscheme
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/Wombat'
 Plug 'w0ng/vim-hybrid'
-
-
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    ""!./install.py --all
-    !./install.py --gocode-completer
-  endif
-endfunction
-
-"Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-
-if has('mac')
-  Plug 'restart.vim'
-  Plug 'tyru/open-browser.vim'
-  Plug 'tyru/open-browser-github.vim'
-endif
 
 call plug#end()
