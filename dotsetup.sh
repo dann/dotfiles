@@ -1,22 +1,15 @@
 #!/bin/bash
 
 DOTFILES=(
-.Xdefaults
 .ackrc
 .bash
 .bashrc
 .bashrc_profile
 .ctags
-.dev_users
-.devenvrc
 .gdbinit
-.gemrc
 .gitconfig
-.gvimrc
 .irbrc
 .my.cnf
-.noserc
-.perltidyrc
 .pryrc
 .pylint
 .screenrc
@@ -24,14 +17,10 @@ DOTFILES=(
 .tidyrc
 .tmux
 .tmux.conf
-.tscreenrc
 .vim
 .vimrc
-.vrapperrc
 .zsh
 .zshrc
-devbin
-devtools
 )
 
 setup() {
@@ -59,6 +48,7 @@ link_dotfiles() {
 link_nvim_dotfiles() {
     CURRENT_DIR=`pwd`
     ln -s $CURRENT_DIR/.config/nvim $HOME/.config/nvim
+    ln -s $CURRENT_DIR/.config/fish $HOME/.config/fish
 }
 
 setup_local_dir() {
