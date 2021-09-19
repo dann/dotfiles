@@ -1,2 +1,0 @@
-#!/bin/sh
-colorizelogs /var/log/apache*/*error.log

@@ -1,4 +1,0 @@
-#!/bin/sh
-_svn_diff_log "$@" \
-| vim-pager \
-+'set filetype=diff'

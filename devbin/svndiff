@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-_svn_diff "$@" \
-| vim-pager \
-+'set filetype=diff' \
-+'map <buffer> <C-R> :echo "Re-diffing..."<CR>:%!_svn_diff $_SVN_DIFF_ARGS<CR>'

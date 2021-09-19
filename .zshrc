@@ -15,7 +15,6 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/tmux
 
-    zgen load b4b4r07/enhancd
     zgen load zsh-users/zaw
     zgen load mollifier/zload
     zgen load peco/peco
@@ -30,8 +29,6 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
 #    zgen load zsh-users/zsh-autosuggestions
     zgen load mollifier/anyframe
-
-
 
     zgen save
 fi

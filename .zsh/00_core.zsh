@@ -5,7 +5,6 @@ umask 022
 # Base setting
 #-----------------------------------------------
 export LANG=ja_JP.utf8
-#export LANG=en_US.UTF-8
 export EDITOR=vim
 export VISUAL=vim
 export COLOR=32
@@ -44,16 +43,10 @@ export PATH="${HOME}/bin:${PATH}"
 export PATH="${HOME}/devbin:${PATH}"
 export PATH="${HOME}/local/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
-export PATH="${HOME}/.venv/bin:${PATH}"
-export PATH="${HOME}/.plenv/bin:${PATH}"
-export PATH="${HOME}/.pyenv/bin:${PATH}"
-export PATH="${HOME}/.rbenv/bin:${PATH}"
 export PATH="${HOME}/mysql-build/bin:${PATH}"
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
-export PATH="${HOME}/homebrew/bin:${PATH}"
 
 # Go
-export GOPATH=$HOME/.go
+export GOPATH=$HOME/go
 export PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin"
 
 #-----------------------------------------------
@@ -197,6 +190,11 @@ autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 fi
 
 #-----------------------------------------------
+# Node
+#-----------------------------------------------
+export NODE_OPTIONS=--experimental-worker
+
+#-----------------------------------------------
 # command line
 #-----------------------------------------------
 autoload edit-command-line; zle -N edit-command-line
@@ -223,28 +221,4 @@ zmodload zsh/complist
 # disable Ctrl+S
 stty stop undef
 
-#-----------------------------------------------
-# plenv/pyenv/rbenv
-#-----------------------------------------------
-
-if which plenv > /dev/null; then
-    eval "$(plenv init -)"
-fi
-
-if which pyenv > /dev/null; then
-    eval "$(pyenv init -)"
-fi
-if which rbenv > /dev/null; then
-    eval "$(rbenv init -)"
-fi
-
-#-----------------------------------------------
-# Util
-#-----------------------------------------------
-function print_known_hosts (){
-    if [ -f $HOME/.ssh/known_hosts ]; then
-        cat $HOME/.ssh/known_hosts | tr ',' ' ' | cut -d' ' -f1
-    fi  
-}
-_cache_hosts=($( print_known_hosts ))
 

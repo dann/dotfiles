@@ -37,6 +37,7 @@ devtools
 setup() {
     remove_dotfiles
     link_dotfiles
+    link_nvim_dotfiles
     setup_local_dir
 }
 
@@ -53,6 +54,11 @@ link_dotfiles() {
     do
         ln -s $CURRENT_DIR/$dotfile $HOME/$dotfile
     done
+}
+
+link_nvim_dotfiles() {
+    CURRENT_DIR=`pwd`
+    ln -s $CURRENT_DIR/.config/nvim $HOME/.config/nvim
 }
 
 setup_local_dir() {
